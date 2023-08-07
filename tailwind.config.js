@@ -19,21 +19,19 @@ module.exports = {
         "fundo": "#d30519",
         "texto-principal": "#000000",
         "texto-secundario": "#bdc3c7",
-      },
-      borderColor: {
-        "color-principal": "#000000"
+        "texto-error": '#8b0000'
       },
       borderRadius: {
-        "7": "7px",
+        "border-radius-7px": "7px",
       },
       width: {
-        "28rem": "28rem"
+        "form-container": "28rem"
       },
       height: {
-        "30rem": "30rem"
+        "form-container": "30rem"
       },
       boxShadow: {
-        'entry': 'inset -4px 4px 0 #222 '
+        'login-button': 'inset -4px 4px 0 #222 '
       }
     },
   },
