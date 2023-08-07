@@ -7,7 +7,7 @@ export const InputErrorMessage: FunctionComponent<childrenTypeProps> = ({
   children,
 }) => {
   return (
-    <p className="text-[0.75rem] text-texto-error margin-5 mt-1.5">
+    <p className="text-[0.75rem] text-texto-error margin-5 mt-1.5 font-semibold">
       {children}
     </p>
   );
