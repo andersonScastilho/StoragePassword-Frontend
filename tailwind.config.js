@@ -26,10 +26,12 @@ module.exports = {
         "radius-7px": "7px",
       },
       width: {
-        "form-container": "28rem"
+        "form-container": "28rem",
+        "form-create-account": "35rem"
       },
       height: {
-        "form-container": "30rem"
+        "form-container": "30rem",
+        "form-create-account": "30rem"
       },
       boxShadow: {
         'login-button': 'inset -4px 4px 0 #222 '
