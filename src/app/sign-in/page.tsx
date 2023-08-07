@@ -38,7 +38,7 @@ export default function SignInPage() {
             <input
               {...register("email", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria"
+              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
             />
             {errors.email?.type === "required" && (
               <InputErrorMessage>O email é obrigatorio</InputErrorMessage>
@@ -52,7 +52,7 @@ export default function SignInPage() {
             <input
               {...register("password", { required: true })}
               type="password"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria"
+              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
             />
             {errors.password?.type === "required" && (
               <InputErrorMessage>A senha é obrigatoria</InputErrorMessage>
