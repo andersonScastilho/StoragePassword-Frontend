@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "login": "url(https://initiate.alphacoders.com/images/132/stretched-1366-768-1322753.jpeg?8986)"
+        "login": "url(https://initiate.alphacoders.com/images/132/stretched-1366-768-1322753.jpeg?3315)"
       },
       colors: {
         "principal": "#870000",
