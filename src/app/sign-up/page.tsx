@@ -18,13 +18,13 @@ export default function SignUpPage() {
 
   const handleSubmitPress = () => {};
   return (
-    <div className="bg-black min-h-screen min-w-full flex justify-center items-center ">
-      <div className="bg-fundo border rounded-border-radius-7px flex flex-col gap-7  h-form-create-account p-5">
+    <div className="bg-login min-h-screen min-w-full flex justify-start items-center ">
+      <div className="ml-40 bg-fundo-principal-opaco border rounded-3xl flex flex-col gap-10  h-form-create-account p-10">
         <div>
           <h1 className="text-[2.0rem] text-texto-principal font-semibold">
             Criar conta
           </h1>
-          <p className="text-[0.87rem] text-texto-principal">
+          <p className="text-[0.87rem] text-texto-principal font-semibold">
             Digite os seus dados nos campos abaixo
           </p>
         </div>
@@ -37,7 +37,7 @@ export default function SignUpPage() {
             <input
               {...register("fullName", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
+              className="p-5 text-texto-secundario outline-0 h-8 bg-fundo-principal border rounded-md text-[0.9rem]"
             />
             {errors.fullName?.type === "required" && (
               <InputErrorMessage>
@@ -53,7 +53,7 @@ export default function SignUpPage() {
             <input
               {...register("email", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
+              className="p-5 text-texto-secundario outline-0 h-8 bg-fundo-principal border rounded-md text-[0.9rem]"
             />
             {errors.email?.type === "required" && (
               <InputErrorMessage>O email é obrigatório</InputErrorMessage>
@@ -67,7 +67,7 @@ export default function SignUpPage() {
             <input
               {...register("password", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
+              className="p-5 text-texto-secundario outline-0 h-8 bg-fundo-principal border rounded-md text-[0.9rem]"
             />
             {errors.password?.type === "required" && (
               <InputErrorMessage>A senha é obrigatoria</InputErrorMessage>
@@ -81,7 +81,7 @@ export default function SignUpPage() {
             <input
               {...register("passwordConfirmation", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
+              className="p-5 text-texto-secundario outline-0 h-8 bg-fundo-principal border rounded-md text-[0.9rem]"
             />
             {errors.passwordConfirmation?.type === "required" && (
               <InputErrorMessage>
@@ -93,7 +93,7 @@ export default function SignUpPage() {
 
         <button
           onClick={() => handleSubmit(handleSubmitPress)()}
-          className="border rounded-radius-7px p-2 w-60 bg-secundaria inset-1 active:shadow-login-button active:text-[0.9rem]"
+          className="m-auto border rounded-radius-7px p-2 w-60 bg-fundo-principal inset-1 active:shadow-login-button active:text-[0.9rem]"
         >
           Entrar
         </button>

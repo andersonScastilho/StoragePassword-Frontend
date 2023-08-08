@@ -15,7 +15,7 @@ module.exports = {
         "secundaria": "#FF2D00",
 
         "fundo-principal": "#222222",
-        "fundo-principal-opaco": "rgb(192,192,192,0.4)",
+        "fundo-principal-opaco": "rgb(192,192,192,0.8)",
         "fundo-secundario": "#870000",
 
         "destaque": "#ff8207",
