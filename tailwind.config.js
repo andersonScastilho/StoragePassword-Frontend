@@ -11,18 +11,20 @@ module.exports = {
         "login": "url(https://initiate.alphacoders.com/images/132/stretched-1366-768-1322753.jpeg?8986)"
       },
       colors: {
-        "principal": "#FF2D00",
-        "secundaria": "#870000",
+        "principal": "#870000",
+        "secundaria": "#FF2D00",
 
-        "cinzinha": "#231d1e",
-        "fundo-secundario": "#880606",
-        "fundo-destaque-opaco": "rgba(255, 130, 7, 0.6)",
+        "fundo-principal": "#222222",
+        "fundo-principal-opaco": "rgb(192,192,192,0.4)",
+        "fundo-secundario": "#870000",
 
         "destaque": "#ff8207",
         "destaque-secundario": "#d53d0c",
 
-        "texto-principal": "#FFFFFF",
-        "texto-error": '#FF0000',
+        "texto-principal": "#870000",
+        "texto-secundario": "#FFFFFF",
+
+        "texto-error": '#FF0000'
       },
       borderRadius: {
         "radius-7px": "7px",
