@@ -20,12 +20,12 @@ export default function SignInPage() {
 
   return (
     <main className="bg-login bg-cover min-h-screen min-w-full flex justify-start items-center">
-      <section className="ml-40 bg-fundo-destaque-opaco border rounded-radius-7px w-form-login-container h-form-login-container flex items-center flex-col justify-evenly">
+      <section className="ml-40 bg-fundo-principal-opaco border rounded-3xl w-form-login-container h-form-login-container flex items-center flex-col justify-evenly">
         <div>
           <h1 className="text-[2.0rem] text-texto-principal font-semibold">
             Entrar
           </h1>
-          <p className="text-[0.87rem] text-texto-principal">
+          <p className="text-[0.87rem] text-texto-principal font-semibold">
             Digite os seus dados de acesso no campo abaixo
           </p>
         </div>
@@ -38,10 +38,10 @@ export default function SignInPage() {
             <input
               {...register("email", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
+              className="p-1 text-texto-secundario outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
             />
             {errors.email?.type === "required" && (
-              <InputErrorMessage>O email é obrigatorio</InputErrorMessage>
+              <InputErrorMessage>O Email é obrigatorio</InputErrorMessage>
             )}
           </div>
 
@@ -52,21 +52,21 @@ export default function SignInPage() {
             <input
               {...register("password", { required: true })}
               type="password"
-              className="p-1 text-texto-principal outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
+              className="p-1 text-texto-secundario outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
             />
             {errors.password?.type === "required" && (
               <InputErrorMessage>A senha é obrigatoria</InputErrorMessage>
             )}
           </div>
 
-          <p className="text-[0.9rem] underline hover:cursor-pointer">
+          <p className="text-[0.9rem] text-texto-principal font-semibold underline hover:cursor-pointer">
             Esqueci minha senha
           </p>
         </div>
 
         <button
           onClick={() => handleSubmit(handleSubmitPress)()}
-          className="border rounded-radius-7px p-2 w-60  inset-1 active:shadow-login-button active:text-[0.9rem]"
+          className="border rounded-radius-7px p-2 w-60 bg-fundo-principal  inset-1 active:shadow-login-button active:text-[0.9rem]"
         >
           Entrar
         </button>
