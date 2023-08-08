@@ -8,29 +8,31 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "login": "url(https://initiate.alphacoders.com/images/132/stretched-1366-768-1322753.jpeg?8986)"
       },
       colors: {
-        "principal": " #FF2D00",
-        "secundaria": "#00A8FF",
-        "terciaria": "#870000",
-        "fundo": "#00002c",
+        "principal": "#FF2D00",
+        "secundaria": "#870000",
+
+        "cinzinha": "#231d1e",
+        "fundo-secundario": "#880606",
+        "fundo-destaque-opaco": "rgba(255, 130, 7, 0.6)",
+
+        "destaque": "#ff8207",
+        "destaque-secundario": "#d53d0c",
 
         "texto-principal": "#FFFFFF",
-        "texto-secundario": "",
-        "texto-error": '#FF0000'
+        "texto-error": '#FF0000',
       },
       borderRadius: {
         "radius-7px": "7px",
       },
       width: {
-        "form-container": "28rem",
+        "form-login-container": "28rem",
         "form-create-account": "35rem"
       },
       height: {
-        "form-container": "30rem",
+        "form-login-container": "30rem",
         "form-create-account": "30rem"
       },
       boxShadow: {

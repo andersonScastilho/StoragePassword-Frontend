@@ -19,8 +19,8 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen min-w-full flex justify-center items-center ">
-      <div className="bg-fundo border rounded-border-radius-7px w-form-container h-form-container flex items-center flex-col justify-evenly">
+    <main className="bg-login bg-cover min-h-screen min-w-full flex justify-start items-center">
+      <section className="ml-40 bg-fundo-destaque-opaco border rounded-radius-7px w-form-login-container h-form-login-container flex items-center flex-col justify-evenly">
         <div>
           <h1 className="text-[2.0rem] text-texto-principal font-semibold">
             Entrar
@@ -38,7 +38,7 @@ export default function SignInPage() {
             <input
               {...register("email", { required: true })}
               type="text"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
+              className="p-1 text-texto-principal outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
             />
             {errors.email?.type === "required" && (
               <InputErrorMessage>O email é obrigatorio</InputErrorMessage>
@@ -52,7 +52,7 @@ export default function SignInPage() {
             <input
               {...register("password", { required: true })}
               type="password"
-              className="p-1 text-texto-principal outline-0 h-8 bg-terciaria text-[0.9rem]"
+              className="p-1 text-texto-principal outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
             />
             {errors.password?.type === "required" && (
               <InputErrorMessage>A senha é obrigatoria</InputErrorMessage>
@@ -66,11 +66,11 @@ export default function SignInPage() {
 
         <button
           onClick={() => handleSubmit(handleSubmitPress)()}
-          className="border rounded-radius-7px p-2 w-60 bg-secundaria inset-1 active:shadow-login-button active:text-[0.9rem]"
+          className="border rounded-radius-7px p-2 w-60  inset-1 active:shadow-login-button active:text-[0.9rem]"
         >
           Entrar
         </button>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
