@@ -1,5 +1,6 @@
 import { MdOutlineStorage } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
+import { AiOutlinePlus } from "react-icons/ai";
 import Link from "next/link";
 
 export const SideBarComponent = () => {
@@ -8,6 +9,7 @@ export const SideBarComponent = () => {
       <Link href="/storage">
         <MdOutlineStorage size={30} cursor="pointer" />
       </Link>
+      <AiOutlinePlus size={30} cursor="pointer" />
       <FiUser size={30} cursor="pointer" />
     </section>
   );
