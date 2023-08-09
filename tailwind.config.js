@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "login": "url(https://initiate.alphacoders.com/images/132/stretched-1366-768-1322753.jpeg?3315)"
+        "login": "url(https://img.freepik.com/fotos-gratis/uma-pintura-de-um-lago-de-montanha-com-uma-montanha-ao-fundo_188544-9126.jpg)"
       },
       colors: {
         "principal": "#870000",
