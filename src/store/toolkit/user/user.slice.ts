@@ -14,7 +14,7 @@ export const loginUserAsync = createAsyncThunk(
       password: password,
     });
     console.log(data);
-    return { token: data.data.token, refresh_token: data.data.refreshToken };
+    return { token: data.data.token, refreshToken: data.data.refreshToken };
   }
 );
 
