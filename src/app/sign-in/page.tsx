@@ -1,10 +1,10 @@
 "use client";
 
-import { loginUserAsync} from '../../store/toolkit/user/user.slice';
+import { loginUserAsync } from "../../store/toolkit/user/user.slice";
 import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
-import { useDispatch } from 'react-redux';
-
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/hooks/redux.hooks";
 
 interface LoginForm {
   email: string;
@@ -17,13 +17,15 @@ export default function SignInPage() {
     formState: { errors },
   } = useForm<LoginForm>();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   const handleSubmitPress = (data: LoginForm) => {
-    dispatch(loginUserAsync({
-      email:'',
-      password:""
-    }) as any)
-    
+    dispatch(
+      loginUserAsync({
+        email: data.email,
+        password: data.password,
+      }) as any
+    );
   };
 
   return (

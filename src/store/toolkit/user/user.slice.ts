@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import User from "../../../types/user.types";
 import axios from "axios";
 
 interface LoginData {
@@ -10,40 +9,37 @@ interface LoginData {
 export const loginUserAsync = createAsyncThunk(
   "user/login",
   async ({ email, password }: LoginData) => {
-    const teste = {
-      body: {
-        email: email,
-        password: password,
-      },
-    };
-    const data = await axios.post("http://localhost:3002/auth", teste);
+    const data = await axios.post("http://localhost:3002/auth", {
+      email: email,
+      password: password,
+    });
 
-    return data;
+    return { token: data.data.token, refresh_token: data.data.refresh_token };
   }
 );
 
 interface InitialState {
-  currentUser: User | null;
+  refresh_token: object;
+  token: string | null;
   isAuthenticated: boolean;
 }
 
 const initialState: InitialState = {
-  currentUser: null,
+  token: null,
+  refresh_token: {},
   isAuthenticated: false,
 };
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    loginUser: (state, action: PayloadAction<User>) => {
-      state.currentUser = action.payload;
+  reducers: {},
+  extraReducers(builder) {
+    builder.addCase(loginUserAsync.fulfilled, (state, action) => {
+      state.token = action.payload.token;
+      state.refresh_token = action.payload.refresh_token;
       state.isAuthenticated = true;
-    },
-    logoutUser: (state) => {
-      state.currentUser = null;
-      state.isAuthenticated = false;
-    },
+    });
   },
 });
-export const { loginUser, logoutUser } = userSlice.actions;
+
 export default userSlice.reducer;
