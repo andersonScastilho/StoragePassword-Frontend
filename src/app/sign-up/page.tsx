@@ -1,5 +1,6 @@
 "use client";
-
+import { useToast } from "@chakra-ui/react";
+import axios from "axios";
 import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
 
@@ -9,14 +10,42 @@ interface CreateAcountForm {
   password: string;
   passwordConfirmation: string;
 }
+
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateAcountForm>();
+  const toast = useToast();
+  const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
+    try {
+      await axios.post("http://localhost:3002/users", {
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password,
+      });
 
-  const handleSubmitPress = () => {};
+      toast({
+        title: "Account created.",
+        description: "We've created your account for you.",
+        position: "top-right",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      if (error) {
+        toast({
+          title: "Account not created.",
+          position: "top-right",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
+  };
   return (
     <div className="bg-login min-h-screen min-w-full flex justify-start items-center ">
       <div className="ml-40 bg-fundo-principal-opaco border rounded-3xl flex flex-col gap-10  h-form-create-account p-10">
@@ -92,7 +121,7 @@ export default function SignUpPage() {
         </div>
 
         <button
-          onClick={() => handleSubmit(handleSubmitPress)()}
+          onClick={() => handleSubmit(handleSubmitPressCreateUser)()}
           className="m-auto border rounded-radius-7px p-2 w-60 bg-fundo-principal inset-1 active:shadow-login-button active:text-[0.9rem]"
         >
           Entrar
