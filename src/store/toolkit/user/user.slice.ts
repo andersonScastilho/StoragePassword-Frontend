@@ -13,13 +13,13 @@ export const loginUserAsync = createAsyncThunk(
       email: email,
       password: password,
     });
-
-    return { token: data.data.token, refresh_token: data.data.refresh_token };
+    console.log(data);
+    return { token: data.data.token, refresh_token: data.data.refreshToken };
   }
 );
 
 interface InitialState {
-  refresh_token: object;
+  refreshToken: object;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -27,7 +27,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   token: null,
-  refresh_token: {},
+  refreshToken: {},
   isAuthenticated: false,
   isLoading: false,
 };
@@ -42,7 +42,7 @@ const userSlice = createSlice({
 
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {
       state.token = action.payload.token;
-      state.refresh_token = action.payload.refresh_token;
+      state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = true;
       state.isLoading = false;
     });
