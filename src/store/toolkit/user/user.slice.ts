@@ -22,6 +22,8 @@ export const loginUserAsync = createAsyncThunk(
       data.data.refreshToken,
       expirationDate.getDay() + 7
     );
+    saveCookie("isAuthenticated", true, expirationDate.getMinutes() + 15);
+
     return { token: data.data.token, refreshToken: data.data.refreshToken };
   }
 );
