@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { saveCookie } from "../../../utils/cookies";
 
 interface LoginData {
   email: string;
@@ -13,7 +14,14 @@ export const loginUserAsync = createAsyncThunk(
       email: email,
       password: password,
     });
-    console.log(data);
+    const expirationDate = new Date();
+
+    saveCookie("token", data.data.token, expirationDate.getMinutes() + 15);
+    saveCookie(
+      "refreshToken",
+      data.data.refreshToken,
+      expirationDate.getDay() + 7
+    );
     return { token: data.data.token, refreshToken: data.data.refreshToken };
   }
 );
@@ -31,6 +39,7 @@ const initialState: InitialState = {
   isAuthenticated: false,
   isLoading: false,
 };
+
 const userSlice = createSlice({
   name: "user",
   initialState,
