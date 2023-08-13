@@ -1,15 +1,15 @@
 "use server";
 import { cookies } from "next/headers";
 
-export async function saveCookie(key: string, value: unknown, expires: number) {
-  cookies().set(key, JSON.stringify(value), {
-    expires: expires,
-    httpOnly: true,
-    path: "/",
+export async function saveCookie(key: string, value: unknown, maxAge: number) {
+  const stringValue = JSON.stringify(value);
+  cookies().set({
+    name: key,
+    value: stringValue,
+    maxAge: maxAge,
   });
 }
 export async function findCookie(key: string) {
   const cookie = cookies().get(key);
-
   return cookie;
 }
