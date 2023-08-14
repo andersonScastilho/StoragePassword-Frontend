@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { saveCookie } from "../../../utils/cookies";
+import { saveCookie } from "../../../functions/cookies";
 import { Auth } from "@/types/auth.types";
 
 interface LoginData {

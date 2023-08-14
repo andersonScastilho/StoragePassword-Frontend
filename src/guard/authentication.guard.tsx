@@ -1,52 +1,27 @@
 import { useAppSelector } from "@/hooks/redux.hooks";
-import { LoginAction } from "@/store/reducers/user/user.actions";
-import { RefreshToken } from "@/types/refreshToken.types";
-import { findCookie, saveCookie } from "@/utils/cookies";
-import axios from "axios";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ReactNode, useEffect } from "react";
+import { APP_ROUTES } from "@/constants/app-routes";
+type PrivateRouteProps = {
+  children: ReactNode
+}
 
-export const AuthenticationGuard = async () => {
-  const router = useRouter();
-  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
-  const dispatch = useDispatch();
-  const cookieIsAuthenticated = await findCookie("isAuthenticated");
+export const AuthenticationGuard = ({children}:PrivateRouteProps) => {
+  const {push} = useRouter()
+  
+  const {isAuthenticated }= useAppSelector((state) => state.userReducer)
 
-  if (!cookieIsAuthenticated || !isAuthenticated) {
-    const cookieRefreshToken: RefreshToken = await findCookie("refreshToken");
-
-    if (cookieRefreshToken) {
-      const token: string = await axios.post(
-        "http://localhsot:3002/refreshToken",
-        {
-          id: cookieRefreshToken.id,
-        }
-      );
-
-      if (!token) {
-        useEffect(() => {
-          router.push("/sign-in");
-        }, []);
-        return;
-      }
-
-      saveCookie("token", token, new Date().getMinutes() + 15);
-      saveCookie("isAuthenticated", true, new Date().getMinutes() + 15);
-
-      dispatch(
-        LoginAction({
-          isAuthenticated: true,
-          token: token,
-          refreshToken: cookieRefreshToken,
-        })
-      );
-
-      return;
+  useEffect(() => {
+    if(!isAuthenticated){
+      push(APP_ROUTES.public.signIn)
     }
-    useEffect(() => {
-      router.push("/sign-in");
-    }, []);
-  }
-  return;
+  },[isAuthenticated])
+
+
+  return (
+    <>
+    {!isAuthenticated && null}
+    {isAuthenticated && children}
+    </>
+  )
 };
