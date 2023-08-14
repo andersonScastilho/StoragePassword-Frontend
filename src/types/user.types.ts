@@ -1,6 +1,9 @@
+import { RefreshToken } from "./refreshToken.types";
+
 interface User {
-  email: string;
-  fullName: string;
+  isAuthenticated: boolean;
+  token: string;
+  refreshToken: RefreshToken;
 }
 
 export default User;
