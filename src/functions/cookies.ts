@@ -14,12 +14,11 @@ export async function saveCookie(key: string, value: unknown, maxAge: number) {
 
 export async function findCookie(key: string) {
   const cookie = cookies().get(key);
-
   if (!cookie) {
     return;
   }
 
-  const parsedCookie: unknown = JSON.parse(JSON.stringify(cookie));
+  const parsedCookie = JSON.parse(cookie.value);
 
   return parsedCookie;
 }
