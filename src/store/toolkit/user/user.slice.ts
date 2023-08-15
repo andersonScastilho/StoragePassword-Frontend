@@ -62,6 +62,7 @@ export const userRefreshToken = createAsyncThunk(
         token: token,
         refreshToken: { ...cookiesRefreshToken },
         isAuthenticated: true,
+        isLoading: false,
       };
     }
 
