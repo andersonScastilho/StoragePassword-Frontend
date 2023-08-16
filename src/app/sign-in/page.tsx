@@ -5,7 +5,8 @@ import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/hooks/redux.hooks";
-
+import {useEffect } from 'react'
+import { useRouter } from "next/navigation";
 interface LoginForm {
   email: string;
   password: string;
@@ -16,8 +17,17 @@ export default function SignInPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
-
+  
   const dispatch = useDispatch();
+const {push} = useRouter()
+  const { isAuthenticated } = useAppSelector((state)=> state.userReducer)
+
+  useEffect(() =>{
+    if(isAuthenticated){
+      push('/')
+    }
+  },[isAuthenticated])
+
 
   const handleSubmitPress = (data: LoginForm) => {
     dispatch(
