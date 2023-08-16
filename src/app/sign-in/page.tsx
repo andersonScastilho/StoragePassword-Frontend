@@ -1,12 +1,16 @@
 "use client";
 
-import { loginUserAsync } from "../../store/toolkit/user/user.slice";
+import {
+  loginUserAsync,
+  userRefreshToken,
+} from "../../store/toolkit/user/user.slice";
 import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/hooks/redux.hooks";
-import {useEffect } from 'react'
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 interface LoginForm {
   email: string;
   password: string;
@@ -17,17 +21,33 @@ export default function SignInPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
-  
+
   const dispatch = useDispatch();
-const {push} = useRouter()
-  const { isAuthenticated } = useAppSelector((state)=> state.userReducer)
+  const { push } = useRouter();
+  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
 
-  useEffect(() =>{
-    if(isAuthenticated){
-      push('/')
+  useEffect(() => {
+    if (isAuthenticated) {
+      push("/");
     }
-  },[isAuthenticated])
 
+    async function checkIsAuthenticatedAsync() {
+      const { isAuthenticated } = await checkIsAuthenticated();
+
+      if (isAuthenticated) {
+        push("/");
+      }
+
+      if (!isAuthenticated) {
+        const dispatchReturn = await dispatch(userRefreshToken() as any);
+
+        if (dispatchReturn.payload.isAuthenticated == true) {
+          push("/");
+        }
+      }
+    }
+    checkIsAuthenticatedAsync();
+  }, [isAuthenticated, dispatch, push]);
 
   const handleSubmitPress = (data: LoginForm) => {
     dispatch(
