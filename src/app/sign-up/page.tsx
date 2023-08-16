@@ -3,6 +3,13 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
+import LoadingComponent from "@/components/loading/loading-component";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import { useDispatch } from "react-redux";
+import { userRefreshToken } from "@/store/toolkit/user/user.slice";
+import { useAppSelector } from "@/hooks/redux.hooks";
 
 interface CreateAcountForm {
   fullName: string;
@@ -18,6 +25,37 @@ export default function SignUpPage() {
     formState: { errors },
   } = useForm<CreateAcountForm>();
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const { push } = useRouter();
+  const dispatch = useDispatch();
+
+  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      push("/");
+    }
+
+    async function checkIsAuthenticatedAsync() {
+      setIsLoading(true);
+      const { isAuthenticated } = await checkIsAuthenticated();
+
+      if (isAuthenticated) {
+        push("/");
+      }
+
+      if (!isAuthenticated) {
+        const dispatchReturn = await dispatch(userRefreshToken() as any);
+
+        if (dispatchReturn.payload.isAuthenticated == true) {
+          push("/");
+        }
+      }
+    }
+
+    checkIsAuthenticatedAsync();
+  }, [isAuthenticated, dispatch, push]);
+
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
       await axios.post("http://localhost:3002/users", {
@@ -48,6 +86,7 @@ export default function SignUpPage() {
   };
   return (
     <div className="bg-login min-h-screen min-w-full flex justify-start items-center ">
+      {isLoading && <LoadingComponent />}
       <div className="ml-40 bg-fundo-principal-opaco border rounded-3xl flex flex-col gap-10  h-form-create-account p-10">
         <div>
           <h1 className="text-[2.0rem] text-texto-principal font-semibold">

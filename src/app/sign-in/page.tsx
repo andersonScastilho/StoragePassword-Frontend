@@ -8,9 +8,10 @@ import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/hooks/redux.hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import LoadingComponent from "@/components/loading/loading-component";
 interface LoginForm {
   email: string;
   password: string;
@@ -22,6 +23,7 @@ export default function SignInPage() {
     formState: { errors },
   } = useForm<LoginForm>();
 
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { push } = useRouter();
   const { isAuthenticated } = useAppSelector((state) => state.userReducer);
@@ -32,6 +34,7 @@ export default function SignInPage() {
     }
 
     async function checkIsAuthenticatedAsync() {
+      setIsLoading(true);
       const { isAuthenticated } = await checkIsAuthenticated();
 
       if (isAuthenticated) {
@@ -46,6 +49,7 @@ export default function SignInPage() {
         }
       }
     }
+
     checkIsAuthenticatedAsync();
   }, [isAuthenticated, dispatch, push]);
 
@@ -59,8 +63,9 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="bg-login bg-cover min-h-screen min-w-full flex justify-start items-center">
-      <section className="ml-40 bg-fundo-principal-opaco border rounded-3xl w-form-login-container h-form-login-container flex items-center flex-col justify-evenly">
+    <div className="bg-login bg-cover min-h-screen min-w-full flex justify-start items-center">
+      {isLoading && <LoadingComponent />}
+      <div className="ml-40 bg-fundo-principal-opaco border rounded-3xl w-form-login-container h-form-login-container flex items-center flex-col justify-evenly">
         <div>
           <h1 className="text-[2.0rem] text-texto-principal font-semibold">
             Entrar
@@ -110,7 +115,7 @@ export default function SignInPage() {
         >
           Entrar
         </button>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }
