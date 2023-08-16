@@ -18,7 +18,7 @@ export async function findCookie(key: string) {
     return;
   }
 
-  const parsedCookie = JSON.parse(cookie.value);
+  const parsedCookie = await JSON.parse(cookie.value);
 
   return parsedCookie;
 }
