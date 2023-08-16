@@ -2,7 +2,7 @@ import { findCookie } from "@/functions/cookies";
 import { Storage } from "@/types/storage.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import userSlice from "./user.slice";
+import userSlice from "../user/user.slice";
 
 interface FetchStorage {
   data: {

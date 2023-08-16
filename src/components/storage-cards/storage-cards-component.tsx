@@ -4,25 +4,18 @@ import { Storage } from "@/types/storage.types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { CardComponent } from "../card/card-component";
+import { useAppSelector } from "@/hooks/redux.hooks";
+import { useDispatch } from "react-redux";
+import { fetchStorageAsync } from "@/store/toolkit/storage/storage.slice";
 
 export const StorageCardsComponent = () => {
-  const [storage, setStorage] = useState<Storage[]>([]);
+  const dispatch = useDispatch();
+  const { storage } = useAppSelector((state) => state.storageReducer);
 
   useEffect(() => {
-    const findStorage = async () => {
-      const token: string = await findCookie("token");
-
-      await axios
-        .get("http://localhost:3002/storages", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((data: { data: { storages: Array<Storage> } }) => {
-          setStorage(data.data.storages);
-        });
-    };
-    findStorage();
+    if (!storage) {
+      dispatch(fetchStorageAsync() as any);
+    }
   }, []);
 
   return (
