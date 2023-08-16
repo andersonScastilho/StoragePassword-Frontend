@@ -5,7 +5,6 @@ import { ReactNode, useEffect } from "react";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { useDispatch } from "react-redux";
 import { userRefreshToken } from "@/store/toolkit/user/user.slice";
-import { findCookie } from "@/functions/cookies";
 
 type PrivateRouteProps = {
   children: ReactNode;
