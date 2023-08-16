@@ -2,6 +2,7 @@
 import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
 import { CardComponent } from "@/components/card/card-component";
 import { HeaderComponent } from "@/components/header/header-component";
+import { StorageCardsComponent } from "@/components/storage-cards/storage-cards-component";
 
 export default function Storage() {
   return (
@@ -9,13 +10,7 @@ export default function Storage() {
       <HeaderComponent />
       <section className="flex-grow flex gap-10">
         <SideBarComponent />
-        <div className="flex flex-wrap gap-3">
-          <CardComponent />
-          <CardComponent />
-          <CardComponent />
-          <CardComponent />
-          <CardComponent />
-        </div>
+        <StorageCardsComponent />
       </section>
     </main>
   );

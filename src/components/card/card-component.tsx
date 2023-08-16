@@ -17,8 +17,9 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Storage } from "@/types/storage.types";
 
-export const CardComponent = () => {
+export const CardComponent = ({props}: Storage) => {
   const OverlayTwo = () => (
     <ModalOverlay
       bg="none"
@@ -77,7 +78,7 @@ export const CardComponent = () => {
       </Modal>
       <section className="flex flex-col gap-2 p-2">
         <h1 className="text-center text-texto-principal font-semibold text-[1.3rem]">
-          Facebook
+          {props.usageLocation}
         </h1>
         <div>
           <label className="text-[0.8rem] text-texto-principal font-semibold">
@@ -85,7 +86,7 @@ export const CardComponent = () => {
           </label>
           <StyledInputComponent
             initialIcon={<IoMailOutline />}
-            data="leosilvacast@gmail.com"
+            data={props.account}
           />
         </div>
         <div>
@@ -113,7 +114,7 @@ export const CardComponent = () => {
               target="_blank"
               className="text-[0.8rem]"
             >
-              http://localhost:3000
+            {props.link}
             </a>
           </div>
         </div>
@@ -122,7 +123,7 @@ export const CardComponent = () => {
             Descrição:
           </label>
           <p className="bg-principal  h-24 max-h-28 border rounded-md text-[0.76rem] p-2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing.
+            {props.description}
           </p>
         </div>
       </section>
