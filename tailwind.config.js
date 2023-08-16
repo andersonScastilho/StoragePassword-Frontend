@@ -10,10 +10,13 @@ module.exports = {
       backgroundImage: {
         "login": "url(https://img.freepik.com/fotos-gratis/uma-pintura-de-um-lago-de-montanha-com-uma-montanha-ao-fundo_188544-9126.jpg)"
       },
+      zIndex: {
+        '100': '100'
+      },
       colors: {
         "principal": "#870000",
         "secundaria": "#FF2D00",
-
+        'loading': 'rgba(0, 0, 0, 0.5)',
         "fundo-principal": "#222222",
         "fundo-principal-opaco": "rgb(192,192,192,0.8)",
         "fundo-secundario": "#870000",
@@ -29,6 +32,9 @@ module.exports = {
       borderRadius: {
         "radius-7px": "7px",
       },
+      maxWidth: {
+        '1/2': '50%'
+      },
       width: {
         "form-login-container": "28rem",
         "form-create-account": "35rem"
@@ -40,6 +46,7 @@ module.exports = {
       boxShadow: {
         'login-button': 'inset -4px 4px 0 #222 '
       }
+
     },
   },
   plugins: [],
