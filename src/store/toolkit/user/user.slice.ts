@@ -25,7 +25,6 @@ export const loginUserAsync = createAsyncThunk(
       data.data.refreshToken,
       maxAgeInSeconds7dias
     );
-    await saveCookie("isAuthenticated", true, maxAgeInSeconds15minutos);
 
     return { token: data.data.token, refreshToken: data.data.refreshToken };
   }
@@ -34,29 +33,28 @@ export const loginUserAsync = createAsyncThunk(
 export const userRefreshToken = createAsyncThunk(
   "user/refreshToken",
   async () => {
-    const cookiesIsAuthenticated = await findCookie("isAuthenticated");
     const cookiesRefreshToken: RefreshToken = await findCookie("refreshToken");
     const cookiesToken: string = await findCookie("token");
 
-    if (cookiesRefreshToken && !cookiesIsAuthenticated) {
+    if (!cookiesRefreshToken && !cookiesToken) {
+      return {
+        token: "",
+        refreshToken: {},
+        isAuthenticated: false,
+        isLoading: false,
+      };
+    }
+
+    if (!cookiesToken && cookiesRefreshToken) {
       const token: string = await axios
         .post("http://localhost:3002/refresh-token", {
           refresh_token: cookiesRefreshToken.id,
         })
         .then((data) => data.data.token);
 
-      if (!token) {
-        return {
-          token: "",
-          refreshToken: {},
-          isAuthenticated: false,
-          isLoading: false,
-        };
-      }
       const maxAgeInSeconds15minutos = 900;
 
       await saveCookie("token", token, maxAgeInSeconds15minutos);
-      await saveCookie("isAuthenticated", true, maxAgeInSeconds15minutos);
 
       return {
         token: token,
@@ -66,10 +64,19 @@ export const userRefreshToken = createAsyncThunk(
       };
     }
 
+    if (cookiesToken && !cookiesRefreshToken) {
+      return {
+        token: cookiesToken,
+        refreshToken: {},
+        isAuthenticated: true,
+        isLoading: false,
+      };
+    }
+
     return {
       token: cookiesToken,
       refreshToken: cookiesRefreshToken,
-      isAuthenticated: cookiesIsAuthenticated,
+      isAuthenticated: true,
       isLoading: false,
     };
   }

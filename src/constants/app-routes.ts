@@ -7,5 +7,6 @@ export const APP_ROUTES = {
   public: {
     signIn: "/sign-in",
     signOut: "/sign-out",
+    home: "/",
   },
 };
