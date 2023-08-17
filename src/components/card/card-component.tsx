@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { Storage } from "@/types/storage.types";
 
-export const CardComponent = ({props}: Storage) => {
+export const CardComponent = ({ props }: Storage) => {
   const OverlayTwo = () => (
     <ModalOverlay
       bg="none"
@@ -109,12 +109,8 @@ export const CardComponent = ({props}: Storage) => {
           </label>
           <div className="p-4 flex gap-5 items-center h-8 bg-fundo-secundario border rounded-md ">
             <BiLink />
-            <a
-              href="http://localhost:3000"
-              target="_blank"
-              className="text-[0.8rem]"
-            >
-            {props.link}
+            <a href={`${props.link}`} target="_blank" className="text-[0.8rem]">
+              {props.link}
             </a>
           </div>
         </div>
