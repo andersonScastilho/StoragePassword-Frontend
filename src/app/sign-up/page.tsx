@@ -4,8 +4,13 @@ import axios from "axios";
 import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
 import LoadingComponent from "@/components/loading/loading-component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { APP_ROUTES } from "@/constants/app-routes";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import { userRefreshToken } from "@/store/toolkit/user/user.slice";
+import { useAppSelector } from "@/hooks/redux.hooks";
 
 interface CreateAcountForm {
   fullName: string;
@@ -23,6 +28,32 @@ export default function SignUpPage() {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
+  const { push } = useRouter();
+  const { token } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    if (token) {
+      push(APP_ROUTES.public.home);
+    }
+
+    async function isAuthenticated() {
+      const { token, refreshToken } = await checkIsAuthenticated();
+
+      if (token) {
+        push(APP_ROUTES.public.home);
+      }
+
+      if (!token && refreshToken) {
+        const returnDispatch = await dispatch(userRefreshToken() as any);
+
+        if (returnDispatch.payload?.token) {
+          push(APP_ROUTES.public.home);
+        }
+      }
+    }
+    isAuthenticated();
+  }, [token, dispatch, push]);
 
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
