@@ -39,7 +39,7 @@ export default function SignInPage() {
       }
 
       if (!token && refreshToken) {
-        const returnDispatch = dispatch(userRefreshToken() as any);
+        const returnDispatch = await dispatch(userRefreshToken() as any);
 
         if (returnDispatch.payload?.token) {
           push(APP_ROUTES.public.home);
