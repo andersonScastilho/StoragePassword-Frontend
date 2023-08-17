@@ -1,6 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { StyledInputComponent } from "../styled-input/styled-input-component";
 import { AiFillEye } from "react-icons/ai";
 import { IoMailOutline } from "react-icons/io5";
@@ -18,8 +19,24 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Storage } from "@/types/storage.types";
+import axios from "axios";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 
+interface ShowPasswordForm {
+  password: string;
+}
+interface DescryptedPasswordResponse {
+  data: {
+    descryptedPassword: string;
+  };
+}
 export const CardComponent = ({ props }: Storage) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ShowPasswordForm>();
+
   const OverlayTwo = () => (
     <ModalOverlay
       bg="none"
@@ -33,8 +50,24 @@ export const CardComponent = ({ props }: Storage) => {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   const [password, setPassword] = useState<string>("");
 
-  const showPassword = async () => {
-    setPassword("19758664611");
+  const showPassword = async (data: ShowPasswordForm) => {
+    try {
+      const { token } = await checkIsAuthenticated();
+      const passwordDescrypted: DescryptedPasswordResponse = await axios.post(
+        `http://localhost:3002/passwords/storages/${props.storageId}`,
+        {
+          password: data.password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPassword(passwordDescrypted.data.descryptedPassword);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -65,11 +98,14 @@ export const CardComponent = ({ props }: Storage) => {
                 Senha:
               </label>
               <input
+                {...register("password", { required: true })}
                 type="text"
                 className="w-72 bg-fundo-principal text-texto-secundario text-[0.8rem] p-2 border rounded-md"
               />
             </div>
-            <Button onClick={showPassword}>Autenticar-se</Button>
+            <Button onClick={() => handleSubmit(showPassword)()}>
+              Autenticar-se
+            </Button>
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
