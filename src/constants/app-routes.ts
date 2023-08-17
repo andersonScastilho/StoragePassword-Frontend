@@ -3,6 +3,9 @@ export const APP_ROUTES = {
     storage: {
       name: "/storage",
     },
+    createStorage: {
+      name: "/create-storage",
+    },
   },
   public: {
     signIn: "/sign-in",
