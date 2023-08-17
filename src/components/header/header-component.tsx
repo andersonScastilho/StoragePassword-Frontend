@@ -5,14 +5,28 @@ import { SlLogin } from "react-icons/sl";
 import { PiPersonSimpleRunFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import { useEffect, useState } from "react";
 
 export const HeaderComponent = () => {
   const { token } = useAppSelector((state) => state.userReducer);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { push } = useRouter();
 
   const navigateTo = (path: string) => {
     push(path);
   };
+
+  useEffect(() => {
+    async function asyncFunction() {
+      const { token } = await checkIsAuthenticated();
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    }
+
+    asyncFunction();
+  }, [token]);
 
   return (
     <header className="bg-fuchsia-100 h-16 flex items-center p-4 justify-between">
@@ -29,11 +43,11 @@ export const HeaderComponent = () => {
             />
           }
         </p>
-        {token && (
+        {isAuthenticated && (
           <p>{<PiPersonSimpleRunFill cursor={"pointer"} size={30} />}</p>
         )}
 
-        {!token && (
+        {!isAuthenticated && (
           <p>
             {
               <SlLogin
@@ -45,7 +59,7 @@ export const HeaderComponent = () => {
           </p>
         )}
 
-        {!token && (
+        {!isAuthenticated && (
           <p>
             {
               <AiOutlineUserAdd
