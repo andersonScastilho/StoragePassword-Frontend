@@ -22,7 +22,7 @@ export const AuthenticationGuard = ({ children }: PrivateRouteProps) => {
       const { token, refreshToken } = await checkIsAuthenticated();
 
       if (!token && refreshToken) {
-        const dispatchReturn = dispatch(userRefreshToken() as any);
+        const dispatchReturn = await dispatch(userRefreshToken() as any);
 
         if (!dispatchReturn.payload?.token) {
           push(APP_ROUTES.public.signIn);
