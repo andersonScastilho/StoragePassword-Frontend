@@ -40,7 +40,6 @@ export const userRefreshToken = createAsyncThunk(
       return {
         token: "",
         refreshToken: {},
-        isAuthenticated: false,
         isLoading: false,
       };
     }
@@ -59,7 +58,6 @@ export const userRefreshToken = createAsyncThunk(
       return {
         token: token,
         refreshToken: { ...cookiesRefreshToken },
-        isAuthenticated: true,
         isLoading: false,
       };
     }
@@ -68,7 +66,6 @@ export const userRefreshToken = createAsyncThunk(
       return {
         token: cookiesToken,
         refreshToken: {},
-        isAuthenticated: true,
         isLoading: false,
       };
     }
@@ -76,7 +73,6 @@ export const userRefreshToken = createAsyncThunk(
     return {
       token: cookiesToken,
       refreshToken: cookiesRefreshToken,
-      isAuthenticated: true,
       isLoading: false,
     };
   }
@@ -85,14 +81,12 @@ export const userRefreshToken = createAsyncThunk(
 interface InitialState {
   refreshToken: object;
   token: string;
-  isAuthenticated: boolean;
   isLoading: boolean;
 }
 
 const initialState: InitialState = {
   token: "",
   refreshToken: {},
-  isAuthenticated: false,
   isLoading: false,
 };
 
@@ -108,7 +102,6 @@ const userSlice = createSlice({
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken;
-      state.isAuthenticated = true;
       state.isLoading = false;
     });
 
@@ -122,7 +115,6 @@ const userSlice = createSlice({
     builder.addCase(userRefreshToken.fulfilled, (state, action) => {
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken;
-      state.isAuthenticated = true;
       state.isLoading = false;
     });
 
