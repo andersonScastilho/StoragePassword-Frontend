@@ -1,8 +1,16 @@
 "use client";
-import { loginUserAsync } from "../../store/toolkit/user/user.slice";
+import {
+  loginUserAsync,
+  userRefreshToken,
+} from "../../store/toolkit/user/user.slice";
 import { InputErrorMessage } from "../../components/input-error-message";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useAppSelector } from "@/hooks/redux.hooks";
+import { useRouter } from "next/navigation";
+import { APP_ROUTES } from "@/constants/app-routes";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 
 interface LoginForm {
   email: string;
@@ -15,6 +23,31 @@ export default function SignInPage() {
     formState: { errors },
   } = useForm<LoginForm>();
   const dispatch = useDispatch();
+  const { push } = useRouter();
+  const { token } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    if (token) {
+      push(APP_ROUTES.public.home);
+    }
+
+    async function isAuthenticated() {
+      const { token, refreshToken } = await checkIsAuthenticated();
+
+      if (token) {
+        push(APP_ROUTES.public.home);
+      }
+
+      if (!token && refreshToken) {
+        const returnDispatch = dispatch(userRefreshToken() as any);
+
+        if (returnDispatch.payload?.token) {
+          push(APP_ROUTES.public.home);
+        }
+      }
+    }
+    isAuthenticated();
+  }, [token, dispatch, push]);
 
   const handleSubmitPress = (data: LoginForm) => {
     dispatch(
