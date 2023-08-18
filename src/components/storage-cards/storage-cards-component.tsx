@@ -1,7 +1,4 @@
 "use client";
-import { findCookie } from "@/functions/cookies";
-import { Storage } from "@/types/storage.types";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { CardComponent } from "../card/card-component";
 import { useAppSelector } from "@/hooks/redux.hooks";

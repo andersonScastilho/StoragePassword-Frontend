@@ -3,7 +3,7 @@ import {
   loginUserAsync,
   userRefreshToken,
 } from "../../store/toolkit/user/user.slice";
-import { InputErrorMessage } from "../../components/input-error-message";
+import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";

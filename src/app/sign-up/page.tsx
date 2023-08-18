@@ -1,7 +1,7 @@
 "use client";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { InputErrorMessage } from "../../components/input-error-message";
+import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { useForm } from "react-hook-form";
 import LoadingComponent from "@/components/loading/loading-component";
 import { useEffect, useState } from "react";

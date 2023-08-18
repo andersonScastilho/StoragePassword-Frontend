@@ -1,6 +1,5 @@
 "use client";
 import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
-import { CardComponent } from "@/components/card/card-component";
 import { HeaderComponent } from "@/components/header/header-component";
 import { StorageCardsComponent } from "@/components/storage-cards/storage-cards-component";
 
