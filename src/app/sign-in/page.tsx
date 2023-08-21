@@ -11,6 +11,9 @@ import { useAppSelector } from "@/hooks/redux.hooks";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import CustomInput from "@/components/custom-input/custom-input-component";
+import { CustomLabelCompoent } from "@/components/custom-label/custom-label-component";
+import CustomButton from "@/components/custom-button/custom-button-comonent";
 
 interface LoginForm {
   email: string;
@@ -59,58 +62,25 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="bg-login bg-cover min-h-screen min-w-full flex justify-start items-center">
-      <div className="ml-40 bg-fundo-principal-opaco border rounded-3xl w-form-login-container h-form-login-container flex items-center flex-col justify-evenly">
-        <div>
-          <h1 className="text-[2.0rem] text-texto-principal font-semibold">
+    <main className="h-screen w-full bg-white p-2">
+      <section className="bg-slate-500 h-form-login-container w-96 p-5 flex flex-col gap-16">
+        <div className="flex flex-col gap-7">
+          <h1 className="text-[2.5rem] text-texto-principal font-semibold">
             Entrar
           </h1>
-          <p className="text-[0.87rem] text-texto-principal font-semibold">
-            Digite os seus dados de acesso no campo abaixo
-          </p>
-        </div>
-
-        <div className="flex items-center, justify-center gap-6 flex-col ">
-          <div className="flex flex-col w-80 gap-1">
-            <label htmlFor="" className="text-texto-principal font-semibold">
-              Email:
-            </label>
-            <input
-              {...register("email", { required: true })}
-              type="text"
-              className="p-1 text-texto-secundario outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
-            />
-            {errors.email?.type === "required" && (
-              <InputErrorMessage>O Email é obrigatorio</InputErrorMessage>
-            )}
+          <div>
+            <CustomLabelCompoent>Email</CustomLabelCompoent>
+            <CustomInput {...register("email", { required: true })} />
           </div>
-
-          <div className="flex flex-col w-80 gap-1">
-            <label htmlFor="" className="text-texto-principal font-semibold">
-              Senha:
-            </label>
-            <input
-              {...register("password", { required: true })}
-              type="password"
-              className="p-1 text-texto-secundario outline-0 h-8 bg-fundo-secundario text-[0.9rem]"
-            />
-            {errors.password?.type === "required" && (
-              <InputErrorMessage>A senha é obrigatoria</InputErrorMessage>
-            )}
+          <div>
+            <CustomLabelCompoent>Senha</CustomLabelCompoent>
+            <CustomInput {...register("password", { required: true })} />
           </div>
-
-          <p className="text-[0.9rem] text-texto-principal font-semibold underline hover:cursor-pointer">
-            Esqueci minha senha
-          </p>
+          <CustomButton onClick={() => handleSubmit(handleSubmitPress)()}>
+            Entrar
+          </CustomButton>
         </div>
-
-        <button
-          onClick={() => handleSubmit(handleSubmitPress)()}
-          className="border rounded-radius-7px p-2 w-60 bg-fundo-principal  inset-1 active:shadow-login-button active:text-[0.9rem]"
-        >
-          Entrar
-        </button>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
