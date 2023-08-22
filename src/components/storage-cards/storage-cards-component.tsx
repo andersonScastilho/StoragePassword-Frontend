@@ -19,7 +19,7 @@ export const StorageCardsComponent = () => {
     <>
       <div className="flex flex-wrap gap-3">
         {storage.map((storage) => (
-          <CardComponent props={storage.props} />
+          <CardComponent props={storage.props} key={storage.props.storageId} />
         ))}
       </div>
     </>
