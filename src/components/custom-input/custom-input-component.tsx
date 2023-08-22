@@ -9,7 +9,7 @@ const CustomInput = React.forwardRef((props, ref) => {
     <input
       {...props}
       ref={ref as any}
-      className="border border-none w-full text-[0.9rem] p-2 rounded-md outline-none font-semibold text-texto-principal"
+      className="text-texto-principal border border-none w-full text-[0.9rem] p-2 rounded-md outline-none"
     />
   );
 });
