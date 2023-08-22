@@ -63,7 +63,7 @@ export default function SignInPage() {
 
   return (
     <main className="h-screen w-full bg-white p-2">
-      <section className="bg-destaque h-form-login-container mt-20 w-96 p-5 flex flex-col gap-16">
+      <section className="bg-destaque ml-32 h-form-login-container mt-20 w-96 p-5 flex flex-col gap-16">
         <div className="flex flex-col gap-7">
           <h1 className="text-[2.5rem] text-texto-principal font-semibold">
             Entrar
