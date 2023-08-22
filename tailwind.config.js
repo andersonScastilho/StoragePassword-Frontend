@@ -41,7 +41,8 @@ module.exports = {
       },
       height: {
         "form-login-container": "30rem",
-        "form-create-account": "30rem"
+        "form-create-account": "30rem",
+        "form-create-account-max-height": "35rem"
       },
       boxShadow: {
         'login-button': 'inset -4px 4px 0 #222 '
