@@ -5,6 +5,9 @@ import CustomInput from "@/components/custom-input/custom-input-component";
 import { CustomLabelCompoent } from "@/components/custom-label/custom-label-component";
 import { HeaderComponent } from "@/components/header/header-component";
 import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import { useAppSelector } from "@/hooks/redux.hooks";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 interface CreateStorageProps {
   usageLocation: string;
@@ -20,8 +23,26 @@ export default function CreateStoragePage() {
     getValues,
     formState: { errors },
   } = useForm<CreateStorageProps>();
-  const handleSubmitPress = (data: CreateStorageProps) => {
-    console.log(data);
+
+  const handleSubmitPress = async (data: CreateStorageProps) => {
+    const { token } = await checkIsAuthenticated();
+
+    const response = await axios.post(
+      "http://localhost:3002/storages",
+      {
+        usageLocation: data.description,
+        account: data.account,
+        password: data.password,
+        description: data.description,
+        link: data.link,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
   };
   return (
     <main className="min-h-screen min-w-full flex flex-col gap-1">
