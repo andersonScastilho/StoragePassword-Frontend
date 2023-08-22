@@ -5,7 +5,7 @@ interface CustomLabelProps {
 export const CustomLabelCompoent = ({ children }: CustomLabelProps) => {
   return (
     <>
-      <label className="text-texto-principal text-[1.1rem]">{children}</label>
+      <label className="text-texto-principal text-[0.9rem]">{children}</label>
     </>
   );
 };
