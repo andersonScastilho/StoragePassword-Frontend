@@ -42,7 +42,6 @@ export default function CreateStoragePage() {
         },
       }
     );
-    console.log(response);
   };
   return (
     <main className="min-h-screen min-w-full flex flex-col gap-1">
