@@ -26,8 +26,14 @@ module.exports = {
 
         "texto-principal": "#870000",
         "texto-secundario": "#FFFFFF",
+        "texto-error": '#FF0000',
 
-        "texto-error": '#FF0000'
+        "color-principal": "#870000",
+        "color-contraste": "#FF5733",
+        "color-complemento": "#A83232",
+        "color-destaque": "#FFC300",
+        "color-contraste-secundario": "#5F6CAF",
+        "color-frescor": "#00A388"
       },
       borderRadius: {
         "radius-7px": "7px",
