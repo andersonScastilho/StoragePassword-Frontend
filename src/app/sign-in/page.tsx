@@ -62,8 +62,8 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="h-screen w-full bg-color-contraste p-2">
-      <section className="bg-color-contraste-secundario ml-32 h-form-login-container mt-20 w-96 p-5 flex flex-col gap-16">
+    <main className="h-screen w-full bg-color-principal p-2">
+      <section className="bg-color-contraste ml-32 h-full w-96 p-5 flex flex-col gap-16">
         <div className="flex flex-col gap-7">
           <h1 className="text-[2.5rem] text-texto-principal font-semibold">
             Entrar

@@ -87,8 +87,8 @@ export default function SignUpPage() {
     }
   };
   return (
-    <main className="min-h-screen min-w-full flex justify-start items-center ">
-      <div className="border rounded-md ml-32 w-form-create-account min-h-form-create-account max-h-form-create-account-max-height bg-destaque p-4 gap-14 flex flex-col">
+    <main className="min-h-screen min-w-full flex justify-start items-center p-5 bg-color-principal ">
+      <div className="border rounded-md ml-32 w-3/6 h-full bg-color-contraste p-4 gap-14 flex flex-col">
         <section>
           <h1 className="text-[2.3rem] text-texto-principal">Crie sua conta</h1>
           <h4 className="text-[1.2rem] text-texto-principal">
