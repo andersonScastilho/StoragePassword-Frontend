@@ -8,7 +8,7 @@ export const SideBarComponent = () => {
   const { push } = useRouter();
 
   return (
-    <section className="w-20 h-full bg-fundo-secundario border border-none rounded-e-md p-5 flex flex-col gap-10">
+    <section className="w-20 h-full bg-color-contraste border border-none rounded-e-md p-5 flex flex-col gap-10">
       <MdOutlineStorage
         onClick={() => push("/storage")}
         size={30}
