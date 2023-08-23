@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CardComponent } from "../card/card-component";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { useDispatch } from "react-redux";
 import { fetchStorageAsync } from "@/store/toolkit/storage/storage.slice";
+import { CardStorageComponent } from "../card-preview-storage/card-preview-storage-component";
 
 export const StorageCardsComponent = () => {
   const dispatch = useDispatch();
@@ -16,12 +16,13 @@ export const StorageCardsComponent = () => {
   }, []);
 
   return (
-    <>
-      <div className="flex flex-wrap gap-3">
-        {storage.map((storage) => (
-          <CardComponent props={storage.props} key={storage.props.storageId} />
-        ))}
-      </div>
-    </>
+    <div className="flex p-1 flex-wrap gap-5">
+      {storage.map((storage) => (
+        <CardStorageComponent
+          props={storage.props}
+          key={storage.props.storageId}
+        />
+      ))}
+    </div>
   );
 };
