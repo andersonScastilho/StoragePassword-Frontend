@@ -6,6 +6,9 @@ export const APP_ROUTES = {
     createStorage: {
       name: "/create-storage",
     },
+    storageDetails: {
+      name: "/storage/card-details",
+    },
   },
   public: {
     signIn: "/sign-in",

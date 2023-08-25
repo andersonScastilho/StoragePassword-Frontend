@@ -4,8 +4,11 @@ import CustomInput from "../custom-input/custom-input-component";
 import { CustomLabelCompoent } from "../custom-label/custom-label-component";
 import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineLink } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 export const CardStorageComponent = ({ props }: Storage) => {
+  const { push } = useRouter();
+
   return (
     <div className="w-96 h-48 p-2 border gap-3 bg-cyan-600 rounded-md flex flex-col hover:scale-105">
       <h1 className="text-center font-semibold text-[1.1rem]">
@@ -25,7 +28,9 @@ export const CardStorageComponent = ({ props }: Storage) => {
           {props.link}
         </a>
       </div>
-      <CustomButton>Abrir</CustomButton>
+      <CustomButton onClick={() => push("/storage/card-details")}>
+        Abrir
+      </CustomButton>
     </div>
   );
 };
