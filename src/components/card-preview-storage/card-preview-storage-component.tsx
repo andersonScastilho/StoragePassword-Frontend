@@ -1,7 +1,5 @@
 import { Storage } from "@/types/storage.types";
 import CustomButton from "../custom-button/custom-button-comonent";
-import CustomInput from "../custom-input/custom-input-component";
-import { CustomLabelCompoent } from "../custom-label/custom-label-component";
 import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineLink } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -28,7 +26,9 @@ export const CardStorageComponent = ({ props }: Storage) => {
           {props.link}
         </a>
       </div>
-      <CustomButton onClick={() => push("/storage/card-details")}>
+      <CustomButton
+        onClick={() => push(`/storage/card-details/${props.storageId}`)}
+      >
         Abrir
       </CustomButton>
     </div>
