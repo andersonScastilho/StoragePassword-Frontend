@@ -29,7 +29,7 @@ export default function SignUpPage() {
     formState: { errors },
   } = useForm<CreateAcountForm>();
   const toast = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const { push } = useRouter();
@@ -55,6 +55,7 @@ export default function SignUpPage() {
         }
       }
     }
+
     isAuthenticated();
   }, [token, dispatch, push]);
 

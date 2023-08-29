@@ -58,19 +58,9 @@ export default function CardDetailStoragePage({
           }
         );
 
-        const responseData = response.data;
+        const responseData: Storage = response.data;
 
-        setSelectedStorage({
-          props: {
-            account: responseData.account,
-            description: responseData.description,
-            link: responseData.link,
-            password: responseData.password,
-            storageId: responseData.storageId,
-            usageLocation: responseData.usageLocation,
-            userId: responseData.userId,
-          },
-        });
+        setSelectedStorage(responseData);
       } catch (error) {
         console.error("Error fetching storage:", error);
       }
