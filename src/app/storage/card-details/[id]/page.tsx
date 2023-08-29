@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function CardDetailStoragePage({
-  param,
+  params,
 }: {
-  param: { id: string };
+  params: { id: string };
 }) {
   const dispatch = useDispatch();
   const [storagePerId, setStoragePerId] = useState();
