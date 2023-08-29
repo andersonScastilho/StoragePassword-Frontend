@@ -1,9 +1,10 @@
+import { Storage } from "@/types/storage.types";
 import { BiLink } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
 import { HiEye, HiMail } from "react-icons/hi";
 import { IoKey } from "react-icons/io5";
 
-export const CardDetailStorageComponent = () => {
+export const CardDetailStorageComponent = ({ props }: Storage) => {
   return (
     <div className="w-2/3 m-auto border rounded-md bg-slate-600 p-3">
       <h1 className="text-[1.3rem] text-center text-texto-principal">
@@ -16,7 +17,7 @@ export const CardDetailStorageComponent = () => {
             <span>
               <FiBook />
             </span>
-            leosilvacast
+            {props.usageLocation}
           </p>
         </div>
         <div className="p-3 flex flex-col gap-1">
@@ -25,7 +26,7 @@ export const CardDetailStorageComponent = () => {
             <span>
               <HiMail />
             </span>
-            leosilvacast
+            {props.account}
           </p>
         </div>
         <div className="p-3 flex flex-col gap-1">
@@ -46,13 +47,15 @@ export const CardDetailStorageComponent = () => {
             <span>
               <BiLink />
             </span>
-            leosilvacast
+            {props.link}
           </p>
         </div>
       </div>
       <div className="p-3 flex flex-col gap-1">
         <p className="text-texto-secundario">Descrição:</p>
-        <p className="bg-slate-50 h-24 p-2 border rounded-sm">leosilvacast</p>
+        <p className="bg-slate-50 h-24 p-2 border rounded-sm">
+          {props.description}
+        </p>
       </div>
     </div>
   );
