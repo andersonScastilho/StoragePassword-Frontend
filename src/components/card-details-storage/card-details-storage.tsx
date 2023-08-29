@@ -3,13 +3,14 @@ import { BiLink } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
 import { HiEye, HiMail } from "react-icons/hi";
 import { IoKey } from "react-icons/io5";
-import { JsxAttribute } from "typescript";
 
 interface CardDetailsProps {
   dataStorage: Storage;
+  clickFunction?: () => void;
 }
 export const CardDetailStorageComponent = ({
   dataStorage,
+  clickFunction,
 }: CardDetailsProps) => {
   return (
     <div className="w-2/3 m-auto border rounded-md bg-slate-600 p-3">
@@ -43,7 +44,7 @@ export const CardDetailStorageComponent = ({
               *******
             </span>
             <span className="mr-3">
-              <HiEye cursor={"pointer"} />
+              <HiEye cursor={"pointer"} onClick={clickFunction} />
             </span>
           </p>
         </div>

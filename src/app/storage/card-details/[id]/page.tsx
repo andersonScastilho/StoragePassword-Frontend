@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import {
   Button,
   Modal,
@@ -18,7 +17,6 @@ import { CardDetailStorageComponent } from "@/components/card-details-storage/ca
 import { HeaderComponent } from "@/components/header/header-component";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useAppSelector } from "@/hooks/redux.hooks";
-import { fetchStorageAsync } from "@/store/toolkit/storage/storage.slice";
 import { Storage } from "@/types/storage.types";
 import { useForm } from "react-hook-form";
 import CustomInput from "@/components/custom-input/custom-input-component";
@@ -42,7 +40,6 @@ export default function CardDetailStoragePage({
     formState: { errors },
   } = useForm<ShowPasswordForm>();
 
-  const dispatch = useDispatch();
   const [selectedStorage, setSelectedStorage] = useState<Storage>();
   const { storage: storedStorages } = useAppSelector(
     (state) => state.storageReducer
@@ -142,7 +139,7 @@ export default function CardDetailStoragePage({
               <label className="text-texto-principal font-semibold text-[0.9rem]">
                 Senha:
               </label>
-              <input
+              <CustomInput
                 {...register("password", { required: true })}
                 type="text"
                 className="bg-fundo-principal text-texto-secundario text-[0.8rem] p-2 border rounded-md"
@@ -162,7 +159,13 @@ export default function CardDetailStoragePage({
       <div className="flex flex-grow gap-10">
         <SideBarComponent />
         {selectedStorage && (
-          <CardDetailStorageComponent dataStorage={selectedStorage} />
+          <CardDetailStorageComponent
+            dataStorage={selectedStorage}
+            clickFunction={() => {
+              setOverlay(<OverlayTwo />);
+              onOpen();
+            }}
+          />
         )}
       </div>
     </main>
