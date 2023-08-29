@@ -6,7 +6,6 @@ import { CustomLabelCompoent } from "@/components/custom-label/custom-label-comp
 import { HeaderComponent } from "@/components/header/header-component";
 import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { useAppSelector } from "@/hooks/redux.hooks";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 interface CreateStorageProps {
