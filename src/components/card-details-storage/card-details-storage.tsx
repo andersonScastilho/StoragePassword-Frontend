@@ -34,64 +34,64 @@ export const CardDetailStorageComponent = ({
     <Card className="bg-primary-foreground border-none w-96 m-auto">
       <CardHeader>
         <CardTitle>Storage</CardTitle>
-        <CardContent className="flex flex-col gap-5">
-          <div>
-            <Label>Local de uso:</Label>
-            <Input
-              readOnly
-              value={dataStorage.props.usageLocation}
-              className="outline-none text-red-800 font-semibold items-center"
-            />
-          </div>
-          <div>
-            <Label>Username:</Label>
-            <Input
-              readOnly
-              value={dataStorage.props.account}
-              className="outline-none text-red-800 font-semibold items-center"
-            />
-          </div>
-          <div>
-            <Label>Senha:</Label>
-            <div className="flex items-center gap-2 border rounded-md">
-              <Input
-                readOnly
-                value={"******"}
-                className="outline-none text-red-800 font-semibold items-center border-none"
-              />
-              <span className="mr-5">
-                <HiEye cursor={"pointer"} onClick={clickFunction} />
-              </span>
-            </div>
-          </div>
-          <div>
-            <Label>Link:</Label>
-            <Input
-              readOnly
-              value={dataStorage.props.link}
-              className="outline-none text-red-800 font-semibold items-center"
-            />
-          </div>
-          <div>
-            <Label>Description:</Label>
-            <Textarea
-              readOnly
-              value={dataStorage.props.description}
-              className="outline-none text-red-800 font-semibold items-center max-h-20"
-            />
-          </div>
-        </CardContent>
       </CardHeader>
+      <CardContent className="flex flex-col gap-5">
+        <div>
+          <Label>Local de uso:</Label>
+          <Input
+            readOnly
+            value={dataStorage.props.usageLocation}
+            className="outline-none text-red-800 font-semibold items-center"
+          />
+        </div>
+        <div>
+          <Label>Username:</Label>
+          <Input
+            readOnly
+            value={dataStorage.props.account}
+            className="outline-none text-red-800 font-semibold items-center"
+          />
+        </div>
+        <div>
+          <Label>Senha:</Label>
+          <div className="flex items-center gap-2 border rounded-md">
+            <Input
+              readOnly
+              value={"******"}
+              className="outline-none text-red-800 font-semibold items-center border-none"
+            />
+            <span className="mr-5">
+              <HiEye cursor={"pointer"} onClick={clickFunction} />
+            </span>
+          </div>
+        </div>
+        <div>
+          <Label>Link:</Label>
+          <Input
+            readOnly
+            value={dataStorage.props.link}
+            className="outline-none text-red-800 font-semibold items-center"
+          />
+        </div>
+        <div>
+          <Label>Description:</Label>
+          <Textarea
+            readOnly
+            value={dataStorage.props.description}
+            className="outline-none text-red-800 font-semibold items-center max-h-20"
+          />
+        </div>
+      </CardContent>
       <CardFooter>
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline" className="w-full">
-              Edit Profile
+              Edit Storage
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
+              <DialogTitle>Editar profile</DialogTitle>
               <DialogDescription>
                 Make changes to your profile here. Click save when you're done.
               </DialogDescription>
@@ -115,6 +115,7 @@ export const CardDetailStorageComponent = ({
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <Button className="w-full">Deletar Storage</Button>
       </CardFooter>
     </Card>
   );
