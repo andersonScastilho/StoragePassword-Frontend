@@ -29,7 +29,7 @@ export const HeaderComponent = () => {
   }, [token]);
 
   return (
-    <header className="bg-color-contraste-secundario h-16 flex items-center p-4 justify-between">
+    <header className="bg-primary-foreground h-16 flex items-center p-4 justify-between">
       <h1 className="text-texto-principal font-semibold text-[1.2rem]">
         P@SSTORAGE
       </h1>

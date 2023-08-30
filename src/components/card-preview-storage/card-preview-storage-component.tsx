@@ -1,36 +1,52 @@
 import { Storage } from "@/types/storage.types";
-import CustomButton from "../shared/custom-button/custom-button-comonent";
-import { MdOutlineEmail } from "react-icons/md";
-import { AiOutlineLink } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 export const CardStorageComponent = ({ props }: Storage) => {
   const { push } = useRouter();
 
   return (
-    <div className="w-96 h-48 p-2 border gap-3 bg-cyan-600 rounded-md flex flex-col hover:scale-105">
-      <h1 className="text-center font-semibold text-[1.1rem]">
-        {props.usageLocation}
-      </h1>
-      <div className="flex flex-col gap-4">
-        <p className="flex gap-3 items-center bg-white p-1 border rounded-md text-[0.9rem]">
-          <MdOutlineEmail size={20} />
-          {props.account}
-        </p>
-        <a
-          href={`${props.link}`}
-          target="_blank"
-          className="flex gap-3 items-center p-1 bg-white border rounded-md text-[0.9rem]"
-        >
-          <AiOutlineLink size={20} />
-          {props.link}
-        </a>
-      </div>
-      <CustomButton
-        onClick={() => push(`/storage/card-details/${props.storageId}`)}
-      >
-        Abrir
-      </CustomButton>
+    <div className="w-96 p-2 border gap-3 rounded-md flex flex-col bg-primary-foreground hover:scale-105">
+      <Card className="bg-primary-foreground border-none">
+        <CardHeader>
+          <CardTitle>Storage</CardTitle>
+          <CardContent className="flex flex-col gap-5">
+            <div>
+              <Label>Local de uso:</Label>
+              <Input
+                className="outline-none text-red-800 font-semibold"
+                value={`${props.usageLocation}`}
+                readOnly
+              />
+            </div>
+            <div>
+              <Label>Username:</Label>
+              <Input
+                className="outline-none text-red-800 font-semibold"
+                value={`${props.account}`}
+                readOnly
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full flex justify-center items-center rounded-md p-2 hover:border hover:border-color-contraste-secundario"
+              onClick={() => push(`/storage/card-details/${props.storageId}`)}
+            >
+              Abrir
+            </Button>
+          </CardFooter>
+        </CardHeader>
+      </Card>
     </div>
   );
 };

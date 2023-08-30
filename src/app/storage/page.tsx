@@ -5,7 +5,7 @@ import { StorageCardsComponent } from "@/components/storage-cards/storage-cards-
 
 export default function Storage() {
   return (
-    <main className="min-h-screen min-w-full flex flex-col gap-1">
+    <main className="min-h-screen min-w-full bg-primary flex flex-col gap-1">
       <HeaderComponent />
       <section className="flex-grow flex gap-10">
         <SideBarComponent />

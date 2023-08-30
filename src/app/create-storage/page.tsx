@@ -1,10 +1,18 @@
 "use client";
 import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
-import CustomButton from "@/components/shared/custom-button/custom-button-comonent";
-import CustomInput from "@/components/shared/custom-input/custom-input-component";
-import { CustomLabelCompoent } from "@/components/shared/custom-label/custom-label-component";
 import { HeaderComponent } from "@/components/header/header-component";
 import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -43,46 +51,62 @@ export default function CreateStoragePage() {
     );
   };
   return (
-    <main className="min-h-screen min-w-full flex flex-col gap-1">
+    <main className="min-h-screen min-w-full flex flex-col gap-1 bg-primary">
       <HeaderComponent />
       <div className="flex-grow flex gap-10 ">
         <SideBarComponent />
-        <div className="bg-destaque w-96 border rounded-md border-destaque-secundario p-3 flex flex-col gap-3">
-          <div>
-            <CustomLabelCompoent>Local de uso</CustomLabelCompoent>
-            <CustomInput {...register("usageLocation", { required: true })} />
-            {errors.usageLocation?.type === "required" && (
-              <InputErrorMessage>Local de uso é obrigatório</InputErrorMessage>
-            )}
-          </div>
-          <div>
-            <CustomLabelCompoent>Username/email</CustomLabelCompoent>
-            <CustomInput {...register("account", { required: true })} />
-            {errors.account?.type === "required" && (
-              <InputErrorMessage>
-                Username/email é obrigatório
-              </InputErrorMessage>
-            )}
-          </div>
-          <div>
-            <CustomLabelCompoent>Senha</CustomLabelCompoent>
-            <CustomInput {...register("password", { required: true })} />{" "}
-            {errors.password?.type === "required" && (
-              <InputErrorMessage>Senha é obrigatória</InputErrorMessage>
-            )}
-          </div>
-          <div>
-            <CustomLabelCompoent>Link</CustomLabelCompoent>
-            <CustomInput {...register("link")} />
-          </div>
-          <div>
-            <CustomLabelCompoent>Description</CustomLabelCompoent>
-            <CustomInput {...register("description")} />
-          </div>
-          <CustomButton onClick={() => handleSubmit(handleSubmitPress)()}>
-            Salvar
-          </CustomButton>
-        </div>
+        <Card className="bg-primary-foreground border-none w-96 m-auto">
+          <CardHeader>
+            <CardTitle>Criar um storage</CardTitle>
+            <CardContent className="flex flex-col gap-5">
+              <div>
+                <Label>Local de uso:</Label>
+                <Input
+                  className="outline-none text-red-800 font-semibold"
+                  {...register("usageLocation", { required: true })}
+                />
+              </div>
+              <div>
+                <Label>Username:</Label>
+                <Input
+                  className="outline-none text-red-800 font-semibold"
+                  {...register("account", { required: true })}
+                />
+              </div>
+              <div>
+                <Label>Senha:</Label>
+                <Input
+                  className="outline-none text-red-800 font-semibold"
+                  type="password"
+                  {...register("password", { required: true })}
+                />
+              </div>
+              <div>
+                <Label>Link:</Label>
+                <Input
+                  className="outline-none text-red-800 font-semibold"
+                  {...register("link")}
+                />
+              </div>
+              <div>
+                <Label>Description:</Label>
+                <Textarea
+                  className="outline-none  text-red-800 font-semibold max-h-16 text-[0.8rem]"
+                  spellCheck={false}
+                  {...register("description")}
+                />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button
+                className="w-full flex justify-center items-center rounded-md p-2 hover:border hover:border-color-contraste-secundario"
+                onClick={() => handleSubmit(handleSubmitPress)()}
+              >
+                Abrir
+              </Button>
+            </CardFooter>
+          </CardHeader>
+        </Card>
       </div>
     </main>
   );

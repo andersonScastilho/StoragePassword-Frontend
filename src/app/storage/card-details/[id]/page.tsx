@@ -114,7 +114,7 @@ export default function CardDetailStoragePage({
     setPassword("********");
   }, [isOpen]);
   return (
-    <main className="min-h-screen min-w-full flex flex-col">
+    <main className="min-h-screen min-w-full flex flex-col bg-primary">
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
         <ModalContent>
@@ -144,9 +144,9 @@ export default function CardDetailStoragePage({
           </ModalFooter>
         </ModalContent>
       </Modal>
-
       <HeaderComponent />
-      <div className="flex flex-grow gap-10">
+
+      <div className="flex flex-grow gap-10 ">
         <SideBarComponent />
         {selectedStorage && (
           <CardDetailStorageComponent
