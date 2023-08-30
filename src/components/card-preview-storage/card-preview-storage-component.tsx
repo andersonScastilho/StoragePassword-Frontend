@@ -1,5 +1,5 @@
 import { Storage } from "@/types/storage.types";
-import CustomButton from "../custom-button/custom-button-comonent";
+import CustomButton from "../shared/custom-button/custom-button-comonent";
 import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineLink } from "react-icons/ai";
 import { useRouter } from "next/navigation";

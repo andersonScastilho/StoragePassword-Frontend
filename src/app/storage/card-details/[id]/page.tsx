@@ -19,7 +19,7 @@ import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { Storage } from "@/types/storage.types";
 import { useForm } from "react-hook-form";
-import CustomInput from "@/components/custom-input/custom-input-component";
+import CustomInput from "@/components/shared/custom-input/custom-input-component";
 interface DescryptedPasswordResponse {
   data: {
     descryptedPassword: string;

@@ -1,8 +1,8 @@
 "use client";
 import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
-import CustomButton from "@/components/custom-button/custom-button-comonent";
-import CustomInput from "@/components/custom-input/custom-input-component";
-import { CustomLabelCompoent } from "@/components/custom-label/custom-label-component";
+import CustomButton from "@/components/shared/custom-button/custom-button-comonent";
+import CustomInput from "@/components/shared/custom-input/custom-input-component";
+import { CustomLabelCompoent } from "@/components/shared/custom-label/custom-label-component";
 import { HeaderComponent } from "@/components/header/header-component";
 import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";

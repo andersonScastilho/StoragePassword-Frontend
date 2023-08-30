@@ -11,9 +11,9 @@ import { APP_ROUTES } from "@/constants/app-routes";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { userRefreshToken } from "@/store/toolkit/user/user.slice";
 import { useAppSelector } from "@/hooks/redux.hooks";
-import CustomInput from "@/components/custom-input/custom-input-component";
-import { CustomLabelCompoent } from "@/components/custom-label/custom-label-component";
-import CustomButton from "@/components/custom-button/custom-button-comonent";
+import CustomInput from "@/components/shared/custom-input/custom-input-component";
+import { CustomLabelCompoent } from "@/components/shared/custom-label/custom-label-component";
+import CustomButton from "@/components/shared/custom-button/custom-button-comonent";
 
 interface CreateAcountForm {
   fullName: string;
