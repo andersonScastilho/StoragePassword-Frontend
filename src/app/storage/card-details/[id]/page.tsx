@@ -19,7 +19,8 @@ import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { Storage } from "@/types/storage.types";
 import { useForm } from "react-hook-form";
-import CustomInput from "@/components/shared/custom-input/custom-input-component";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 interface DescryptedPasswordResponse {
   data: {
     descryptedPassword: string;
@@ -57,7 +58,6 @@ export default function CardDetailStoragePage({
             },
           }
         );
-
         const responseData: Storage = response.data;
 
         setSelectedStorage(responseData);
@@ -113,6 +113,7 @@ export default function CardDetailStoragePage({
   useEffect(() => {
     setPassword("********");
   }, [isOpen]);
+
   return (
     <main className="min-h-screen min-w-full flex flex-col bg-primary">
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -123,16 +124,24 @@ export default function CardDetailStoragePage({
           </ModalHeader>
           <ModalCloseButton className="text-texto-principal" />
           <ModalBody className="flex flex-col gap-5">
-            <CustomInput value={password} />
-
-            <div className="flex flex-col">
-              <label className="text-texto-principal font-semibold text-[0.9rem]">
+            <div className="flex flex-col gap-2">
+              <Label className="text-texto-principal font-semibold text-[0.9rem]">
+                Senha Oculta:
+              </Label>
+              <Input
+                readOnly
+                value={password}
+                className="bg-tertiary text-secondary p-2"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label className="text-texto-principal font-semibold text-[0.9rem]">
                 Senha:
-              </label>
-              <CustomInput
+              </Label>
+              <Input
                 {...register("password", { required: true })}
-                type="text"
-                className="bg-fundo-principal text-texto-secundario text-[0.8rem] p-2 border rounded-md"
+                type="password"
+                className="bg-tertiary text-secondary p-2"
               />
             </div>
             <Button onClick={() => handleSubmit(showPassword)()}>
