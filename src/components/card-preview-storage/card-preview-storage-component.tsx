@@ -39,7 +39,7 @@ export const CardStorageComponent = ({ props }: Storage) => {
           </CardContent>
           <CardFooter>
             <Button
-              className="w-full flex justify-center items-center rounded-md p-2 hover:border hover:border-color-contraste-secundario"
+              className="w-full hover:border"
               onClick={() => push(`/storage/card-details/${props.storageId}`)}
             >
               Abrir
