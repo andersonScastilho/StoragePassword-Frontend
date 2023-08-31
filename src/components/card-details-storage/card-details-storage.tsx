@@ -20,16 +20,56 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 
 interface CardDetailsProps {
   dataStorage: Storage;
   clickFunction?: () => void;
+}
+interface UpdateStorageProps {
+  usageLocation?: string;
+  account?: string;
+  password?: string;
+  description?: string;
+  link?: string;
 }
 
 export const CardDetailStorageComponent = ({
   dataStorage,
   clickFunction,
 }: CardDetailsProps) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<UpdateStorageProps>();
+
+  const handleSubmitPress = async (data: UpdateStorageProps) => {
+    const { token } = await checkIsAuthenticated();
+    const valuesToUpdate: UpdateStorageProps = {};
+
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if (data[key as keyof UpdateStorageProps] !== "") {
+          valuesToUpdate[key as keyof UpdateStorageProps] =
+            data[key as keyof UpdateStorageProps];
+        }
+      }
+    }
+    console.log(valuesToUpdate);
+
+    const response = await axios.put(
+      `http://localhost:3002/storages/${dataStorage.props.storageId}`,
+      { ...valuesToUpdate },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  };
   return (
     <Card className="bg-primary-foreground border-none w-96 m-auto">
       <CardHeader>
@@ -86,12 +126,12 @@ export const CardDetailStorageComponent = ({
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline" className="w-full">
-              Edit Storage
+              Atualizar Storage
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Editar profile</DialogTitle>
+              <DialogTitle>Editar Storage</DialogTitle>
               <DialogDescription>
                 Make changes to your profile here. Click save when you're done.
               </DialogDescription>
@@ -99,19 +139,62 @@ export const CardDetailStorageComponent = ({
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name
+                  Local de uso
                 </Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                <Input
+                  id="name"
+                  className="col-span-3"
+                  {...register("usageLocation")}
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
                   Username
                 </Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
+                <Input
+                  id="username"
+                  className="col-span-3"
+                  {...register("account")}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Senha
+                </Label>
+                <Input
+                  id="username"
+                  className="col-span-3"
+                  {...register("password")}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Link
+                </Label>
+                <Input
+                  id="username"
+                  className="col-span-3"
+                  {...register("link")}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Descrição
+                </Label>
+                <Textarea
+                  id="username"
+                  className="col-span-3 max-h-16"
+                  {...register("description")}
+                />
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <Button
+                type="submit"
+                onClick={() => handleSubmit(handleSubmitPress)()}
+              >
+                Save changes
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

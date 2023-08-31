@@ -29,6 +29,13 @@ interface DescryptedPasswordResponse {
 interface ShowPasswordForm {
   password: string;
 }
+interface CreateStorageProps {
+  usageLocation: string;
+  account: string;
+  password: string;
+  description?: string;
+  link?: string;
+}
 
 export default function CardDetailStoragePage({
   params,
@@ -115,7 +122,7 @@ export default function CardDetailStoragePage({
   }, [isOpen]);
 
   return (
-    <main className="min-h-screen min-w-full flex flex-col bg-primary">
+    <main className="min-h-screen min-w-full flex flex-col bg-primary gap-1">
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
         <ModalContent>
@@ -155,7 +162,7 @@ export default function CardDetailStoragePage({
       </Modal>
       <HeaderComponent />
 
-      <div className="flex flex-grow gap-10 ">
+      <div className="flex flex-grow gap-10">
         <SideBarComponent />
         {selectedStorage && (
           <CardDetailStorageComponent
