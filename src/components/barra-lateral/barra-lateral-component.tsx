@@ -1,6 +1,5 @@
 "use client";
 import { MdOutlineStorage } from "react-icons/md";
-import { FiUser } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +18,6 @@ export const SideBarComponent = () => {
         size={30}
         cursor="pointer"
       />
-      <FiUser size={30} cursor="pointer" />
     </section>
   );
 };

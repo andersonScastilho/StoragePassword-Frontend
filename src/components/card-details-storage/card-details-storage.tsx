@@ -99,24 +99,24 @@ export const CardDetailStorageComponent = ({
         <CardTitle>Storage</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
-        <div>
-          <Label>Local de uso:</Label>
+        <div className="flex gap-3 items-center">
+          <Label className="">Local de uso:</Label>
           <Input
             readOnly
             value={dataStorage.props.usageLocation}
             className="outline-none text-red-800 font-semibold items-center"
           />
         </div>
-        <div>
-          <Label>Username:</Label>
+        <div className="flex gap-3 items-center">
+          <Label className="">Username:</Label>
           <Input
             readOnly
             value={dataStorage.props.account}
             className="outline-none text-red-800 font-semibold items-center"
           />
         </div>
-        <div>
-          <Label>Senha:</Label>
+        <div className="flex gap-3 items-center">
+          <Label className="">Senha:</Label>
           <div className="flex items-center gap-2 border rounded-md">
             <Input
               readOnly
@@ -128,7 +128,7 @@ export const CardDetailStorageComponent = ({
             </span>
           </div>
         </div>
-        <div>
+        <div className="flex gap-3 items-center">
           <Label>Link:</Label>
           <Input
             readOnly
@@ -136,8 +136,8 @@ export const CardDetailStorageComponent = ({
             className="outline-none text-red-800 font-semibold items-center"
           />
         </div>
-        <div>
-          <Label>Description:</Label>
+        <div className="flex gap-3 items-center">
+          <Label className="">Description:</Label>
           <Textarea
             readOnly
             value={dataStorage.props.description}
@@ -227,7 +227,7 @@ export const CardDetailStorageComponent = ({
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="outline" className="w-full bg-red-700 text-white">
-              Show Dialog
+              Deletar Storage
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>

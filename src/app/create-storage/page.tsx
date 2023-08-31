@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { HiEye } from "react-icons/hi";
 interface CreateStorageProps {
   usageLocation: string;
   account: string;
@@ -57,55 +58,60 @@ export default function CreateStoragePage() {
         <SideBarComponent />
         <Card className="bg-primary-foreground border-none w-96 m-auto">
           <CardHeader>
-            <CardTitle>Criar um storage</CardTitle>
-            <CardContent className="flex flex-col gap-5">
-              <div>
-                <Label>Local de uso:</Label>
-                <Input
-                  className="outline-none text-red-800 font-semibold"
-                  {...register("usageLocation", { required: true })}
-                />
-              </div>
-              <div>
-                <Label>Username:</Label>
-                <Input
-                  className="outline-none text-red-800 font-semibold"
-                  {...register("account", { required: true })}
-                />
-              </div>
-              <div>
-                <Label>Senha:</Label>
+            <CardTitle>Criar storage</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-5">
+            <div className="flex gap-3 items-center">
+              <Label className="">Local de uso:</Label>
+              <Input
+                className="outline-none text-red-800 font-semibold"
+                {...register("usageLocation", { required: true })}
+              />
+            </div>
+            <div className="flex gap-3 items-center">
+              <Label className="">Username:</Label>
+              <Input
+                className="outline-none text-red-800 font-semibold"
+                {...register("account", { required: true })}
+              />
+            </div>
+            <div className="flex gap-3 items-center">
+              <Label className="">Senha:</Label>
+              <div className="flex items-center gap-2 border rounded-md">
                 <Input
                   className="outline-none text-red-800 font-semibold"
                   type="password"
                   {...register("password", { required: true })}
                 />
+                <span className="mr-5">
+                  <HiEye cursor={"pointer"} />
+                </span>
               </div>
-              <div>
-                <Label>Link:</Label>
-                <Input
-                  className="outline-none text-red-800 font-semibold"
-                  {...register("link")}
-                />
-              </div>
-              <div>
-                <Label>Description:</Label>
-                <Textarea
-                  className="outline-none  text-red-800 font-semibold max-h-16 text-[0.8rem]"
-                  spellCheck={false}
-                  {...register("description")}
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                className="w-full flex justify-center items-center rounded-md p-2 hover:border hover:border-color-contraste-secundario"
-                onClick={() => handleSubmit(handleSubmitPress)()}
-              >
-                Abrir
-              </Button>
-            </CardFooter>
-          </CardHeader>
+            </div>
+            <div className="flex gap-3 items-center">
+              <Label>Link:</Label>
+              <Input
+                className="outline-none text-red-800 font-semibold"
+                {...register("link")}
+              />
+            </div>
+            <div className="flex gap-3 items-center">
+              <Label className="">Description:</Label>
+              <Textarea
+                className="outline-none  text-red-800 font-semibold max-h-16 text-[0.8rem]"
+                spellCheck={false}
+                {...register("description")}
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              onClick={() => handleSubmit(handleSubmitPress)()}
+            >
+              Salvar
+            </Button>
+          </CardFooter>
         </Card>
       </div>
     </main>
