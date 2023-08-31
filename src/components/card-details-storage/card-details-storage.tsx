@@ -23,6 +23,17 @@ import {
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 interface CardDetailsProps {
   dataStorage: Storage;
@@ -58,7 +69,6 @@ export const CardDetailStorageComponent = ({
         }
       }
     }
-    console.log(valuesToUpdate);
 
     const response = await axios.put(
       `http://localhost:3002/storages/${dataStorage.props.storageId}`,
@@ -70,6 +80,19 @@ export const CardDetailStorageComponent = ({
       }
     );
   };
+  const handleDeletePress = async () => {
+    const { token } = await checkIsAuthenticated();
+    console.log(dataStorage.props.storageId);
+    await axios.delete(
+      `http://localhost:3002/storages/${dataStorage.props.storageId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  };
+
   return (
     <Card className="bg-primary-foreground border-none w-96 m-auto">
       <CardHeader>
@@ -125,7 +148,10 @@ export const CardDetailStorageComponent = ({
       <CardFooter>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="w-full">
+            <Button
+              variant="outline"
+              className="w-full bg-green-700 text-white"
+            >
               Atualizar Storage
             </Button>
           </DialogTrigger>
@@ -198,7 +224,27 @@ export const CardDetailStorageComponent = ({
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <Button className="w-full">Deletar Storage</Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline" className="w-full bg-red-700 text-white">
+              Show Dialog
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Você tem certeza disso ?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Após a exclusão do storage, não sera possivel recupera-lo !!
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => handleDeletePress()}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </CardFooter>
     </Card>
   );
