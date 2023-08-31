@@ -1,5 +1,4 @@
 "use client";
-import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { useForm } from "react-hook-form";
@@ -27,7 +26,6 @@ export default function SignUpPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<CreateAcountForm>();
-  const toast = useToast();
 
   const dispatch = useDispatch();
 
@@ -65,24 +63,9 @@ export default function SignUpPage() {
         email: data.email,
         password: data.password,
       });
-
-      toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        position: "top-right",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     } catch (error) {
       if (error) {
-        toast({
-          title: "Account not created.",
-          position: "top-right",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
+        console.log(error);
       }
     }
   };
