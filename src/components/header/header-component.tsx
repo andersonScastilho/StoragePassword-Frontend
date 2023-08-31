@@ -7,16 +7,24 @@ import { useRouter } from "next/navigation";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { logoutUserAsync } from "@/store/toolkit/user/user.slice";
 
 export const HeaderComponent = () => {
   const { token } = useAppSelector((state) => state.userReducer);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { push } = useRouter();
+  const dispatch = useDispatch();
 
   const navigateTo = (path: string) => {
     push(path);
   };
 
+  const handleLogoutClick = async () => {
+    await dispatch(logoutUserAsync() as any);
+    push("/");
+    return;
+  };
   useEffect(() => {
     async function asyncFunction() {
       const { token } = await checkIsAuthenticated();
@@ -44,7 +52,15 @@ export const HeaderComponent = () => {
           }
         </p>
         {isAuthenticated && (
-          <p>{<PiPersonSimpleRunFill cursor={"pointer"} size={30} />}</p>
+          <p>
+            {
+              <PiPersonSimpleRunFill
+                onClick={() => handleLogoutClick()}
+                cursor={"pointer"}
+                size={30}
+              />
+            }
+          </p>
         )}
 
         {!isAuthenticated && (

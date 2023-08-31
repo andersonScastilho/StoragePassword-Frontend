@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { findCookie, saveCookie } from "../../../functions/cookies";
+import {
+  deleteCookie,
+  findCookie,
+  saveCookie,
+} from "../../../functions/cookies";
 import { Auth } from "@/types/auth.types";
 import { RefreshToken } from "@/types/refreshToken.types";
 
@@ -77,7 +81,10 @@ export const userRefreshToken = createAsyncThunk(
     };
   }
 );
-
+export const logoutUserAsync = createAsyncThunk("user/logout", async () => {
+  await deleteCookie("token");
+  await deleteCookie("refreshToken");
+});
 interface InitialState {
   refreshToken: object;
   token: string;
@@ -108,6 +115,13 @@ const userSlice = createSlice({
     builder.addCase(loginUserAsync.rejected, (state) => {
       state.isLoading = false;
     });
+
+    builder.addCase(logoutUserAsync.fulfilled, (state) => {
+      state.token = initialState.token;
+      state.refreshToken = initialState.refreshToken;
+      state.isLoading = initialState.isLoading;
+    });
+
     builder.addCase(userRefreshToken.pending, (state) => {
       state.isLoading = true;
     });
