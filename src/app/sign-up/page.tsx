@@ -12,6 +12,8 @@ import { useAppSelector } from "@/hooks/redux.hooks";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 interface CreateAcountForm {
   fullName: string;
@@ -31,6 +33,7 @@ export default function SignUpPage() {
 
   const { push } = useRouter();
   const { token } = useAppSelector((state) => state.userReducer);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (token) {
@@ -58,14 +61,28 @@ export default function SignUpPage() {
 
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
-      await axios.post("http://localhost:3002/users", {
+      const response = await axios.post("http://localhost:3002/users", {
         fullName: data.fullName,
         email: data.email,
         password: data.password,
       });
-    } catch (error) {
+      if (response.data) {
+        toast({
+          title: "Conta criada com sucesso!",
+          description: "Seja bem vindo!!",
+          action: (
+            <ToastAction altText="Entra" onClick={() => push("/sign-in")}>
+              Entrar
+            </ToastAction>
+          ),
+        });
+      }
+    } catch (error: any) {
       if (error) {
-        console.log(error);
+        toast({
+          title: "Não foi possivel criar a conta.",
+          description: `${error.response.data.error}`,
+        });
       }
     }
   };
