@@ -37,7 +37,7 @@ export default function CreateStoragePage() {
     const response = await axios.post(
       "http://localhost:3002/storages",
       {
-        usageLocation: data.description,
+        usageLocation: data.usageLocation,
         account: data.account,
         password: data.password,
         description: data.description,
