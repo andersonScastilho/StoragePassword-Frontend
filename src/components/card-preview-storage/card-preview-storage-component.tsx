@@ -15,7 +15,7 @@ export const CardStorageComponent = ({ props }: Storage) => {
   const { push } = useRouter();
 
   return (
-    <div className="w-96 max-h-80 p-2 border gap-3 rounded-md flex flex-col bg-primary-foreground hover:scale-105">
+    <div className="w-72 max-h-80 p-2 border gap-3 rounded-md flex flex-col bg-primary-foreground hover:scale-105">
       <Card className="bg-primary-foreground border-none">
         <CardHeader>
           <CardTitle>Storage</CardTitle>
