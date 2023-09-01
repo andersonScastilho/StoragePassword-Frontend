@@ -26,6 +26,7 @@ export default function SignUpPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<CreateAcountForm>();
 
@@ -59,6 +60,8 @@ export default function SignUpPage() {
     isAuthenticated();
   }, [token, dispatch, push]);
 
+  const watchPassword = watch("password");
+
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
       const response = await axios.post(
@@ -69,17 +72,15 @@ export default function SignUpPage() {
           password: data.password,
         }
       );
-      if (response.data) {
-        toast({
-          title: "Conta criada com sucesso!",
-          description: "Seja bem vindo!!",
-          action: (
-            <ToastAction altText="Entra" onClick={() => push("/sign-in")}>
-              Entrar
-            </ToastAction>
-          ),
-        });
-      }
+      toast({
+        title: "Conta criada com sucesso!",
+        description: "Seja bem vindo!!",
+        action: (
+          <ToastAction altText="Entra" onClick={() => push("/sign-in")}>
+            Entrar
+          </ToastAction>
+        ),
+      });
     } catch (error: any) {
       if (error) {
         toast({
@@ -151,11 +152,21 @@ export default function SignUpPage() {
                   type="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("passwordConfirmation", { required: true })}
+                  {...register("passwordConfirmation", {
+                    required: true,
+                    validate: (value) => {
+                      return value === watchPassword;
+                    },
+                  })}
                 />
                 {errors.passwordConfirmation?.type === "required" && (
                   <InputErrorMessage>
                     A Confirmação de senha é obrigatória
+                  </InputErrorMessage>
+                )}
+                {errors?.passwordConfirmation?.type === "validate" && (
+                  <InputErrorMessage>
+                    As senhas precisam ser iguais
                   </InputErrorMessage>
                 )}
               </div>
@@ -169,7 +180,7 @@ export default function SignUpPage() {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Já possui uma conta ?{" "}
                 <a
-                  href="#"
+                  href="/sign-in"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign in
