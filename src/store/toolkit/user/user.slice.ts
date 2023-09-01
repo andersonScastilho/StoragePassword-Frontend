@@ -16,10 +16,13 @@ interface LoginData {
 export const loginUserAsync = createAsyncThunk(
   "user/login",
   async ({ email, password }: LoginData) => {
-    const data: Auth = await axios.post("http://localhost:3002/auth", {
-      email: email,
-      password: password,
-    });
+    const data: Auth = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth`,
+      {
+        email: email,
+        password: password,
+      }
+    );
     const maxAgeInSeconds15minutos = 900;
     const maxAgeInSeconds7dias = 604800;
 
@@ -50,7 +53,7 @@ export const userRefreshToken = createAsyncThunk(
 
     if (!cookiesToken && cookiesRefreshToken) {
       const token: string = await axios
-        .post("http://localhost:3002/refresh-token", {
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/refresh-token`, {
           refresh_token: cookiesRefreshToken.id,
         })
         .then((data) => data.data.token);

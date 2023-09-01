@@ -71,7 +71,7 @@ export const CardDetailStorageComponent = ({
     }
 
     const response = await axios.put(
-      `http://localhost:3002/storages/${dataStorage.props.storageId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/storages/${dataStorage.props.storageId}`,
       { ...valuesToUpdate },
       {
         headers: {
@@ -84,7 +84,7 @@ export const CardDetailStorageComponent = ({
     const { token } = await checkIsAuthenticated();
     console.log(dataStorage.props.storageId);
     await axios.delete(
-      `http://localhost:3002/storages/${dataStorage.props.storageId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/storages/${dataStorage.props.storageId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

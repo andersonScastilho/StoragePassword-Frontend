@@ -18,7 +18,7 @@ export const fetchStorageAsync = createAsyncThunk("storage/fetch", async () => {
   }
 
   const response: FetchStorage = await axios.get(
-    "http://localhost:3002/storages",
+    `${process.env.NEXT_PUBLIC_API_URL}/storages`,
     {
       headers: {
         Authorization: `Bearer ${cookieToken}`,

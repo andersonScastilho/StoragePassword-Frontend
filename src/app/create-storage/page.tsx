@@ -36,7 +36,7 @@ export default function CreateStoragePage() {
     const { token } = await checkIsAuthenticated();
 
     const response = await axios.post(
-      "http://localhost:3002/storages",
+      `${process.env.NEXT_PUBLIC_API_URL}/storages`,
       {
         usageLocation: data.usageLocation,
         account: data.account,

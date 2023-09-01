@@ -58,7 +58,7 @@ export default function CardDetailStoragePage({
       const { token } = await checkIsAuthenticated();
       try {
         const response = await axios.get(
-          `http://localhost:3002/storages/${params.id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/storages/${params.id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -101,7 +101,7 @@ export default function CardDetailStoragePage({
     try {
       const { token } = await checkIsAuthenticated();
       const passwordDescrypted: DescryptedPasswordResponse = await axios.post(
-        `http://localhost:3002/passwords/storages/${params.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/passwords/storages/${params.id}`,
         {
           password: data.password,
         },

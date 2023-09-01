@@ -58,7 +58,7 @@ export default function SignUpPage() {
 
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
-      await axios.post("http://localhost:3002/users", {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
         fullName: data.fullName,
         email: data.email,
         password: data.password,
