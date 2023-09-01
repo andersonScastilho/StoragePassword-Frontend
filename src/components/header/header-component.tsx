@@ -22,7 +22,7 @@ export const HeaderComponent = () => {
 
   const handleLogoutClick = async () => {
     await dispatch(logoutUserAsync() as any);
-    push("/");
+    push("/sign-in");
     return;
   };
   useEffect(() => {
