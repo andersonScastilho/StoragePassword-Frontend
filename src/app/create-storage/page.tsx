@@ -58,7 +58,7 @@ export default function CreateStoragePage() {
       toast({
         title: "Storage salvo com sucesso",
         description: "Agora você pode esquecer mais uma senha rsrs",
-        actiom: <ToastAction altText="Visualizar">Visualizar</ToastAction>,
+        action: <ToastAction altText="Visualizar">Visualizar</ToastAction>,
       });
 
       for (const key in data) {
