@@ -185,7 +185,7 @@ export const CardDetailStorageComponent = ({
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="w-full bg-green-700 text-white"
+              className="w-full bg-green-700 text-white  p-5"
             >
               Atualizar Storage
             </Button>
@@ -261,7 +261,10 @@ export const CardDetailStorageComponent = ({
         </Dialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" className="w-full bg-red-700 text-white">
+            <Button
+              variant="outline"
+              className="w-full bg-red-700 text-white  p-5"
+            >
               Deletar Storage
             </Button>
           </AlertDialogTrigger>
