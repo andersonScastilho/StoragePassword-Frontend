@@ -21,6 +21,7 @@ import { Storage } from "@/types/storage.types";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 interface DescryptedPasswordResponse {
   data: {
     descryptedPassword: string;
@@ -48,6 +49,7 @@ export default function CardDetailStoragePage({
     formState: { errors },
   } = useForm<ShowPasswordForm>();
 
+  const { toast } = useToast();
   const [selectedStorage, setSelectedStorage] = useState<Storage>();
   const { storage: storedStorages } = useAppSelector(
     (state) => state.storageReducer
@@ -112,8 +114,11 @@ export default function CardDetailStoragePage({
         }
       );
       setPassword(passwordDescrypted.data.descryptedPassword);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast({
+        title: "Não foi possivel mostrar a senha",
+        description: `${error.response.data.error}`,
+      });
     }
   };
 

@@ -34,6 +34,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface CardDetailsProps {
   dataStorage: Storage;
@@ -53,44 +55,77 @@ export const CardDetailStorageComponent = ({
 }: CardDetailsProps) => {
   const {
     handleSubmit,
+    resetField,
     register,
     formState: { errors },
   } = useForm<UpdateStorageProps>();
-
+  const { push } = useRouter();
+  const { toast } = useToast();
   const handleSubmitPress = async (data: UpdateStorageProps) => {
-    const { token } = await checkIsAuthenticated();
-    const valuesToUpdate: UpdateStorageProps = {};
+    try {
+      const { token } = await checkIsAuthenticated();
+      const valuesToUpdate: UpdateStorageProps = {};
 
-    for (const key in data) {
-      if (Object.prototype.hasOwnProperty.call(data, key)) {
-        if (data[key as keyof UpdateStorageProps] !== "") {
-          valuesToUpdate[key as keyof UpdateStorageProps] =
-            data[key as keyof UpdateStorageProps];
+      for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          if (data[key as keyof UpdateStorageProps] !== "") {
+            valuesToUpdate[key as keyof UpdateStorageProps] =
+              data[key as keyof UpdateStorageProps];
+          }
         }
       }
-    }
 
-    const response = await axios.put(
-      `http://localhost:3002/storages/${dataStorage.props.storageId}`,
-      { ...valuesToUpdate },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios.put(
+        `http://localhost:3002/storages/${dataStorage.props.storageId}`,
+        { ...valuesToUpdate },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast({
+        title: "Storage atualizado com sucesso!",
+        description: "Aqui seus dados estão no protegidos...",
+      });
+
+      for (const key in data) {
+        resetField<any>(key);
       }
-    );
+    } catch (error: any) {
+      toast({
+        title: "Não foi possivel atualizar este storage",
+        description: `${error.response.data.error}`,
+      });
+    }
   };
   const handleDeletePress = async () => {
-    const { token } = await checkIsAuthenticated();
-    console.log(dataStorage.props.storageId);
-    await axios.delete(
-      `http://localhost:3002/storages/${dataStorage.props.storageId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    try {
+      const { token } = await checkIsAuthenticated();
+
+      await axios.delete(
+        `http://localhost:3002/storages/${dataStorage.props.storageId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast({
+        title: "Storage deletado com sucesso!",
+        description:
+          "Para não precisar gravar outra senha, salve com a gente!!",
+      });
+
+      push("/storage");
+    } catch (error: any) {
+      toast({
+        title: "Storage deletado com sucesso!",
+        description: `${error.response.data.error}`,
+      });
+    }
   };
 
   return (

@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -28,28 +30,46 @@ export default function CreateStoragePage() {
   const {
     register,
     handleSubmit,
-    getValues,
+    resetField,
     formState: { errors },
   } = useForm<CreateStorageProps>();
 
+  const { toast } = useToast();
   const handleSubmitPress = async (data: CreateStorageProps) => {
-    const { token } = await checkIsAuthenticated();
+    try {
+      const { token } = await checkIsAuthenticated();
 
-    const response = await axios.post(
-      "http://localhost:3002/storages",
-      {
-        usageLocation: data.usageLocation,
-        account: data.account,
-        password: data.password,
-        description: data.description,
-        link: data.link,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        "http://localhost:3002/storages",
+        {
+          usageLocation: data.usageLocation,
+          account: data.account,
+          password: data.password,
+          description: data.description,
+          link: data.link,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast({
+        title: "Storage salvo com sucesso",
+        description: "Agora você pode esquecer mais uma senha rsrs",
+        actiom: <ToastAction altText="Visualizar">Visualizar</ToastAction>,
+      });
+
+      for (const key in data) {
+        resetField<any>(key);
       }
-    );
+    } catch (error: any) {
+      toast({
+        title: "Não foi possivel armazenar o storage.",
+        description: `${error.response.data.error}`,
+      });
+    }
   };
   return (
     <main className="min-h-screen min-w-full flex flex-col gap-1 bg-primary">
