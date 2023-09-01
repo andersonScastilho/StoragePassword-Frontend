@@ -14,6 +14,7 @@ import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 interface LoginForm {
   email: string;
@@ -28,6 +29,7 @@ export default function SignInPage() {
   const dispatch = useDispatch();
   const { push } = useRouter();
   const { token } = useAppSelector((state) => state.userReducer);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (token) {
@@ -52,13 +54,20 @@ export default function SignInPage() {
     isAuthenticated();
   }, [token, dispatch, push]);
 
-  const handleSubmitPress = (data: LoginForm) => {
-    dispatch(
-      loginUserAsync({
-        email: data.email,
-        password: data.password,
-      }) as any
-    );
+  const handleSubmitPress = async (data: LoginForm) => {
+    try {
+      await dispatch(
+        loginUserAsync({
+          email: data.email,
+          password: data.password,
+        }) as any
+      );
+    } catch (error: any) {
+      toast({
+        title: "Credenciais invalida",
+        description: `${error.response.data.error}`,
+      });
+    }
   };
 
   return (
