@@ -87,6 +87,11 @@ export default function CreateStoragePage() {
                 className="outline-none text-red-800 font-semibold"
                 {...register("usageLocation", { required: true })}
               />
+              {errors?.usageLocation?.type === "required" && (
+                <InputErrorMessage>
+                  Local de uso é obrigatório
+                </InputErrorMessage>
+              )}
             </div>
             <div className="flex gap-3 items-center">
               <Label className="">Username:</Label>
@@ -94,6 +99,9 @@ export default function CreateStoragePage() {
                 className="outline-none text-red-800 font-semibold"
                 {...register("account", { required: true })}
               />
+              {errors?.account?.type === "required" && (
+                <InputErrorMessage>Username é obrigatório</InputErrorMessage>
+              )}
             </div>
             <div className="flex gap-3 items-center">
               <Label className="">Senha:</Label>
@@ -103,6 +111,9 @@ export default function CreateStoragePage() {
                   type="password"
                   {...register("password", { required: true })}
                 />
+                {errors?.password?.type === "required" && (
+                  <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+                )}
                 <span className="mr-5">
                   <HiEye cursor={"pointer"} />
                 </span>
