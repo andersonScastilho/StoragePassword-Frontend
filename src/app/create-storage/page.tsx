@@ -17,6 +17,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
 interface CreateStorageProps {
@@ -27,6 +28,7 @@ interface CreateStorageProps {
   link?: string;
 }
 export default function CreateStoragePage() {
+  const { push } = useRouter();
   const {
     register,
     handleSubmit,
@@ -58,7 +60,16 @@ export default function CreateStoragePage() {
       toast({
         title: "Storage salvo com sucesso",
         description: "Agora você pode esquecer mais uma senha rsrs",
-        action: <ToastAction altText="Visualizar">Visualizar</ToastAction>,
+        action: (
+          <ToastAction
+            altText="Visualizar"
+            onClick={() =>
+              push(`/storage/card-details/${response.data.props.storageId}`)
+            }
+          >
+            Visualizar
+          </ToastAction>
+        ),
       });
 
       for (const key in data) {
@@ -72,61 +83,69 @@ export default function CreateStoragePage() {
     }
   };
   return (
-    <main className="min-h-screen min-w-full flex flex-col gap-1 bg-primary">
+    <main className="min-h-screen min-w-full flex flex-col gap-1 bg-primary ">
       <HeaderComponent />
-      <div className="flex-grow flex gap-10 ">
-        <SideBarComponent />
+      <div className="flex gap-10 p-5 ">
         <Card className="bg-primary-foreground border-none w-96 m-auto">
           <CardHeader>
             <CardTitle>Criar storage</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-5">
-            <div className="flex gap-3 items-center">
-              <Label className="">Local de uso:</Label>
-              <Input
-                className="outline-none text-red-800 font-semibold"
-                {...register("usageLocation", { required: true })}
-              />
+            <div>
+              <div className="flex gap-3 items-center w-full ">
+                <Label className="">Local de uso:</Label>
+                <Input
+                  className="outline-none text-red-800 font-semibold"
+                  {...register("usageLocation", { required: true })}
+                />
+              </div>
               {errors?.usageLocation?.type === "required" && (
                 <InputErrorMessage>
                   Local de uso é obrigatório
                 </InputErrorMessage>
               )}
             </div>
-            <div className="flex gap-3 items-center">
-              <Label className="">Username:</Label>
-              <Input
-                className="outline-none text-red-800 font-semibold"
-                {...register("account", { required: true })}
-              />
+
+            <div>
+              <div className="flex gap-3 items-center w-full">
+                <Label className="">Username:</Label>
+                <Input
+                  className="outline-none text-red-800 font-semibold"
+                  {...register("account", { required: true })}
+                />
+              </div>
               {errors?.account?.type === "required" && (
                 <InputErrorMessage>Username é obrigatório</InputErrorMessage>
               )}
             </div>
-            <div className="flex gap-3 items-center">
-              <Label className="">Senha:</Label>
-              <div className="flex items-center gap-2 border rounded-md">
-                <Input
-                  className="outline-none text-red-800 font-semibold"
-                  type="password"
-                  {...register("password", { required: true })}
-                />
-                {errors?.password?.type === "required" && (
-                  <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
-                )}
-                <span className="mr-5">
-                  <HiEye cursor={"pointer"} />
-                </span>
+
+            <div>
+              <div className="flex gap-3 items-center w-full">
+                <Label className="">Senha:</Label>
+                <div className="flex items-center gap-2 border rounded-md w-full">
+                  <Input
+                    className="outline-none text-red-800 font-semibold border-none"
+                    type="password"
+                    {...register("password", { required: true })}
+                  />
+                  <span className="mr-5">
+                    <HiEye cursor={"pointer"} />
+                  </span>
+                </div>
               </div>
+              {errors?.password?.type === "required" && (
+                <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+              )}
             </div>
-            <div className="flex gap-3 items-center">
+
+            <div className="flex gap-3 items-center w-full">
               <Label>Link:</Label>
               <Input
                 className="outline-none text-red-800 font-semibold"
                 {...register("link")}
               />
             </div>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center w-full">
               <Label className="">Description:</Label>
               <Textarea
                 className="outline-none  text-red-800 font-semibold max-h-16 text-[0.8rem]"

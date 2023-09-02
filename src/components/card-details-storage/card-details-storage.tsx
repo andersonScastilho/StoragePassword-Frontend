@@ -197,11 +197,10 @@ export const CardDetailStorageComponent = ({
                 Make changes to your profile here. Click save when you're done.
               </DialogDescription>
             </DialogHeader>
+
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Local de uso
-                </Label>
+                <Label className="text-right">Local de uso</Label>
                 <Input
                   id="name"
                   className="col-span-3"
@@ -209,41 +208,20 @@ export const CardDetailStorageComponent = ({
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Username
-                </Label>
-                <Input
-                  id="username"
-                  className="col-span-3"
-                  {...register("account")}
-                />
+                <Label className="text-right">Username</Label>
+                <Input className="col-span-3" {...register("account")} />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Senha
-                </Label>
-                <Input
-                  id="username"
-                  className="col-span-3"
-                  {...register("password")}
-                />
+                <Label className="text-right">Senha</Label>
+                <Input className="col-span-3" {...register("password")} />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Link
-                </Label>
-                <Input
-                  id="username"
-                  className="col-span-3"
-                  {...register("link")}
-                />
+                <Label className="text-right">Link</Label>
+                <Input className="col-span-3" {...register("link")} />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Descrição
-                </Label>
+                <Label className="text-right">Descrição</Label>
                 <Textarea
-                  id="username"
                   className="col-span-3 max-h-16"
                   {...register("description")}
                 />

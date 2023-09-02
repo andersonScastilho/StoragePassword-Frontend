@@ -186,8 +186,7 @@ export default function CardDetailStoragePage({
       </Modal>
       <HeaderComponent />
 
-      <div className="flex flex-grow gap-10">
-        <SideBarComponent />
+      <div className="flex flex-grow gap-10 p-5">
         {selectedStorage && (
           <CardDetailStorageComponent
             dataStorage={selectedStorage}
