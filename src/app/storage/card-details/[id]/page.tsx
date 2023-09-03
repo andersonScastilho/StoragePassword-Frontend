@@ -146,7 +146,7 @@ export default function CardDetailStoragePage({
   }, [isOpen]);
 
   return (
-    <main className="min-h-screen min-w-full flex flex-col bg-primary gap-1">
+    <main className="h-full min-w-full flex flex-col bg-primary gap-1">
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
         <ModalContent>

@@ -83,7 +83,7 @@ export default function CreateStoragePage() {
     }
   };
   return (
-    <main className="min-h-screen min-w-full flex flex-col gap-1 bg-primary ">
+    <main className="h-full min-w-full flex flex-col gap-1 bg-primary ">
       <HeaderComponent />
       <div className="flex gap-10 p-5 ">
         <Card className="bg-primary-foreground border-none w-96 m-auto">
