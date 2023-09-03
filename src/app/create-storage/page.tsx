@@ -93,9 +93,9 @@ export default function CreateStoragePage() {
           <CardContent className="flex flex-col gap-5">
             <div>
               <div className="flex gap-3 items-center w-full ">
-                <Label className="">Local de uso:</Label>
+                <Label className="text-[0.8rem]">Local de uso:</Label>
                 <Input
-                  className="outline-none text-red-800 font-semibold"
+                  className="outline-none text-[0.8rem] text-red-800 font-semibold"
                   {...register("usageLocation", { required: true })}
                 />
               </div>
@@ -108,9 +108,9 @@ export default function CreateStoragePage() {
 
             <div>
               <div className="flex gap-3 items-center w-full">
-                <Label className="">Username:</Label>
+                <Label className="text-[0.8rem]">Username:</Label>
                 <Input
-                  className="outline-none text-red-800 font-semibold"
+                  className="outline-none text-[0.8rem] text-red-800 font-semibold"
                   {...register("account", { required: true })}
                 />
               </div>
@@ -121,10 +121,10 @@ export default function CreateStoragePage() {
 
             <div>
               <div className="flex gap-3 items-center w-full">
-                <Label className="">Senha:</Label>
+                <Label className="text-[0.8rem]">Senha:</Label>
                 <div className="flex items-center gap-2 border rounded-md w-full">
                   <Input
-                    className="outline-none text-red-800 font-semibold border-none"
+                    className="outline-none text-[0.8rem] text-red-800 font-semibold border-none"
                     type="password"
                     {...register("password", { required: true })}
                   />
@@ -141,14 +141,14 @@ export default function CreateStoragePage() {
             <div className="flex gap-3 items-center w-full">
               <Label>Link:</Label>
               <Input
-                className="outline-none text-red-800 font-semibold"
+                className="outline-none text-[0.8rem] text-red-800 font-semibold"
                 {...register("link")}
               />
             </div>
             <div className="flex gap-3 items-center w-full">
-              <Label className="">Description:</Label>
+              <Label className="text-[0.8rem]">Descrição:</Label>
               <Textarea
-                className="outline-none  text-red-800 font-semibold max-h-16 text-[0.8rem]"
+                className="outline-none text-red-800 font-semibold max-h-16 text-[0.8rem]"
                 spellCheck={false}
                 {...register("description")}
               />

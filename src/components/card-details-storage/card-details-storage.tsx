@@ -139,7 +139,7 @@ export const CardDetailStorageComponent = ({
           <Input
             readOnly
             value={dataStorage.props.usageLocation}
-            className="outline-none text-red-800 font-semibold items-center"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
           />
         </div>
         <div className="flex gap-3 items-center">
@@ -147,7 +147,7 @@ export const CardDetailStorageComponent = ({
           <Input
             readOnly
             value={dataStorage.props.account}
-            className="outline-none text-red-800 font-semibold items-center"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
           />
         </div>
         <div className="flex gap-3 items-center">
@@ -156,7 +156,7 @@ export const CardDetailStorageComponent = ({
             <Input
               readOnly
               value={"******"}
-              className="outline-none text-red-800 font-semibold items-center border-none"
+              className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-none"
             />
             <span className="mr-5">
               <HiEye cursor={"pointer"} onClick={clickFunction} />
@@ -168,7 +168,7 @@ export const CardDetailStorageComponent = ({
           <Input
             readOnly
             value={dataStorage.props.link}
-            className="outline-none text-red-800 font-semibold items-center"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
           />
         </div>
         <div className="flex gap-3 items-center">
@@ -176,7 +176,7 @@ export const CardDetailStorageComponent = ({
           <Textarea
             readOnly
             value={dataStorage.props.description}
-            className="outline-none text-red-800 font-semibold items-center max-h-20"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center max-h-20"
           />
         </div>
       </CardContent>

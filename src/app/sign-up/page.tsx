@@ -92,8 +92,15 @@ export default function SignUpPage() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 bg-primary h-full">
-      <div className="flex flex-col items-center justify-center px-6 py-3 mx-auto md:h-screen lg:py-0">
+    <section className="bg-gray-50 dark:bg-gray-900 flex bg-primary w-full h-full">
+      <div className="flex flex-col w-full items-center justify-center px-6 py-3 md:h-screen lg:py-0">
+        <a
+          href="#"
+          className="flex items-center mb-6 text-2xl font-semibold text-secondary dark:text-white"
+        >
+          {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"> */}
+          P@sstorage
+        </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-4 space-y-4 md:space-y-6 sm:p-4">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -181,9 +188,9 @@ export default function SignUpPage() {
                 Já possui uma conta ?{" "}
                 <a
                   href="/sign-in"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  className="font-medium text-blue-700 hover:underline dark:text-primary-500"
                 >
-                  Sign in
+                  Entrar
                 </a>
               </p>
             </div>

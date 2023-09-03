@@ -1,18 +1,12 @@
 export const APP_ROUTES = {
   private: {
-    storage: {
-      name: "/storage",
-    },
-    createStorage: {
-      name: "/create-storage",
-    },
-    storageDetails: {
-      name: "/storage/card-details",
-    },
+    storage: "/storage",
+    createStorage: "/create-storage",
+    storageDetails: "/storage/card-details",
+    home: "/",
   },
   public: {
     signIn: "/sign-in",
     signUp: "/sign-up",
-    home: "/",
   },
 };
