@@ -33,21 +33,21 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (token) {
-      push(APP_ROUTES.public.home);
+      push(APP_ROUTES.private.home);
     }
 
     async function isAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
 
       if (token) {
-        push(APP_ROUTES.public.home);
+        push(APP_ROUTES.private.home);
       }
 
       if (!token && refreshToken) {
         const returnDispatch = await dispatch(userRefreshToken() as any);
 
         if (returnDispatch.payload?.token) {
-          push(APP_ROUTES.public.home);
+          push(APP_ROUTES.private.home);
         }
       }
     }

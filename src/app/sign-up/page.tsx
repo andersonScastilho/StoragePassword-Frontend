@@ -38,21 +38,21 @@ export default function SignUpPage() {
 
   useEffect(() => {
     if (token) {
-      push(APP_ROUTES.public.home);
+      push(APP_ROUTES.private.home);
     }
 
     async function isAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
 
       if (token) {
-        push(APP_ROUTES.public.home);
+        push(APP_ROUTES.private.home);
       }
 
       if (!token && refreshToken) {
         const returnDispatch = await dispatch(userRefreshToken() as any);
 
         if (returnDispatch.payload?.token) {
-          push(APP_ROUTES.public.home);
+          push(APP_ROUTES.private.home);
         }
       }
     }
@@ -65,7 +65,7 @@ export default function SignUpPage() {
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users`,
+        `${process.env.NEXT_private_API_URL}/users`,
         {
           fullName: data.fullName,
           email: data.email,
