@@ -18,8 +18,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
+enum TYPEINPUTPASSWORD {
+  "TEXT" = "text",
+  "PASSWORD" = "password",
+}
+
 interface CreateStorageProps {
   usageLocation: string;
   account: string;
@@ -29,6 +35,7 @@ interface CreateStorageProps {
 }
 export default function CreateStoragePage() {
   const { push } = useRouter();
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
@@ -36,7 +43,18 @@ export default function CreateStoragePage() {
     formState: { errors },
   } = useForm<CreateStorageProps>();
 
-  const { toast } = useToast();
+  const [passwordIsHide, setPasswordIsHide] = useState(
+    TYPEINPUTPASSWORD.PASSWORD
+  );
+
+  const handleChangePasswordIsHide = () => {
+    if (passwordIsHide === TYPEINPUTPASSWORD.PASSWORD) {
+      setPasswordIsHide(TYPEINPUTPASSWORD.TEXT);
+    } else {
+      setPasswordIsHide(TYPEINPUTPASSWORD.PASSWORD);
+    }
+  };
+
   const handleSubmitPress = async (data: CreateStorageProps) => {
     try {
       const { token } = await checkIsAuthenticated();
@@ -82,6 +100,7 @@ export default function CreateStoragePage() {
       });
     }
   };
+
   return (
     <main className="h-full min-w-full flex flex-col gap-1 bg-primary ">
       <HeaderComponent />
@@ -125,12 +144,15 @@ export default function CreateStoragePage() {
                 <div className="flex items-center gap-2 border rounded-md w-full">
                   <Input
                     className="outline-none text-[0.8rem] text-red-800 font-semibold border-none"
-                    type="password"
+                    type={passwordIsHide}
                     {...register("password", { required: true })}
                   />
-                  <span className="mr-5">
-                    <HiEye cursor={"pointer"} />
-                  </span>
+                  <button className="mr-5">
+                    <HiEye
+                      cursor={"pointer"}
+                      onClick={() => handleChangePasswordIsHide()}
+                    />
+                  </button>
                 </div>
               </div>
               {errors?.password?.type === "required" && (
