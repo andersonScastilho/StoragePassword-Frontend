@@ -56,7 +56,6 @@ export default function SignInPage() {
   }, [token, dispatch, push]);
 
   const handleSubmitPress = async (data: LoginForm) => {
-    console.log(data);
     try {
       await dispatch(
         loginUserAsync({
