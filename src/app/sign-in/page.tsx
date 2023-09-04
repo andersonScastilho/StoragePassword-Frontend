@@ -19,6 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 interface LoginForm {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 export default function SignInPage() {
   const {
@@ -55,11 +56,13 @@ export default function SignInPage() {
   }, [token, dispatch, push]);
 
   const handleSubmitPress = async (data: LoginForm) => {
+    console.log(data);
     try {
       await dispatch(
         loginUserAsync({
           email: data.email,
           password: data.password,
+          rememberMe: data.rememberMe,
         }) as any
       );
     } catch (error: any) {
@@ -118,7 +121,7 @@ export default function SignInPage() {
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <Input
-                      aria-describedby="remember"
+                      {...register("rememberMe")}
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     />

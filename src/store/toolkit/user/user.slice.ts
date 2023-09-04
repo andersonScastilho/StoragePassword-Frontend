@@ -11,11 +11,12 @@ import { RefreshToken } from "@/types/refreshToken.types";
 interface LoginData {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export const loginUserAsync = createAsyncThunk(
   "user/login",
-  async ({ email, password }: LoginData) => {
+  async ({ email, password, rememberMe }: LoginData) => {
     const data: Auth = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/auth`,
       {
@@ -27,11 +28,14 @@ export const loginUserAsync = createAsyncThunk(
     const maxAgeInSeconds7dias = 604800;
 
     await saveCookie("token", data.data.token, maxAgeInSeconds15minutos);
-    await saveCookie(
-      "refreshToken",
-      data.data.refreshToken,
-      maxAgeInSeconds7dias
-    );
+
+    if (rememberMe === true) {
+      await saveCookie(
+        "refreshToken",
+        data.data.refreshToken,
+        maxAgeInSeconds7dias
+      );
+    }
 
     return { token: data.data.token, refreshToken: data.data.refreshToken };
   }
