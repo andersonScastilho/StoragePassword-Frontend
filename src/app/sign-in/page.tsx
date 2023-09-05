@@ -56,18 +56,18 @@ export default function SignInPage() {
   }, [token, dispatch, push]);
 
   const handleSubmitPress = async (data: LoginForm) => {
-    try {
-      await dispatch(
-        loginUserAsync({
-          email: data.email,
-          password: data.password,
-          rememberMe: data.rememberMe,
-        }) as any
-      );
-    } catch (error: any) {
+    const response = await dispatch(
+      loginUserAsync({
+        email: data.email,
+        password: data.password,
+        rememberMe: data.rememberMe,
+      }) as any
+    );
+
+    if (response.error) {
       toast({
         title: "Credenciais invalida",
-        description: `${error.response.data.error}`,
+        description: `${response.error.message}`,
       });
     }
   };

@@ -17,27 +17,32 @@ interface LoginData {
 export const loginUserAsync = createAsyncThunk(
   "user/login",
   async ({ email, password, rememberMe }: LoginData) => {
-    const data: Auth = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth`,
-      {
-        email: email,
-        password: password,
-      }
-    );
-    const maxAgeInSeconds15minutos = 900;
-    const maxAgeInSeconds7dias = 604800;
-
-    await saveCookie("token", data.data.token, maxAgeInSeconds15minutos);
-
-    if (rememberMe === true) {
-      await saveCookie(
-        "refreshToken",
-        data.data.refreshToken,
-        maxAgeInSeconds7dias
+    try {
+      const data: Auth = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth`,
+        {
+          email: email,
+          password: password,
+        }
       );
-    }
 
-    return { token: data.data.token, refreshToken: data.data.refreshToken };
+      const maxAgeInSeconds15minutos = 900;
+      const maxAgeInSeconds7dias = 604800;
+
+      await saveCookie("token", data.data.token, maxAgeInSeconds15minutos);
+
+      if (rememberMe === true) {
+        await saveCookie(
+          "refreshToken",
+          data.data.refreshToken,
+          maxAgeInSeconds7dias
+        );
+      }
+
+      return { token: data.data.token, refreshToken: data.data.refreshToken };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
   }
 );
 
