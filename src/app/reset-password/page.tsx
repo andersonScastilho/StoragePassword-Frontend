@@ -1,5 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
@@ -47,39 +54,45 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="h-full min-w-full flex flex-col gap-1 bg-primary justify-center items-center">
-      <div className="bg-secondary w-96 p-10 flex flex-col gap-5 rounded-md">
-        <h1 className="text-[1.5rem]">Redefinir minha senha</h1>
-        <p className="text-[0.8rem]">
-          Insira a nova senha nos campos abaixo para redefini-la
-        </p>
-        <div>
-          <Label>Senha:</Label>
-          <Input
-            type="password"
-            className="text-[0.85rem]"
-            {...register("password", { required: true })}
-          />
-        </div>
-        <div>
-          <Label>Confirmação da senha:</Label>
-          <Input
-            type="password"
-            className="text-[0.85rem]"
-            {...register("passwordConfirmation", {
-              required: true,
-              validate: (value) => {
-                return value === watchPassword;
-              },
-            })}
-          />
-        </div>
-        <Button
-          onClick={() => handleSubmit(handleSubmitPress)()}
-          className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
-          Enviar
-        </Button>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Redefinir minha senha</CardTitle>
+          <p className="text-[0.8rem]">
+            Insira a nova senha nos campos abaixo para redefini-la
+          </p>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <div>
+            <Label>Senha:</Label>
+            <Input
+              type="password"
+              className="text-[0.85rem]"
+              {...register("password", { required: true })}
+            />
+          </div>
+          <div>
+            <Label>Confirmação da senha:</Label>
+            <Input
+              type="password"
+              className="text-[0.85rem]"
+              {...register("passwordConfirmation", {
+                required: true,
+                validate: (value) => {
+                  return value === watchPassword;
+                },
+              })}
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button
+            onClick={() => handleSubmit(handleSubmitPress)()}
+            className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          >
+            Enviar
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
