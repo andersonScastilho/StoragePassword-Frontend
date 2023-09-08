@@ -145,10 +145,23 @@ export default function SignUpPage() {
                   type="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("password", { required: true })}
+                  {...register("password", {
+                    required: true,
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message: "Password must be strong",
+                    },
+                  })}
                 />
                 {errors.password?.type === "required" && (
                   <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <InputErrorMessage>
+                    A senha deve conter pelo menos 8 caracteres, uma letra
+                    maiúscula, uma minúscula, um número e um caractere especial
+                  </InputErrorMessage>
                 )}
               </div>
               <div>

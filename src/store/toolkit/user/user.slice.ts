@@ -11,29 +11,38 @@ import { RefreshToken } from "@/types/refreshToken.types";
 interface LoginData {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export const loginUserAsync = createAsyncThunk(
   "user/login",
-  async ({ email, password }: LoginData) => {
-    const data: Auth = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth`,
-      {
-        email: email,
-        password: password,
+  async ({ email, password, rememberMe }: LoginData) => {
+    try {
+      const data: Auth = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth`,
+        {
+          email: email,
+          password: password,
+        }
+      );
+
+      const maxAgeInSeconds15minutos = 900;
+      const maxAgeInSeconds7dias = 604800;
+
+      await saveCookie("token", data.data.token, maxAgeInSeconds15minutos);
+
+      if (rememberMe === true) {
+        await saveCookie(
+          "refreshToken",
+          data.data.refreshToken,
+          maxAgeInSeconds7dias
+        );
       }
-    );
-    const maxAgeInSeconds15minutos = 900;
-    const maxAgeInSeconds7dias = 604800;
 
-    await saveCookie("token", data.data.token, maxAgeInSeconds15minutos);
-    await saveCookie(
-      "refreshToken",
-      data.data.refreshToken,
-      maxAgeInSeconds7dias
-    );
-
-    return { token: data.data.token, refreshToken: data.data.refreshToken };
+      return { token: data.data.token, refreshToken: data.data.refreshToken };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
   }
 );
 
