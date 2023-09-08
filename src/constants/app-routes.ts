@@ -8,5 +8,6 @@ export const APP_ROUTES = {
   public: {
     signIn: "/sign-in",
     signUp: "/sign-up",
+    verifyEmail: "/verify-email",
   },
 };
