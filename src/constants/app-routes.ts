@@ -10,5 +10,6 @@ export const APP_ROUTES = {
     signUp: "/sign-up",
     verifyEmail: "/verify-email",
     resetPassword: "/reset-password",
+    forgotPassword: "/forgot-password",
   },
 };
