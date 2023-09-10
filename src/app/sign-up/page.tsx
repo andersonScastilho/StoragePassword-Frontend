@@ -106,9 +106,9 @@ export default function SignUpPage() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Criar conta
             </h1>
-            <div className="space-y-2 md:space-y-4">
+            <div className="space-y-2 md:space-y-4 flex flex-col gap-5 sm:gap-1">
               <div>
-                <Label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <Label className="block text-sm font-medium text-gray-900 dark:text-white">
                   Nome completo
                 </Label>
                 <Input
@@ -124,7 +124,7 @@ export default function SignUpPage() {
                 )}
               </div>
               <div>
-                <Label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <Label className="block text-sm font-medium text-gray-900 dark:text-white">
                   Email
                 </Label>
                 <Input
@@ -138,7 +138,7 @@ export default function SignUpPage() {
                 )}
               </div>
               <div>
-                <Label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <Label className="block text-sm font-medium text-gray-900 dark:text-white">
                   Senha
                 </Label>
                 <Input
@@ -165,7 +165,7 @@ export default function SignUpPage() {
                 )}
               </div>
               <div>
-                <Label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <Label className="block text-sm font-medium text-gray-900 dark:text-white">
                   Confirmação de senha
                 </Label>
                 <Input
@@ -191,21 +191,23 @@ export default function SignUpPage() {
                 )}
               </div>
 
-              <Button
-                onClick={() => handleSubmit(handleSubmitPressCreateUser)()}
-                className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Entrar
-              </Button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Já possui uma conta ?{" "}
-                <a
-                  href="/sign-in"
-                  className="font-medium text-blue-700 hover:underline dark:text-primary-500"
+              <div>
+                <Button
+                  onClick={() => handleSubmit(handleSubmitPressCreateUser)()}
+                  className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Entrar
-                </a>
-              </p>
+                </Button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  Já possui uma conta ?{" "}
+                  <a
+                    href="/sign-in"
+                    className="font-medium text-blue-700 hover:underline dark:text-primary-500"
+                  >
+                    Entrar
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
