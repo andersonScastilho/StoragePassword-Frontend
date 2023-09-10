@@ -159,8 +159,8 @@ export default function SignUpPage() {
                 )}
                 {errors.password?.type === "pattern" && (
                   <InputErrorMessage>
-                    A senha deve conter pelo menos 8 caracteres, uma letra
-                    maiúscula, uma minúscula, um número e um caractere especial
+                    Senha deve conter 8+ caracteres, minúscula, maiúscula e
+                    especial
                   </InputErrorMessage>
                 )}
               </div>

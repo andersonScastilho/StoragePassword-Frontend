@@ -6,5 +6,5 @@ interface childrenTypeProps {
 export const InputErrorMessage: FunctionComponent<childrenTypeProps> = ({
   children,
 }) => {
-  return <p className="text-[0.8rem] text-red-600 margin-5 mt-1">{children}</p>;
+  return <p className="text-[0.7rem] w-96 absolute text-red-600">{children}</p>;
 };
