@@ -1,4 +1,5 @@
 "use client";
+import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -67,8 +68,20 @@ export default function ResetPasswordPage() {
             <Input
               type="password"
               className="text-[0.85rem]"
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: true,
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message: "Password must be strong",
+                },
+              })}
             />
+            {errors.password?.type === "pattern" && (
+              <InputErrorMessage>
+                Senha deve conter 8+ caracteres, minúscula, maiúscula e especial
+              </InputErrorMessage>
+            )}
           </div>
           <div>
             <Label>Confirmação da senha:</Label>
@@ -82,6 +95,11 @@ export default function ResetPasswordPage() {
                 },
               })}
             />
+            {errors?.passwordConfirmation?.type === "validate" && (
+              <InputErrorMessage>
+                As senhas precisam ser iguais
+              </InputErrorMessage>
+            )}
           </div>
         </CardContent>
         <CardFooter>

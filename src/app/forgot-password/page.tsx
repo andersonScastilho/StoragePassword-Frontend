@@ -1,4 +1,5 @@
 "use client";
+import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -58,8 +59,12 @@ export default function ForgotPasswordPage() {
             <Label>Email:</Label>
             <Input
               className="text-[0.85rem]"
+              type="email"
               {...register("email", { required: true })}
             />
+            {errors.email?.type === "required" && (
+              <InputErrorMessage>Email é obrigatório</InputErrorMessage>
+            )}
           </div>
         </CardContent>
         <CardFooter>
