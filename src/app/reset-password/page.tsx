@@ -82,6 +82,9 @@ export default function ResetPasswordPage() {
                 Senha deve conter 8+ caracteres, minúscula, maiúscula e especial
               </InputErrorMessage>
             )}
+            {errors.password?.type === "required" && (
+              <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+            )}
           </div>
           <div>
             <Label>Confirmação da senha:</Label>
@@ -98,6 +101,11 @@ export default function ResetPasswordPage() {
             {errors?.passwordConfirmation?.type === "validate" && (
               <InputErrorMessage>
                 As senhas precisam ser iguais
+              </InputErrorMessage>
+            )}
+            {errors.password?.type === "required" && (
+              <InputErrorMessage>
+                A confirmação da senha é obrigatória
               </InputErrorMessage>
             )}
           </div>
