@@ -50,7 +50,9 @@ export default function ResetPasswordPage() {
       resetField("passwordConfirmation");
       push("/sign-in");
     } catch (error: any) {
-      toast({
+      push("/sign-in");
+
+      return toast({
         title: "Validar email",
         description: `${error?.response?.data?.error}`,
       });
