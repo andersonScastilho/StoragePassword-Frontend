@@ -35,7 +35,7 @@ export default function VerifyEmailPage() {
   };
 
   return (
-    <div className="h-full min-w-full flex flex-col gap-1 bg-primary justify-center items-center">
+    <div className="h-full min-w-full flex flex-col gap-1 bg-primary justify-center items-center p-5">
       <Card>
         <CardHeader>
           <CardTitle>Validar email</CardTitle>
