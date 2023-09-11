@@ -103,7 +103,7 @@ export default function ResetPasswordPage() {
                 As senhas precisam ser iguais
               </InputErrorMessage>
             )}
-            {errors.password?.type === "required" && (
+            {errors.passwordConfirmation?.type === "required" && (
               <InputErrorMessage>
                 A confirmação da senha é obrigatória
               </InputErrorMessage>
