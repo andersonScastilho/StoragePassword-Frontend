@@ -14,7 +14,7 @@ import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
-
+import { useRouter } from "next/navigation";
 interface RequestParams {
   password: string;
   passwordConfirmation: string;
@@ -24,11 +24,12 @@ export default function ResetPasswordPage() {
   const {
     register,
     handleSubmit,
+    resetField,
     watch,
     formState: { errors },
   } = useForm<RequestParams>();
   const searchParams = useSearchParams();
-
+  const { push } = useRouter();
   const token = searchParams.get("token");
   const watchPassword = watch("password");
 
@@ -45,6 +46,9 @@ export default function ResetPasswordPage() {
         title: "Redefinir senha",
         description: `${response.data.message}`,
       });
+      resetField("password");
+      resetField("passwordConfirmation");
+      push("/sign-in");
     } catch (error: any) {
       toast({
         title: "Validar email",

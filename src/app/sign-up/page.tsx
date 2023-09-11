@@ -27,6 +27,7 @@ export default function SignUpPage() {
     register,
     handleSubmit,
     watch,
+    resetField,
     formState: { errors },
   } = useForm<CreateAcountForm>();
 
@@ -81,6 +82,11 @@ export default function SignUpPage() {
           </ToastAction>
         ),
       });
+
+      resetField("email");
+      resetField("fullName");
+      resetField("password");
+      resetField("passwordConfirmation");
     } catch (error: any) {
       if (error) {
         toast({
@@ -191,12 +197,12 @@ export default function SignUpPage() {
                 )}
               </div>
 
-              <div>
+              <div className="flex flex-col gap-2">
                 <Button
                   onClick={() => handleSubmit(handleSubmitPressCreateUser)()}
                   className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Entrar
+                  Criar conta
                 </Button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Já possui uma conta ?{" "}

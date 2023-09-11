@@ -25,6 +25,7 @@ export default function SignInPage() {
   const {
     register,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm<LoginForm>();
   const dispatch = useDispatch();
@@ -65,7 +66,10 @@ export default function SignInPage() {
     );
 
     if (response.error) {
-      toast({
+      resetField("email");
+      resetField("password");
+
+      return toast({
         title: "Credenciais invalida",
         description: `${response.error.message}`,
       });

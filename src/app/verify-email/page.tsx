@@ -10,10 +10,11 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
-
+  const { push } = useRouter();
   const token = searchParams.get("token");
 
   const handleSubmitPress = async () => {
@@ -26,6 +27,7 @@ export default function VerifyEmailPage() {
         title: "Validar email",
         description: `${response.data.message}`,
       });
+      push("/sign-in");
     } catch (error: any) {
       toast({
         title: "Validar email",

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 interface RequestParamsForm {
   email: string;
 }
@@ -21,8 +22,10 @@ export default function ForgotPasswordPage() {
   const {
     handleSubmit,
     register,
+    resetField,
     formState: { errors },
   } = useForm<RequestParamsForm>();
+  const { push } = useRouter();
 
   const handleSubmitPress = async (data: RequestParamsForm) => {
     try {
@@ -32,13 +35,17 @@ export default function ForgotPasswordPage() {
           email: data.email,
         }
       );
+
       toast({
         title: "Esqueci minha senha",
         description: `${response.data.message}`,
       });
+
+      resetField("email");
+      push("/sign-in");
     } catch (error: any) {
       console.log(error);
-      toast({
+      return toast({
         title: "Esqueci minha senha",
         description:
           `${error?.response?.data?.error}` || "Ocorreu um erro inesperado",
