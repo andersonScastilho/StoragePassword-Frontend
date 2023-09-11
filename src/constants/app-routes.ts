@@ -8,8 +8,9 @@ export const APP_ROUTES = {
   public: {
     signIn: "/sign-in",
     signUp: "/sign-up",
-    verifyEmail: "/verify-email",
+    validateEmail: "/validate-email",
     resetPassword: "/reset-password",
     forgotPassword: "/forgot-password",
+    verifyEmail: "/verify-email",
   },
 };

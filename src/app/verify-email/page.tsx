@@ -1,4 +1,5 @@
 "use client";
+import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,50 +8,75 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+interface RequestParamsForm {
+  email: string;
+}
 
 export default function VerifyEmailPage() {
-  const searchParams = useSearchParams();
+  const {
+    handleSubmit,
+    register,
+    resetField,
+    formState: { errors },
+  } = useForm<RequestParamsForm>();
   const { push } = useRouter();
-  const token = searchParams.get("token");
 
-  const handleSubmitPress = async () => {
+  const handleSubmitPress = async (data: RequestParamsForm) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/verify-email?token=${token}`
+        `${process.env.NEXT_PUBLIC_API_URL}/verify-email`,
+        {
+          email: data.email,
+        }
       );
 
       toast({
-        title: "Validar email",
+        title: "Verificar email",
         description: `${response.data.message}`,
       });
+
+      resetField("email");
       push("/sign-in");
     } catch (error: any) {
-      toast({
-        title: "Validar email",
+      return toast({
+        title: "Verificar email",
         description: `${error?.response?.data?.error}`,
       });
     }
   };
-
   return (
-    <div className="h-full min-w-full flex flex-col gap-1 bg-primary justify-center items-center p-5">
+    <div className="h-full p-5 min-w-full flex flex-col gap-1 bg-primary justify-center items-center">
       <Card>
         <CardHeader>
-          <CardTitle>Validar email</CardTitle>
+          <CardTitle>Verificar Email</CardTitle>
+          <p className="text-[0.8rem]">
+            Insira seu email, para que possamos envair o link para verificar seu
+            email
+          </p>
         </CardHeader>
         <CardContent>
-          <p className="text-[0.8rem]">
-            Clique no botao abaixo para validar seu email
-          </p>
+          <div>
+            <Label>Email:</Label>
+            <Input
+              className="text-[0.85rem]"
+              type="email"
+              {...register("email", { required: true })}
+            />
+            {errors.email?.type === "required" && (
+              <InputErrorMessage>Email é obrigatório</InputErrorMessage>
+            )}
+          </div>
         </CardContent>
         <CardFooter>
           <Button
-            onClick={() => handleSubmitPress()}
-            className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            onClick={() => handleSubmit(handleSubmitPress)()}
+            className="w-full  text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             Enviar
           </Button>

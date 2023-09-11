@@ -44,7 +44,6 @@ export default function ForgotPasswordPage() {
       resetField("email");
       push("/sign-in");
     } catch (error: any) {
-      console.log(error);
       return toast({
         title: "Esqueci minha senha",
         description:

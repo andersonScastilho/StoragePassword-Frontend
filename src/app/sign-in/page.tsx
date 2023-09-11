@@ -64,16 +64,17 @@ export default function SignInPage() {
         rememberMe: data.rememberMe,
       }) as any
     );
-
-    if (response.error) {
-      resetField("email");
-      resetField("password");
-
-      return toast({
-        title: "Credenciais invalida",
-        description: `${response.error.message}`,
-      });
+    if (response.error.message === "Unverified email") {
+      push("/verify-email");
     }
+
+    resetField("email");
+    resetField("password");
+
+    return toast({
+      title: "Credenciais invalida",
+      description: `${response.error.message}`,
+    });
   };
 
   return (
