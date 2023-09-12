@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import {
-  deleteCookie,
-  findCookie,
-  saveCookie,
-} from "../../../functions/cookies";
-import { RefreshToken } from "@/types/refreshToken.types";
+import { deleteCookie, saveCookie } from "../../../functions/cookies";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 
 interface LoginData {
   email: string;
@@ -45,21 +41,16 @@ export const loginUserAsync = createAsyncThunk(
 export const userRefreshToken = createAsyncThunk(
   "user/refreshToken",
   async () => {
-    const cookiesRefreshToken: RefreshToken = await findCookie("refreshToken");
-    const cookiesToken: string = await findCookie("token");
+    const { token, refreshToken } = await checkIsAuthenticated();
 
-    if (!cookiesRefreshToken && !cookiesToken) {
-      return {
-        token: "",
-        refreshToken: {},
-        isLoading: false,
-      };
+    if (!token && !refreshToken) {
+      return;
     }
 
-    if (!cookiesToken && cookiesRefreshToken) {
+    if (!token && refreshToken) {
       const token: string = await axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/refresh-token`, {
-          refresh_token: cookiesRefreshToken.id,
+          refresh_token: refreshToken.id,
         })
         .then((data) => data.data.token);
 
@@ -67,26 +58,8 @@ export const userRefreshToken = createAsyncThunk(
 
       await saveCookie("token", token, maxAgeInSeconds15minutos);
 
-      return {
-        token: token,
-        refreshToken: { ...cookiesRefreshToken },
-        isLoading: false,
-      };
+      return { isAuthenticated: true };
     }
-
-    if (cookiesToken && !cookiesRefreshToken) {
-      return {
-        token: cookiesToken,
-        refreshToken: {},
-        isLoading: false,
-      };
-    }
-
-    return {
-      token: cookiesToken,
-      refreshToken: cookiesRefreshToken,
-      isLoading: false,
-    };
   }
 );
 
