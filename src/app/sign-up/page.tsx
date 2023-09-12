@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import LoadingComponent from "@/components/loading/loading-component";
 
 interface CreateAcountForm {
   fullName: string;
@@ -27,22 +28,22 @@ export default function SignUpPage() {
     register,
     handleSubmit,
     watch,
-    resetField,
     formState: { errors },
   } = useForm<CreateAcountForm>();
 
   const dispatch = useDispatch();
 
   const { push } = useRouter();
-  const { token } = useAppSelector((state) => state.userReducer);
+  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (token) {
+    if (isAuthenticated) {
       push(APP_ROUTES.private.home);
     }
 
-    async function isAuthenticated() {
+    async function verifyIsAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
 
       if (token) {
@@ -52,19 +53,21 @@ export default function SignUpPage() {
       if (!token && refreshToken) {
         const returnDispatch = await dispatch(userRefreshToken() as any);
 
-        if (returnDispatch.payload?.token) {
+        if (returnDispatch?.payload?.isAuthenticated) {
           push(APP_ROUTES.private.home);
         }
       }
     }
 
-    isAuthenticated();
-  }, [token, dispatch, push]);
+    verifyIsAuthenticated();
+  }, [isAuthenticated, dispatch, push]);
 
   const watchPassword = watch("password");
 
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
     try {
+      setIsLoading(true);
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/users`,
         {
@@ -81,17 +84,20 @@ export default function SignUpPage() {
 
       push("/sign-in");
     } catch (error: any) {
-      if (error) {
-        toast({
-          title: "Não foi possivel criar a conta.",
-          description: `${error.response.data.error}`,
-        });
-      }
+      setIsLoading(false);
+
+      toast({
+        title: "Não foi possivel criar a conta.",
+        description: `${error.response.data.error}`,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 flex bg-primary w-full h-full">
+      {isLoading && <LoadingComponent />}
       <div className="flex flex-col w-full items-center justify-center px-6 py-3 md:h-screen lg:py-0">
         <a
           href="#"
