@@ -4,8 +4,12 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { useDispatch } from "react-redux";
-import { userRefreshToken } from "@/store/toolkit/Auth/auth.slice";
+import {
+  updateIsAuthenticated,
+  userRefreshToken,
+} from "@/store/toolkit/Auth/auth.slice";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+
 type PrivateRouteProps = {
   children: ReactNode;
 };
@@ -14,34 +18,33 @@ export const AuthenticationGuard = ({ children }: PrivateRouteProps) => {
   const { push } = useRouter();
   const dispatch = useDispatch();
 
-  const { token } = useAppSelector((state) => state.userReducer);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
 
   useEffect(() => {
-    async function refreshTokenAndCheckAuth() {
+    const verifyIsRemember = async () => {
       const { token, refreshToken } = await checkIsAuthenticated();
 
-      if (!token && refreshToken) {
-        const dispatchReturn = await dispatch(userRefreshToken() as any);
+      if (token) {
+        dispatch(updateIsAuthenticated());
+      }
 
-        if (!dispatchReturn.payload?.token) {
-          push(APP_ROUTES.public.signIn);
-        }
+      if (!token && refreshToken) {
+        await dispatch(userRefreshToken() as any);
       }
 
       if (!token && !refreshToken) {
-        push(APP_ROUTES.public.signIn);
+        push("/sign-in");
       }
+    };
 
-      setIsAuthenticated(true);
+    if (!isAuthenticated) {
+      verifyIsRemember();
     }
-
-    refreshTokenAndCheckAuth();
-  }, [token]);
+  }, [isAuthenticated, dispatch]);
 
   return (
     <>
-      {!token && null}
+      {!isAuthenticated && null}
       {isAuthenticated && children}
     </>
   );

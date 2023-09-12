@@ -107,7 +107,11 @@ const initialState: InitialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateIsAuthenticated: (state) => {
+      state.isAuthenticated = true;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(loginUserAsync.pending, (state) => {
       state.isLoading = true;
@@ -146,5 +150,7 @@ const userSlice = createSlice({
     });
   },
 });
+
+export const { updateIsAuthenticated } = userSlice.actions;
 
 export default userSlice.reducer;
