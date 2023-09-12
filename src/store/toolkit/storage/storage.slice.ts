@@ -1,4 +1,4 @@
-import { findCookie } from "@/functions/cookies";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { Storage } from "@/types/storage.types";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -10,9 +10,9 @@ interface FetchStorage {
 }
 
 export const fetchStorageAsync = createAsyncThunk("storage/fetch", async () => {
-  const cookieToken: string = await findCookie("token");
+  const { token } = await checkIsAuthenticated();
 
-  if (!cookieToken) {
+  if (!token) {
     return;
   }
 
@@ -20,7 +20,7 @@ export const fetchStorageAsync = createAsyncThunk("storage/fetch", async () => {
     `${process.env.NEXT_PUBLIC_API_URL}/storages`,
     {
       headers: {
-        Authorization: `Bearer ${cookieToken}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
