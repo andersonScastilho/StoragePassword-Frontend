@@ -20,7 +20,7 @@ export default function ValidateEmailPage() {
   const handleSubmitPress = async () => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/verify-email?token=${token}`
+        `${process.env.NEXT_PUBLIC_API_URL}/validate-email?token=${token}`
       );
 
       toast({
