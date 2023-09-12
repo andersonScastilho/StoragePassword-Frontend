@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { createStorage } from "../../store/toolkit/storage/storage.slice";
+import LoadingComponent from "@/components/loading/loading-component";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -39,6 +40,7 @@ export default function CreateStoragePage() {
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -60,6 +62,7 @@ export default function CreateStoragePage() {
 
   const handleSubmitPress = async (data: CreateStorageProps) => {
     try {
+      setIsLoading(true);
       const { token } = await checkIsAuthenticated();
 
       const response = await axios.post(
@@ -110,15 +113,19 @@ export default function CreateStoragePage() {
         resetField<any>(key);
       }
     } catch (error: any) {
+      setIsLoading(false);
       toast({
         title: "Não foi possivel armazenar o storage.",
         description: `${error.response.data.error}`,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <main className="h-full min-w-full flex flex-col gap-1 bg-primary ">
+      {isLoading && <LoadingComponent />}
       <HeaderComponent />
       <div className="flex gap-10 p-5 ">
         <Card className="bg-primary-foreground border-none w-96 m-auto">

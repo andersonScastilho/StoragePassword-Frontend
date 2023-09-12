@@ -38,6 +38,8 @@ import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { deleteStorage } from "../../store/toolkit/storage/storage.slice";
+import { useState } from "react";
+import LoadingComponent from "../loading/loading-component";
 
 interface CardDetailsProps {
   dataStorage: Storage;
@@ -64,9 +66,12 @@ export const CardDetailStorageComponent = ({
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitPress = async (data: UpdateStorageProps) => {
     try {
+      setIsLoading(true);
+
       const { token } = await checkIsAuthenticated();
       const valuesToUpdate: UpdateStorageProps = {};
 
@@ -98,14 +103,18 @@ export const CardDetailStorageComponent = ({
         resetField<any>(key);
       }
     } catch (error: any) {
+      setIsLoading(false);
       toast({
         title: "Não foi possivel atualizar este storage",
         description: `${error.response.data.error}`,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleDeletePress = async () => {
     try {
+      setIsLoading(true);
       const { token } = await checkIsAuthenticated();
 
       await axios.delete(
@@ -126,15 +135,20 @@ export const CardDetailStorageComponent = ({
 
       push("/storage");
     } catch (error: any) {
+      setIsLoading(false);
+
       toast({
         title: "Storage deletado com sucesso!",
         description: `${error.response.data.error}`,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Card className="bg-primary-foreground border-none w-96 m-auto">
+      {isLoading && <LoadingComponent />}
       <CardHeader>
         <CardTitle>Storage</CardTitle>
       </CardHeader>
