@@ -5,7 +5,6 @@ import {
   findCookie,
   saveCookie,
 } from "../../../functions/cookies";
-import { Auth } from "@/types/auth.types";
 import { RefreshToken } from "@/types/refreshToken.types";
 
 interface LoginData {
@@ -18,13 +17,10 @@ export const loginUserAsync = createAsyncThunk(
   "user/login",
   async ({ email, password, rememberMe }: LoginData) => {
     try {
-      const data: Auth = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const data = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth`, {
+        email: email,
+        password: password,
+      });
 
       const maxAgeInSeconds15minutos = 900;
       const maxAgeInSeconds7dias = 604800;
@@ -39,7 +35,7 @@ export const loginUserAsync = createAsyncThunk(
         );
       }
 
-      return { token: data.data.token, refreshToken: data.data.refreshToken };
+      return { isAuthenticated: true };
     } catch (error: any) {
       throw Error(error.response.data.error);
     }
@@ -93,20 +89,19 @@ export const userRefreshToken = createAsyncThunk(
     };
   }
 );
+
 export const logoutUserAsync = createAsyncThunk("user/logout", async () => {
   await deleteCookie("token");
   await deleteCookie("refreshToken");
 });
 interface InitialState {
-  refreshToken: object;
-  token: string;
+  isAuthenticated: boolean;
   isLoading: boolean;
 }
 
 const initialState: InitialState = {
-  token: "",
-  refreshToken: {},
   isLoading: false,
+  isAuthenticated: false,
 };
 
 const userSlice = createSlice({
@@ -119,33 +114,35 @@ const userSlice = createSlice({
     });
 
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {
-      state.token = action.payload.token;
-      state.refreshToken = action.payload.refreshToken;
+      state.isAuthenticated = true;
       state.isLoading = false;
     });
 
     builder.addCase(loginUserAsync.rejected, (state) => {
       state.isLoading = false;
+      state.isAuthenticated = false;
     });
+    //---------------------------------------------------------------------------------------------//
 
     builder.addCase(logoutUserAsync.fulfilled, (state) => {
-      state.token = initialState.token;
-      state.refreshToken = initialState.refreshToken;
-      state.isLoading = initialState.isLoading;
+      state.isAuthenticated = false;
+      state.isLoading = false;
     });
+
+    //---------------------------------------------------------------------------------------------//
 
     builder.addCase(userRefreshToken.pending, (state) => {
       state.isLoading = true;
     });
 
     builder.addCase(userRefreshToken.fulfilled, (state, action) => {
-      state.token = action.payload.token;
-      state.refreshToken = action.payload.refreshToken;
       state.isLoading = false;
+      state.isAuthenticated = true;
     });
 
     builder.addCase(userRefreshToken.rejected, (state) => {
       state.isLoading = false;
+      state.isAuthenticated = false;
     });
   },
 });
