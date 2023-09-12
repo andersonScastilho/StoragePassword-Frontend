@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useDispatch } from "react-redux";
-import { userRefreshToken } from "@/store/toolkit/user/user.slice";
+import { userRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { ToastAction } from "@/components/ui/toast";
 interface DescryptedPasswordResponse {
   data: {

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { useDispatch } from "react-redux";
-import { userRefreshToken } from "@/store/toolkit/user/user.slice";
+import { userRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 type PrivateRouteProps = {
   children: ReactNode;

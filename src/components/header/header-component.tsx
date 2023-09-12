@@ -8,7 +8,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { logoutUserAsync } from "@/store/toolkit/user/user.slice";
+import { logoutUserAsync } from "@/store/toolkit/Auth/auth.slice";
 
 export const HeaderComponent = () => {
   const { token } = useAppSelector((state) => state.userReducer);

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { userRefreshToken } from "@/store/toolkit/user/user.slice";
+import { userRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
