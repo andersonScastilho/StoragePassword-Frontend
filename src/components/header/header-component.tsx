@@ -5,14 +5,11 @@ import { SlLogin } from "react-icons/sl";
 import { PiPersonSimpleRunFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { logoutUserAsync } from "@/store/toolkit/Auth/auth.slice";
 
 export const HeaderComponent = () => {
-  const { token } = useAppSelector((state) => state.userReducer);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
   const { push } = useRouter();
   const dispatch = useDispatch();
 
@@ -25,16 +22,6 @@ export const HeaderComponent = () => {
     push("/sign-in");
     return;
   };
-  useEffect(() => {
-    async function asyncFunction() {
-      const { token } = await checkIsAuthenticated();
-      if (token) {
-        setIsAuthenticated(true);
-      }
-    }
-
-    asyncFunction();
-  }, [token]);
 
   return (
     <header className="bg-primary-foreground h-16 flex items-center p-4 justify-between">
