@@ -41,13 +41,11 @@ export default function ForgotPasswordPage() {
         description: `${response.data.message}`,
       });
 
-      resetField("email");
       push("/sign-in");
     } catch (error: any) {
       return toast({
         title: "Esqueci minha senha",
-        description:
-          `${error?.response?.data?.error}` || "Ocorreu um erro inesperado",
+        description: `${error?.response?.data?.error}`,
       });
     }
   };

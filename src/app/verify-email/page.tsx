@@ -41,7 +41,6 @@ export default function VerifyEmailPage() {
         description: `${response.data.message}`,
       });
 
-      resetField("email");
       push("/sign-in");
     } catch (error: any) {
       return toast({

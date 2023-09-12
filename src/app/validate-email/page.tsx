@@ -27,6 +27,7 @@ export default function ValidateEmailPage() {
         title: "Validar email",
         description: `${response.data.message}`,
       });
+
       push("/sign-in");
     } catch (error: any) {
       toast({

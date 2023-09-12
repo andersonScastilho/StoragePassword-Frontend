@@ -73,20 +73,13 @@ export default function SignUpPage() {
           password: data.password,
         }
       );
+
       toast({
         title: "Conta criada com sucesso!",
-        description: "Seja bem vindo!!",
-        action: (
-          <ToastAction altText="Entra" onClick={() => push("/sign-in")}>
-            Entrar
-          </ToastAction>
-        ),
+        description: "Foi enviado um email no email cadastrado para confirmar",
       });
 
-      resetField("email");
-      resetField("fullName");
-      resetField("password");
-      resetField("passwordConfirmation");
+      push("/sign-in");
     } catch (error: any) {
       if (error) {
         toast({

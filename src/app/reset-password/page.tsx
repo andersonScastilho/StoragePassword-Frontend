@@ -46,12 +46,9 @@ export default function ResetPasswordPage() {
         title: "Redefinir senha",
         description: `${response.data.message}`,
       });
-      resetField("password");
-      resetField("passwordConfirmation");
+
       push("/sign-in");
     } catch (error: any) {
-      push("/sign-in");
-
       return toast({
         title: "Validar email",
         description: `${error?.response?.data?.error}`,
