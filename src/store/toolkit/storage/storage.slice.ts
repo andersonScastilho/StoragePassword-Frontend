@@ -1,8 +1,7 @@
 import { findCookie } from "@/functions/cookies";
 import { Storage } from "@/types/storage.types";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import userSlice from "../Auth/auth.slice";
 
 interface FetchStorage {
   data: {
@@ -47,6 +46,10 @@ const storageSlice = createSlice({
         (storage) => storage.props.storageId !== action.payload
       );
     },
+    createStorage: (state, action: PayloadAction<Storage>) => {
+      const storage = action.payload;
+      state.storage = [...state.storage, storage];
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchStorageAsync.pending, (state) => {
@@ -62,5 +65,5 @@ const storageSlice = createSlice({
   },
 });
 
-export const { deleteStorage } = storageSlice.actions;
+export const { deleteStorage, createStorage } = storageSlice.actions;
 export default storageSlice.reducer;

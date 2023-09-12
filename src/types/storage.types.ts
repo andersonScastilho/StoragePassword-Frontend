@@ -3,8 +3,8 @@ export interface Storage {
     password: string;
     account: string;
     usageLocation: string;
-    description: string;
-    link: string;
+    description?: string;
+    link?: string;
     userId: string;
     storageId: string;
   };

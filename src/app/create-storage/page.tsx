@@ -21,6 +21,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
+import { useDispatch } from "react-redux";
+import { createStorage } from "../../store/toolkit/storage/storage.slice";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -36,6 +38,7 @@ interface CreateStorageProps {
 export default function CreateStoragePage() {
   const { push } = useRouter();
   const { toast } = useToast();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -89,6 +92,19 @@ export default function CreateStoragePage() {
           </ToastAction>
         ),
       });
+      dispatch(
+        createStorage({
+          props: {
+            description: data.description,
+            account: data.account,
+            link: data.link,
+            password: data.password,
+            storageId: response.data.props.storageId,
+            usageLocation: data.usageLocation,
+            userId: response.data.props.userId,
+          },
+        })
+      );
 
       for (const key in data) {
         resetField<any>(key);
