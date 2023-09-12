@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import LoadingComponent from "@/components/loading/loading-component";
 
 interface LoginForm {
   email: string;
@@ -30,15 +31,17 @@ export default function SignInPage() {
   } = useForm<LoginForm>();
   const dispatch = useDispatch();
   const { push } = useRouter();
-  const { token } = useAppSelector((state) => state.userReducer);
+  const { isAuthenticated, isLoading } = useAppSelector(
+    (state) => state.userReducer
+  );
   const { toast } = useToast();
 
   useEffect(() => {
-    if (token) {
+    if (isAuthenticated) {
       push(APP_ROUTES.private.home);
     }
 
-    async function isAuthenticated() {
+    async function verifyIsAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
 
       if (token) {
@@ -48,13 +51,14 @@ export default function SignInPage() {
       if (!token && refreshToken) {
         const returnDispatch = await dispatch(userRefreshToken() as any);
 
-        if (returnDispatch.payload?.token) {
+        if (returnDispatch.payload?.isAuthenticated) {
           push(APP_ROUTES.private.home);
         }
       }
     }
-    isAuthenticated();
-  }, [token, dispatch, push]);
+
+    verifyIsAuthenticated();
+  }, [isAuthenticated, dispatch, push]);
 
   const handleSubmitPress = async (data: LoginForm) => {
     const response = await dispatch(
@@ -64,21 +68,11 @@ export default function SignInPage() {
         rememberMe: data.rememberMe,
       }) as any
     );
-    if (response.error.message === "Unverified email") {
-      push("/verify-email");
-    }
-
-    resetField("email");
-    resetField("password");
-
-    return toast({
-      title: "Credenciais invalida",
-      description: `${response.error.message}`,
-    });
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 bg-primary flex w-full h-full">
+      {isLoading && <LoadingComponent />}
       <div className="flex flex-col items-center w-full m-auto justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
