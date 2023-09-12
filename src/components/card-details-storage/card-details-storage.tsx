@@ -36,6 +36,8 @@ import {
 } from "../ui/alert-dialog";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { deleteStorage } from "../../store/toolkit/storage/storage.slice";
 
 interface CardDetailsProps {
   dataStorage: Storage;
@@ -61,6 +63,8 @@ export const CardDetailStorageComponent = ({
   } = useForm<UpdateStorageProps>();
   const { push } = useRouter();
   const { toast } = useToast();
+  const dispatch = useDispatch();
+
   const handleSubmitPress = async (data: UpdateStorageProps) => {
     try {
       const { token } = await checkIsAuthenticated();
@@ -112,6 +116,7 @@ export const CardDetailStorageComponent = ({
           },
         }
       );
+      dispatch(deleteStorage(dataStorage.props.storageId));
 
       toast({
         title: "Storage deletado com sucesso!",

@@ -41,7 +41,13 @@ const initialState: InitialState = {
 const storageSlice = createSlice({
   name: "storage",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteStorage: (state, action) => {
+      state.storage = state.storage.filter(
+        (storage) => storage.props.storageId !== action.payload
+      );
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchStorageAsync.pending, (state) => {
       state.isLoading = true;
@@ -56,4 +62,5 @@ const storageSlice = createSlice({
   },
 });
 
+export const { deleteStorage } = storageSlice.actions;
 export default storageSlice.reducer;
