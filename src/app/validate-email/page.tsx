@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import { validateEmailAsync } from "@/store/toolkit/user/user.slice";
+import { ResponseValidateEmailUserAsync } from "@/types/userType";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -23,7 +24,9 @@ export default function ValidateEmailPage() {
       return push("/verify-email");
     }
 
-    const response = await dispatch(validateEmailAsync(token) as any);
+    const response: ResponseValidateEmailUserAsync = await dispatch(
+      validateEmailAsync(token) as any
+    );
 
     if (response.error) {
       return toast({
