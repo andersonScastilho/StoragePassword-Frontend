@@ -48,7 +48,7 @@ export default function CardDetailStoragePage({
   const dispatch = useDispatch();
   const { toast } = useToast();
   const [selectedStorage, setSelectedStorage] = useState<Storage>();
-  const { storage: storedStorages } = useAppSelector(
+  const { storages } = useAppSelector(
     (state) => state.storageReducer
   );
 
@@ -72,11 +72,11 @@ export default function CardDetailStoragePage({
       }
     };
 
-    const [filteredStorage] = storedStorages.filter(
+    const [filteredStorage] = storages.filter(
       (item) => item.props.storageId === params.id
     );
 
-    if (storedStorages.length <= 0) {
+    if (storages <= 0) {
       fetchStorageData();
     } else {
       setSelectedStorage(filteredStorage);
