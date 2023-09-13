@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { userRefreshToken } from "@/store/toolkit/Auth/auth.slice";
+import { loginRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -51,7 +51,7 @@ export default function SignUpPage() {
       }
 
       if (!token && refreshToken) {
-        const returnDispatch = await dispatch(userRefreshToken() as any);
+        const returnDispatch = await dispatch(loginRefreshToken() as any);
 
         if (returnDispatch?.payload?.isAuthenticated) {
           push(APP_ROUTES.private.home);

@@ -1,7 +1,7 @@
 "use client";
 import {
   loginUserAsync,
-  userRefreshToken,
+  loginRefreshToken,
 } from "../../store/toolkit/Auth/auth.slice";
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { useForm } from "react-hook-form";
@@ -50,7 +50,7 @@ export default function SignInPage() {
       }
 
       if (!token && refreshToken) {
-        const returnDispatch = await dispatch(userRefreshToken() as any);
+        const returnDispatch = await dispatch(loginRefreshToken() as any);
 
         if (returnDispatch.payload?.isAuthenticated) {
           push(APP_ROUTES.private.home);

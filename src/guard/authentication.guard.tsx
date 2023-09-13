@@ -6,7 +6,7 @@ import { APP_ROUTES } from "@/constants/app-routes";
 import { useDispatch } from "react-redux";
 import {
   updateIsAuthenticated,
-  userRefreshToken,
+  loginRefreshToken,
 } from "@/store/toolkit/Auth/auth.slice";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import LoadingComponent from "@/components/loading/loading-component";
@@ -33,7 +33,7 @@ export const AuthenticationGuard = ({ children }: PrivateRouteProps) => {
         }
 
         if (!token && refreshToken) {
-          await dispatch(userRefreshToken() as any);
+          await dispatch(loginRefreshToken() as any);
         }
 
         if (!token && !refreshToken) {

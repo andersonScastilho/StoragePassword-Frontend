@@ -37,7 +37,7 @@ export const loginUserAsync = createAsyncThunk(
   }
 );
 
-export const userRefreshToken = createAsyncThunk(
+export const loginRefreshToken = createAsyncThunk(
   "user/refreshToken",
   async () => {
     const { token, refreshToken } = await checkIsAuthenticated();
@@ -107,16 +107,16 @@ const userSlice = createSlice({
 
     //---------------------------------------------------------------------------------------------//
 
-    builder.addCase(userRefreshToken.pending, (state) => {
+    builder.addCase(loginRefreshToken.pending, (state) => {
       state.isLoading = true;
     });
 
-    builder.addCase(userRefreshToken.fulfilled, (state, action) => {
+    builder.addCase(loginRefreshToken.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isAuthenticated = true;
     });
 
-    builder.addCase(userRefreshToken.rejected, (state) => {
+    builder.addCase(loginRefreshToken.rejected, (state) => {
       state.isLoading = false;
       state.isAuthenticated = false;
     });
