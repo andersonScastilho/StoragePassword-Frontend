@@ -16,3 +16,13 @@ export interface ResponseCreateUserAsync {
     created: true;
   };
 }
+
+export interface ResponseVerifyEmailAsync {
+  error?: {
+    message: string;
+  };
+
+  data?: {
+    isVerifiedEmail: boolean;
+  };
+}

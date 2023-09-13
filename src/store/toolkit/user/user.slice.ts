@@ -26,7 +26,23 @@ export const createUserAsync = createAsyncThunk(
     }
   }
 );
+export const verifyUserAsync = createAsyncThunk(
+  "user/verifyEmail",
+  async (email: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/verify-email`,
+        {
+          email: email,
+        }
+      );
 
+      return { isVerifiedEmail: true };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {},

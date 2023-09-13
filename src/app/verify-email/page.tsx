@@ -14,6 +14,9 @@ import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { verifyUserAsync } from "@/store/toolkit/user/user.slice";
+import { ResponseVerifyEmailAsync } from "@/types/userType";
 interface RequestParamsForm {
   email: string;
 }
@@ -26,28 +29,26 @@ export default function VerifyEmailPage() {
     formState: { errors },
   } = useForm<RequestParamsForm>();
   const { push } = useRouter();
+  const dispatch = useDispatch();
 
   const handleSubmitPress = async (data: RequestParamsForm) => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/verify-email`,
-        {
-          email: data.email,
-        }
-      );
+    const response: ResponseVerifyEmailAsync = await dispatch(
+      verifyUserAsync(data.email) as any
+    );
 
-      toast({
-        title: "Verificar email",
-        description: `${response.data.message}`,
-      });
-
-      push("/sign-in");
-    } catch (error: any) {
+    if (response.error) {
       return toast({
         title: "Verificar email",
-        description: `${error?.response?.data?.error}`,
+        description: `${response.error.message}`,
       });
     }
+
+    toast({
+      title: "Verificar email",
+      description: "Foi enviado um email para validar se é verdadeiro",
+    });
+
+    push("/sign-in");
   };
   return (
     <div className="h-full p-5 min-w-full flex flex-col gap-1 bg-primary justify-center items-center">
