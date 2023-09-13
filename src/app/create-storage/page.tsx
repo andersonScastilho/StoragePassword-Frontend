@@ -73,7 +73,7 @@ export default function CreateStoragePage() {
         },
       }) as any
     );
-    console.log(response);
+
     if (response.error) {
       return toast({
         title: "Falha ao criar storage",
@@ -89,7 +89,7 @@ export default function CreateStoragePage() {
           altText="Visualizar"
           onClick={() =>
             push(
-              `/storage/card-details/${response.payload.storage.props.userId}`
+              `/storage/card-details/${response.payload.storage.props.storageId}`
             )
           }
         >
