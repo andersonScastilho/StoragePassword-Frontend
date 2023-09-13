@@ -16,11 +16,11 @@ export interface ResponseFetchStorages {
   };
 }
 
-export interface ResponseCreateStorage {
+export interface ResponseCreateStorageAsyncReducer {
   error?: {
     message: string;
   };
-  data?: {
+  payload: {
     storage: Storage;
   };
 }

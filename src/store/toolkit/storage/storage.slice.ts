@@ -1,12 +1,7 @@
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import {
-  ResponseCreateStorage,
-  ResponseFetchStorages,
-  Storage,
-} from "@/types/storage.types";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ResponseFetchStorages, Storage } from "@/types/storage.types";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { error } from "console";
 
 export const fetchStoragesAsync = createAsyncThunk(
   "storage/fetch",
@@ -38,7 +33,7 @@ export const createStorageAsync = createAsyncThunk(
   }) => {
     try {
       const { token } = await checkIsAuthenticated();
-      const response: ResponseCreateStorage = await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/storages`,
         {
           usageLocation: props.usageLocation,
@@ -58,7 +53,7 @@ export const createStorageAsync = createAsyncThunk(
         throw Error("Não foi possivel criar o storage");
       }
 
-      return {storage: response.data.storage}
+      return { storage: response.data.storage };
     } catch (error: any) {
       throw Error(error.response.data.error);
     }

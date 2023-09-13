@@ -48,9 +48,7 @@ export default function CardDetailStoragePage({
   const dispatch = useDispatch();
   const { toast } = useToast();
   const [selectedStorage, setSelectedStorage] = useState<Storage>();
-  const { storages } = useAppSelector(
-    (state) => state.storageReducer
-  );
+  const { storages } = useAppSelector((state) => state.storageReducer);
 
   useEffect(() => {
     const fetchStorageData = async () => {
@@ -76,7 +74,7 @@ export default function CardDetailStoragePage({
       (item) => item.props.storageId === params.id
     );
 
-    if (storages <= 0) {
+    if (storages.length <= 0) {
       fetchStorageData();
     } else {
       setSelectedStorage(filteredStorage);

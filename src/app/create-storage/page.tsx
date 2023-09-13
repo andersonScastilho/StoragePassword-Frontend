@@ -24,7 +24,7 @@ import { HiEye } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { createStorageAsync } from "../../store/toolkit/storage/storage.slice";
 import LoadingComponent from "@/components/loading/loading-component";
-import { ResponseCreateStorage } from "@/types/storage.types";
+import { ResponseCreateStorageAsyncReducer } from "@/types/storage.types";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -62,7 +62,7 @@ export default function CreateStoragePage() {
   };
 
   const handleSubmitPress = async (data: CreateStorageProps) => {
-    const response: ResponseCreateStorage = await dispatch(
+    const response: ResponseCreateStorageAsyncReducer = await dispatch(
       createStorageAsync({
         props: {
           description: data.description,
@@ -72,10 +72,8 @@ export default function CreateStoragePage() {
           usageLocation: data.usageLocation,
         },
       }) as any
-
-      toasr({description:response)}
     );
-
+    console.log(response);
     if (response.error) {
       return toast({
         title: "Falha ao criar storage",
@@ -91,7 +89,7 @@ export default function CreateStoragePage() {
           altText="Visualizar"
           onClick={() =>
             push(
-              `/storage/card-details/${response.data?.storage.props.storageId}`
+              `/storage/card-details/${response.payload.storage.props.userId}`
             )
           }
         >
