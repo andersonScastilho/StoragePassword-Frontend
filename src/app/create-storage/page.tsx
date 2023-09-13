@@ -72,6 +72,8 @@ export default function CreateStoragePage() {
           usageLocation: data.usageLocation,
         },
       }) as any
+
+      toasr({description:response)}
     );
 
     if (response.error) {
