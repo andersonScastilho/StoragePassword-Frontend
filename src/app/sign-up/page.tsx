@@ -81,7 +81,7 @@ export default function SignUpPage() {
     );
 
     if (response.error) {
-      return toast({
+       toast({
         title: "Falha ao criar usuario",
         description: response.error.message,
       });
@@ -92,7 +92,7 @@ export default function SignUpPage() {
       description: "Seja bem vindo",
     });
 
-    return push("/sign-in");
+   
   };
 
   return (
