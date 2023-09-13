@@ -15,6 +15,9 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { resetPasswordAsync } from "@/store/toolkit/user/user.slice";
+import { ResponseResetPasswordAsync } from "@/types/userType";
 interface RequestParams {
   password: string;
   passwordConfirmation: string;
@@ -32,28 +35,29 @@ export default function ResetPasswordPage() {
   const { push } = useRouter();
   const token = searchParams.get("token");
   const watchPassword = watch("password");
-
+  const dispatch = useDispatch();
   const handleSubmitPress = async (data: RequestParams) => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/reset-password?token=${token}`,
-        {
-          newPassword: data.password,
-        }
-      );
+    if (!token) {
+      return push("/forgot-password");
+    }
 
-      toast({
-        title: "Redefinir senha",
-        description: `${response.data.message}`,
-      });
+    const response: ResponseResetPasswordAsync = await dispatch(
+      resetPasswordAsync({ newPassword: data.password, token: token }) as any
+    );
 
-      push("/sign-in");
-    } catch (error: any) {
+    if (response.error) {
       return toast({
         title: "Validar email",
-        description: `${error?.response?.data?.error}`,
+        description: `${response.error.message}`,
       });
     }
+
+    toast({
+      title: "Redefinir senha",
+      description: `Senha redefinida com sucesso`,
+    });
+
+    push("/sign-in");
   };
 
   return (

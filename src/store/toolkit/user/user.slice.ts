@@ -62,13 +62,36 @@ export const forgotPasswordAsync = createAsyncThunk(
   async (email: string) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`,
+        `${process.env.NEXT_PUBLIC_API_URL}/forgotPassword`,
         {
           email: email,
         }
       );
 
       return { sendedEmail: true };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+interface ResetPasswordProps {
+  token: string;
+  newPassword: string;
+}
+
+export const resetPasswordAsync = createAsyncThunk(
+  "user/resetPassword",
+  async ({ newPassword, token }: ResetPasswordProps) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/reset-password?token=${token}`,
+        {
+          newPassword: newPassword,
+        }
+      );
+
+      return { resetedPassword: true };
     } catch (error: any) {
       throw Error(error.response.data.error);
     }

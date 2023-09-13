@@ -46,3 +46,13 @@ export interface ResponseForgotPasswordAsync {
     sendedEmail: boolean;
   };
 }
+
+export interface ResponseResetPasswordAsync {
+  error?: {
+    message: string;
+  };
+
+  payload?: {
+    resetedPassword: boolean;
+  };
+}
