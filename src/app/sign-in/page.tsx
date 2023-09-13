@@ -73,6 +73,10 @@ export default function SignInPage() {
     );
 
     if (response.error) {
+      if (response.error.message === "Unverified email") {
+        return push("/verify-email");
+      }
+
       return toast({
         title: "Falha no login",
         description: response.error.message,
