@@ -17,12 +17,22 @@ export interface ResponseCreateUserAsync {
   };
 }
 
-export interface ResponseVerifyEmailAsync {
+export interface ResponseVerifyEmailUserAsync {
   error?: {
     message: string;
   };
 
   data?: {
     isVerifiedEmail: boolean;
+  };
+}
+
+export interface ResponseValidateEmailUserAsync {
+  error?: {
+    message: string;
+  };
+
+  payload?: {
+    emailIsValid: boolean;
   };
 }

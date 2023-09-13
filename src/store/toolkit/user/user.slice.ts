@@ -26,7 +26,7 @@ export const createUserAsync = createAsyncThunk(
     }
   }
 );
-export const verifyUserAsync = createAsyncThunk(
+export const verifyEmailUserAsync = createAsyncThunk(
   "user/verifyEmail",
   async (email: string) => {
     try {
@@ -43,6 +43,22 @@ export const verifyUserAsync = createAsyncThunk(
     }
   }
 );
+
+export const validateEmailAsync = createAsyncThunk(
+  "user/validateEmail",
+  async (token: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/validate-email?token=${token}`
+      );
+
+      return { emailIsValid: true };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {},

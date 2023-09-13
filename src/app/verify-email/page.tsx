@@ -15,8 +15,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { verifyUserAsync } from "@/store/toolkit/user/user.slice";
-import { ResponseVerifyEmailAsync } from "@/types/userType";
+import { verifyEmailUserAsync } from "@/store/toolkit/user/user.slice";
+import { ResponseVerifyEmailUserAsync } from "@/types/userType";
 interface RequestParamsForm {
   email: string;
 }
@@ -32,8 +32,8 @@ export default function VerifyEmailPage() {
   const dispatch = useDispatch();
 
   const handleSubmitPress = async (data: RequestParamsForm) => {
-    const response: ResponseVerifyEmailAsync = await dispatch(
-      verifyUserAsync(data.email) as any
+    const response: ResponseVerifyEmailUserAsync = await dispatch(
+      verifyEmailUserAsync(data.email) as any
     );
 
     if (response.error) {

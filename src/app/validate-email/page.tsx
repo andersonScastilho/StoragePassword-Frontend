@@ -8,33 +8,36 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
-import axios from "axios";
+import { validateEmailAsync } from "@/store/toolkit/user/user.slice";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 export default function ValidateEmailPage() {
   const searchParams = useSearchParams();
   const { push } = useRouter();
   const token = searchParams.get("token");
-
+  const dispatch = useDispatch();
   const handleSubmitPress = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/validate-email?token=${token}`
-      );
+    if (!token) {
+      return push("/verify-email");
+    }
 
-      toast({
-        title: "Validar email",
-        description: `${response.data.message}`,
-      });
+    const response = await dispatch(validateEmailAsync(token) as any);
 
-      push("/sign-in");
-    } catch (error: any) {
-      toast({
+    if (response.error) {
+      return toast({
         title: "Validar email",
-        description: `${error?.response?.data?.error}`,
+        description: `${response.error.message}`,
       });
     }
+
+    toast({
+      title: "Validar email",
+      description: `Email validado com sucesso`,
+    });
+
+    push("/sign-in");
   };
 
   return (
