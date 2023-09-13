@@ -10,6 +10,7 @@ import {
 } from "@/store/toolkit/Auth/auth.slice";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import LoadingComponent from "@/components/loading/loading-component";
+import { LoginResponseType } from "@/types/auth.types";
 
 type PrivateRouteProps = {
   children: ReactNode;
@@ -23,21 +24,27 @@ export const AuthenticationGuard = ({ children }: PrivateRouteProps) => {
   const { isAuthenticated } = useAppSelector((state) => state.userReducer);
 
   useEffect(() => {
-    const verifyIsRemember = async () => {
+    const verifyIsAuthenticated = async () => {
       try {
         setIsLoading(true);
         const { token, refreshToken } = await checkIsAuthenticated();
+
+        if (!token && !refreshToken) {
+          push("/sign-in");
+        }
 
         if (token) {
           dispatch(updateIsAuthenticated());
         }
 
         if (!token && refreshToken) {
-          await dispatch(loginRefreshToken() as any);
-        }
+          const response: LoginResponseType = await dispatch(
+            loginRefreshToken() as any
+          );
 
-        if (!token && !refreshToken) {
-          push("/sign-in");
+          if (response.error) {
+            return push("/sign-in");
+          }
         }
       } finally {
         setIsLoading(false);
@@ -45,7 +52,7 @@ export const AuthenticationGuard = ({ children }: PrivateRouteProps) => {
     };
 
     if (!isAuthenticated) {
-      verifyIsRemember();
+      verifyIsAuthenticated();
     }
   }, [isAuthenticated, dispatch]);
 

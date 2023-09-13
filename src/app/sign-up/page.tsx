@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import LoadingComponent from "@/components/loading/loading-component";
+import { LoginResponseType } from "@/types/auth.types";
 
 interface CreateAcountForm {
   fullName: string;
@@ -45,16 +46,19 @@ export default function SignUpPage() {
 
     async function verifyIsAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
-
+      if (!token && !refreshToken) {
+        return push("/sign-in");
+      }
       if (token) {
-        push(APP_ROUTES.private.home);
+        return push(APP_ROUTES.private.home);
       }
 
       if (!token && refreshToken) {
-        const returnDispatch = await dispatch(loginRefreshToken() as any);
-
-        if (returnDispatch?.payload?.isAuthenticated) {
-          push(APP_ROUTES.private.home);
+        const response: LoginResponseType = await dispatch(
+          loginRefreshToken() as any
+        );
+        if (response.error) {
+          return push("/sign-in");
         }
       }
     }

@@ -50,10 +50,12 @@ export default function SignInPage() {
       }
 
       if (!token && refreshToken) {
-        const returnDispatch = await dispatch(loginRefreshToken() as any);
+        const returnDispatch: LoginResponseType = await dispatch(
+          loginRefreshToken() as any
+        );
 
-        if (returnDispatch.payload?.isAuthenticated) {
-          push(APP_ROUTES.private.home);
+        if (returnDispatch.error) {
+          return push("/sign-in");
         }
       }
     }
