@@ -58,7 +58,7 @@ export const createStorageAsync = createAsyncThunk(
         throw Error("Não foi possivel criar o storage");
       }
 
-      return response.data;
+      return {storage: response.data.storage}
     } catch (error: any) {
       throw Error(error.response.data.error);
     }
