@@ -13,20 +13,23 @@ export const loginUserAsync = createAsyncThunk(
   "user/login",
   async ({ email, password, rememberMe }: LoginData) => {
     try {
-      const data = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth`, {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth`,
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       const maxAgeInSeconds15minutos = 900;
       const maxAgeInSeconds7dias = 604800;
 
-      await saveCookie("token", data.data.token, maxAgeInSeconds15minutos);
+      await saveCookie("token", response.data.token, maxAgeInSeconds15minutos);
 
       if (rememberMe === true) {
         await saveCookie(
           "refreshToken",
-          data.data.refreshToken,
+          response.data.refreshToken,
           maxAgeInSeconds7dias
         );
       }
@@ -40,24 +43,33 @@ export const loginUserAsync = createAsyncThunk(
 export const loginRefreshToken = createAsyncThunk(
   "user/refreshToken",
   async () => {
-    const { token, refreshToken } = await checkIsAuthenticated();
+    try {
+      const { refreshToken } = await checkIsAuthenticated();
 
-    if (!token && !refreshToken) {
-      return;
-    }
+      if (!refreshToken) {
+        return {
+          error: {
+            message: "Refresh token is required",
+          },
 
-    if (!token && refreshToken) {
-      const token: string = await axios
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/refresh-token`, {
+          isAuthenticated: false,
+        };
+      }
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/refresh-token`,
+        {
           refresh_token: refreshToken.id,
-        })
-        .then((data) => data.data.token);
+        }
+      );
 
       const maxAgeInSeconds15minutos = 900;
 
-      await saveCookie("token", token, maxAgeInSeconds15minutos);
+      await saveCookie("token", response.data.token, maxAgeInSeconds15minutos);
 
       return { isAuthenticated: true };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
     }
   }
 );
@@ -113,7 +125,7 @@ const userSlice = createSlice({
 
     builder.addCase(loginRefreshToken.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isAuthenticated = true;
+      state.isAuthenticated = action.payload.isAuthenticated;
     });
 
     builder.addCase(loginRefreshToken.rejected, (state) => {
