@@ -16,6 +16,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import LoadingComponent from "@/components/loading/loading-component";
 import { LoginResponseType } from "@/types/auth.types";
+import { createUserAsync } from "@/store/toolkit/user/user.slice";
+import { ResponseCreateUserAsync } from "@/types/userType";
 
 interface CreateAcountForm {
   fullName: string;
@@ -70,34 +72,27 @@ export default function SignUpPage() {
   const watchPassword = watch("password");
 
   const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
-    try {
-      setIsLoading(true);
+    const response: ResponseCreateUserAsync = await dispatch(
+      createUserAsync({
+        email: data.email,
+        fullName: data.fullName,
+        password: data.password,
+      }) as any
+    );
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users`,
-        {
-          fullName: data.fullName,
-          email: data.email,
-          password: data.password,
-        }
-      );
-
-      toast({
-        title: "Conta criada com sucesso!",
-        description: "Foi enviado um email no email cadastrado para confirmar",
+    if (response.error) {
+      return toast({
+        title: "Falha ao criar usuario",
+        description: response.error.message,
       });
-
-      push("/sign-in");
-    } catch (error: any) {
-      setIsLoading(false);
-
-      toast({
-        title: "Não foi possivel criar a conta.",
-        description: `${error.response.data.error}`,
-      });
-    } finally {
-      setIsLoading(false);
     }
+
+    toast({
+      title: "Usuario criado com sucesso",
+      description: "Seja bem vindo",
+    });
+
+    return push("/sign-in");
   };
 
   return (
