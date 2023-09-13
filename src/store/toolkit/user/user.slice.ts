@@ -1,4 +1,3 @@
-import { UserType } from "@/types/userType";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -53,6 +52,23 @@ export const validateEmailAsync = createAsyncThunk(
       );
 
       return { emailIsValid: true };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
+export const forgotPasswordAsync = createAsyncThunk(
+  "user/forgotPassword",
+  async (email: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`,
+        {
+          email: email,
+        }
+      );
+
+      return { sendedEmail: true };
     } catch (error: any) {
       throw Error(error.response.data.error);
     }

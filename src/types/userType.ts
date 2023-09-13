@@ -36,3 +36,13 @@ export interface ResponseValidateEmailUserAsync {
     emailIsValid: boolean;
   };
 }
+
+export interface ResponseForgotPasswordAsync {
+  error?: {
+    message: string;
+  };
+
+  payload?: {
+    sendedEmail: boolean;
+  };
+}
