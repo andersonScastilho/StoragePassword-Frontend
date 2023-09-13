@@ -10,9 +10,7 @@ export const StorageCardsComponent = () => {
   const { storages } = useAppSelector((state) => state.storageReducer);
 
   useEffect(() => {
-    if (storages.length <= 0) {
-      dispatch(fetchStoragesAsync() as any);
-    }
+    dispatch(fetchStoragesAsync() as any);
   }, []);
 
   return (
