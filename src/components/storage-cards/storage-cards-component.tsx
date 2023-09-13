@@ -7,17 +7,17 @@ import { CardStorageComponent } from "../card-preview-storage/card-preview-stora
 
 export const StorageCardsComponent = () => {
   const dispatch = useDispatch();
-  const { storage } = useAppSelector((state) => state.storageReducer);
+  const { storages } = useAppSelector((state) => state.storageReducer);
 
   useEffect(() => {
-    if (storage.length <= 0) {
+    if (storages.length <= 0) {
       dispatch(fetchStoragesAsync() as any);
     }
   }, []);
 
   return (
     <div className="flex p-1 flex-wrap gap-5">
-      {storage.map((storage) => (
+      {storages.map((storage) => (
         <CardStorageComponent
           props={storage.props}
           key={storage.props.storageId}
