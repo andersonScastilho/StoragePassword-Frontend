@@ -30,7 +30,6 @@ export const loginUserAsync = createAsyncThunk(
           maxAgeInSeconds7dias
         );
       }
-
       return { isAuthenticated: true };
     } catch (error: any) {
       throw Error(error.response.data.error);
@@ -91,7 +90,7 @@ const userSlice = createSlice({
     });
 
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {
-      state.isAuthenticated = true;
+      state.isAuthenticated = action.payload.isAuthenticated;
       state.isLoading = false;
     });
 

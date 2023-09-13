@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import LoadingComponent from "@/components/loading/loading-component";
+import { LoginResponseType } from "@/types/auth.types";
 
 interface LoginForm {
   email: string;
@@ -61,13 +62,22 @@ export default function SignInPage() {
   }, [isAuthenticated, dispatch, push]);
 
   const handleSubmitPress = async (data: LoginForm) => {
-    const response = await dispatch(
+    const response: LoginResponseType = await dispatch(
       loginUserAsync({
         email: data.email,
         password: data.password,
         rememberMe: data.rememberMe,
       }) as any
     );
+
+    if (response.error) {
+      return toast({
+        title: "Falha no login",
+        description: response.error.message,
+      });
+    }
+
+    return push("/");
   };
 
   return (
