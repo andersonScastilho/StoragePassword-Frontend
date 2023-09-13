@@ -15,3 +15,12 @@ export interface ResponseFetchStorages {
     storages: Storage[];
   };
 }
+
+export interface ResponseCreateStorage {
+  error?: {
+    message: string;
+  };
+  data?: {
+    storage: Storage;
+  };
+}

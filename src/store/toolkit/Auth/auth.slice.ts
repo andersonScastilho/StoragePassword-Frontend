@@ -47,13 +47,7 @@ export const loginRefreshToken = createAsyncThunk(
       const { refreshToken } = await checkIsAuthenticated();
 
       if (!refreshToken) {
-        return {
-          error: {
-            message: "Refresh token is required",
-          },
-
-          isAuthenticated: false,
-        };
+        throw Error("Refresh token is required");
       }
 
       const response = await axios.post(

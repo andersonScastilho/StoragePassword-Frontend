@@ -22,8 +22,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { createStorage } from "../../store/toolkit/storage/storage.slice";
+import { createStorageAsync } from "../../store/toolkit/storage/storage.slice";
 import LoadingComponent from "@/components/loading/loading-component";
+import { ResponseCreateStorage } from "@/types/storage.types";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -61,65 +62,44 @@ export default function CreateStoragePage() {
   };
 
   const handleSubmitPress = async (data: CreateStorageProps) => {
-    try {
-      setIsLoading(true);
-      const { token } = await checkIsAuthenticated();
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/storages`,
-        {
-          usageLocation: data.usageLocation,
-          account: data.account,
-          password: data.password,
+    const response: ResponseCreateStorage = await dispatch(
+      createStorageAsync({
+        props: {
           description: data.description,
+          account: data.account,
           link: data.link,
+          password: data.password,
+          usageLocation: data.usageLocation,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      }) as any
+    );
 
-      toast({
-        title: "Storage salvo com sucesso",
-        description: "Agora você pode esquecer mais uma senha rsrs",
-        action: (
-          <ToastAction
-            altText="Visualizar"
-            onClick={() =>
-              push(`/storage/card-details/${response.data.props.storageId}`)
-            }
-          >
-            Visualizar
-          </ToastAction>
-        ),
+    if (response.error) {
+      return toast({
+        title: "Falha ao criar storage",
+        description: response.error.message,
       });
-      dispatch(
-        createStorage({
-          props: {
-            description: data.description,
-            account: data.account,
-            link: data.link,
-            password: data.password,
-            storageId: response.data.props.storageId,
-            usageLocation: data.usageLocation,
-            userId: response.data.props.userId,
-          },
-        })
-      );
+    }
 
-      for (const key in data) {
-        resetField<any>(key);
-      }
-    } catch (error: any) {
-      setIsLoading(false);
-      toast({
-        title: "Não foi possivel armazenar o storage.",
-        description: `${error.response.data.error}`,
-      });
-    } finally {
-      setIsLoading(false);
+    toast({
+      title: "Storage salvo com sucesso",
+      description: "Agora você pode esquecer mais uma senha rsrs",
+      action: (
+        <ToastAction
+          altText="Visualizar"
+          onClick={() =>
+            push(
+              `/storage/card-details/${response.data?.storage.props.storageId}`
+            )
+          }
+        >
+          Visualizar
+        </ToastAction>
+      ),
+    });
+
+    for (const key in data) {
+      resetField<any>(key);
     }
   };
 
