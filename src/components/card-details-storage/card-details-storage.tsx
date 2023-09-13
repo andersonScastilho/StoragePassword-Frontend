@@ -1,4 +1,7 @@
-import { Storage } from "@/types/storage.types";
+import {
+  ResponseDeleteStorageAsyncReducer,
+  Storage,
+} from "@/types/storage.types";
 import {
   Card,
   CardContent,
@@ -37,7 +40,7 @@ import {
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { deleteStorage } from "../../store/toolkit/storage/storage.slice";
+import { deleteStorageAsync } from "../../store/toolkit/storage/storage.slice";
 import { useState } from "react";
 import LoadingComponent from "../loading/loading-component";
 
@@ -113,37 +116,21 @@ export const CardDetailStorageComponent = ({
     }
   };
   const handleDeletePress = async () => {
-    try {
-      setIsLoading(true);
-      const { token } = await checkIsAuthenticated();
+    const response: ResponseDeleteStorageAsyncReducer = await dispatch(
+      deleteStorageAsync(dataStorage.props.storageId) as any
+    );
 
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/storages/${dataStorage.props.storageId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(deleteStorage(dataStorage.props.storageId));
-
-      toast({
-        title: "Storage deletado com sucesso!",
-        description:
-          "Para não precisar gravar outra senha, salve com a gente!!",
+    if (response.error) {
+      return toast({
+        title: "Falha ao deletar storage!",
+        description: response.error.message,
       });
-
-      push("/storage");
-    } catch (error: any) {
-      setIsLoading(false);
-
-      toast({
-        title: "Storage deletado com sucesso!",
-        description: `${error.response.data.error}`,
-      });
-    } finally {
-      setIsLoading(false);
     }
+
+    toast({
+      title: "Storage deletado com sucesso!",
+      description: "Para não precisar gravar outra senha, salve com a gente!!",
+    });
   };
 
   return (

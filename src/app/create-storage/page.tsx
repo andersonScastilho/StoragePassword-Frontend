@@ -89,7 +89,7 @@ export default function CreateStoragePage() {
           altText="Visualizar"
           onClick={() =>
             push(
-              `/storage/card-details/${response.payload.storage.props.storageId}`
+              `/storage/card-details/${response?.payload?.storage.props.storageId}`
             )
           }
         >

@@ -3,6 +3,60 @@ import { ResponseFetchStorages, Storage } from "@/types/storage.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+interface IPropsType {
+  props: {
+    password: string;
+    account: string;
+    usageLocation: string;
+    description?: string;
+    link?: string;
+  };
+}
+
+interface InitialState {
+  storages: Storage[];
+  storage: Storage;
+  isLoading: boolean;
+}
+
+const initialState: InitialState = {
+  storages: [],
+  storage: {
+    props: {
+      account: "",
+      password: "",
+      storageId: "",
+      userId: "",
+      description: "",
+      link: "",
+      usageLocation: "",
+    },
+  },
+  isLoading: false,
+};
+
+export const deleteStorageAsync = createAsyncThunk(
+  "storage/delete",
+  async (storageId: string) => {
+    try {
+      const { token } = await checkIsAuthenticated();
+
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/storages/${storageId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return { deleted: true, storageId };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
 export const fetchStoragesAsync = createAsyncThunk(
   "storage/fetch",
   async () => {
@@ -24,13 +78,10 @@ export const fetchStoragesAsync = createAsyncThunk(
     return { storage: response.data.storages };
   }
 );
+
 export const createStorageAsync = createAsyncThunk(
   "storage/create",
-  async ({
-    props,
-  }: {
-    props: Omit<Storage["props"], "userId" | "storageId">;
-  }) => {
+  async ({ props }: IPropsType) => {
     try {
       const { token } = await checkIsAuthenticated();
       const response = await axios.post(
@@ -59,37 +110,11 @@ export const createStorageAsync = createAsyncThunk(
     }
   }
 );
-interface InitialState {
-  storages: Storage[];
-  storage: Storage;
-  isLoading: boolean;
-}
-const initialState: InitialState = {
-  storages: [],
-  storage: {
-    props: {
-      account: "",
-      password: "",
-      storageId: "",
-      userId: "",
-      description: "",
-      link: "",
-      usageLocation: "",
-    },
-  },
-  isLoading: false,
-};
 
 const storageSlice = createSlice({
   name: "storage",
   initialState,
-  reducers: {
-    deleteStorage: (state, action) => {
-      state.storages = state.storages.filter(
-        (storage) => storage.props.storageId !== action.payload
-      );
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchStoragesAsync.pending, (state) => {
       state.isLoading = true;
@@ -112,8 +137,22 @@ const storageSlice = createSlice({
     builder.addCase(createStorageAsync.rejected, (state) => {
       state.isLoading = false;
     });
+
+    builder.addCase(deleteStorageAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(deleteStorageAsync.fulfilled, (state, action) => {
+      state.storages = state.storages.filter(
+        (storage) => storage.props.storageId !== action.payload.storageId
+      );
+      state.isLoading = false;
+    });
+
+    builder.addCase(deleteStorageAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 
-export const { deleteStorage } = storageSlice.actions;
 export default storageSlice.reducer;

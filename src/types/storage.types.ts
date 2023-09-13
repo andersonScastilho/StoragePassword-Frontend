@@ -20,7 +20,16 @@ export interface ResponseCreateStorageAsyncReducer {
   error?: {
     message: string;
   };
-  payload: {
+  payload?: {
     storage: Storage;
+  };
+}
+
+export interface ResponseDeleteStorageAsyncReducer {
+  error?: {
+    message: string;
+  };
+  payload?: {
+    deleted: boolean;
   };
 }
