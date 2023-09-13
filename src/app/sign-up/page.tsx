@@ -49,6 +49,7 @@ export default function SignUpPage() {
       if (!token && !refreshToken) {
         return push("/sign-in");
       }
+
       if (token) {
         return push(APP_ROUTES.private.home);
       }

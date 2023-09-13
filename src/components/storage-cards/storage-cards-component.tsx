@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { useDispatch } from "react-redux";
-import { fetchStorageAsync } from "@/store/toolkit/storage/storage.slice";
+import { fetchStoragesAsync } from "@/store/toolkit/storage/storage.slice";
 import { CardStorageComponent } from "../card-preview-storage/card-preview-storage-component";
 
 export const StorageCardsComponent = () => {
@@ -11,7 +11,7 @@ export const StorageCardsComponent = () => {
 
   useEffect(() => {
     if (storage.length <= 0) {
-      dispatch(fetchStorageAsync() as any);
+      dispatch(fetchStoragesAsync() as any);
     }
   }, []);
 

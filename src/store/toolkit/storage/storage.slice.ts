@@ -1,32 +1,29 @@
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { Storage } from "@/types/storage.types";
+import { ResponseFetchStorages, Storage } from "@/types/storage.types";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface FetchStorage {
-  data: {
-    storages: Storage[];
-  };
-}
+export const fetchStoragesAsync = createAsyncThunk(
+  "storage/fetch",
+  async () => {
+    const { token } = await checkIsAuthenticated();
 
-export const fetchStorageAsync = createAsyncThunk("storage/fetch", async () => {
-  const { token } = await checkIsAuthenticated();
-
-  if (!token) {
-    return;
-  }
-
-  const response: FetchStorage = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/storages`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    if (!token) {
+      return;
     }
-  );
 
-  return { storage: response.data.storages };
-});
+    const response: ResponseFetchStorages = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/storages`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return { storage: response.data.storages };
+  }
+);
 
 interface InitialState {
   storage: Storage[] | [];
@@ -52,14 +49,14 @@ const storageSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchStorageAsync.pending, (state) => {
+    builder.addCase(fetchStoragesAsync.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(fetchStorageAsync.fulfilled, (state, action) => {
+    builder.addCase(fetchStoragesAsync.fulfilled, (state, action) => {
       state.isLoading = false;
       state.storage = action?.payload?.storage || initialState.storage;
     });
-    builder.addCase(fetchStorageAsync.rejected, (state) => {
+    builder.addCase(fetchStoragesAsync.rejected, (state) => {
       state.isLoading = false;
     });
   },

@@ -9,3 +9,9 @@ export interface Storage {
     storageId: string;
   };
 }
+
+export interface ResponseFetchStorages {
+  data: {
+    storages: Storage[];
+  };
+}
