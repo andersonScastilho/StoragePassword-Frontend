@@ -48,10 +48,6 @@ export default function SignUpPage() {
 
     async function verifyIsAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
-      if (!token && !refreshToken) {
-        return push("/sign-in");
-      }
-
       if (token) {
         return push(APP_ROUTES.private.home);
       }
@@ -81,7 +77,7 @@ export default function SignUpPage() {
     );
 
     if (response.error) {
-       toast({
+      return toast({
         title: "Falha ao criar usuario",
         description: response.error.message,
       });
@@ -92,7 +88,7 @@ export default function SignUpPage() {
       description: "Seja bem vindo",
     });
 
-   
+    return push("/sign-in");
   };
 
   return (
