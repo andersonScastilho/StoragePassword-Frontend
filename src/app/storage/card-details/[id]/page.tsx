@@ -118,8 +118,9 @@ export default function CardDetailStoragePage({
   };
 
   useEffect(() => {
+    resetField("password");
     setPassword("********");
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   return (
     <main className="h-full min-w-full flex flex-col bg-primary gap-1">
