@@ -108,6 +108,7 @@ export default function CardDetailStoragePage({
       );
 
       setPassword(passwordDescrypted.data.descryptedPassword);
+      return resetField("password");
     } catch (error: any) {
       if (error.response.data.error == "Token expired or invalid") {
         onClose();
@@ -124,11 +125,11 @@ export default function CardDetailStoragePage({
           ),
         });
       }
-      onClose();
 
+      onClose();
       resetField("password");
 
-      toast({
+      return toast({
         title: "Não foi possivel mostrar a senha",
         description:
           `${error?.response?.data?.error}` || "Ocorreu um erro inesperado",
@@ -138,7 +139,7 @@ export default function CardDetailStoragePage({
 
   useEffect(() => {
     setPassword("********");
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <main className="h-full min-w-full flex flex-col bg-primary gap-1">
