@@ -18,13 +18,17 @@ import { useToast } from "@/components/ui/use-toast";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { createStorageAsync } from "../../store/toolkit/storage/storage.slice";
+import {
+  createStorageAsync,
+  fetchStoragesAsync,
+} from "../../store/toolkit/storage/storage.slice";
 import LoadingComponent from "@/components/loading/loading-component";
 import { ResponseCreateStorageAsyncReducer } from "@/types/storage.types";
+import { useAppSelector } from "@/hooks/redux.hooks";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -41,7 +45,8 @@ export default function CreateStoragePage() {
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const { storages } = useAppSelector((state) => state.storageReducer);
+
   const {
     register,
     handleSubmit,
@@ -52,6 +57,12 @@ export default function CreateStoragePage() {
   const [passwordIsHide, setPasswordIsHide] = useState(
     TYPEINPUTPASSWORD.PASSWORD
   );
+
+  useEffect(() => {
+    if (storages.length == 0) {
+      dispatch(fetchStoragesAsync() as any);
+    }
+  }, []);
 
   const handleChangePasswordIsHide = () => {
     if (passwordIsHide === TYPEINPUTPASSWORD.PASSWORD) {
@@ -105,7 +116,6 @@ export default function CreateStoragePage() {
 
   return (
     <main className="h-full min-w-full flex flex-col gap-1 bg-primary ">
-      {isLoading && <LoadingComponent />}
       <HeaderComponent />
       <div className="flex gap-10 p-5 ">
         <Card className="bg-primary-foreground border-none w-96 m-auto">
