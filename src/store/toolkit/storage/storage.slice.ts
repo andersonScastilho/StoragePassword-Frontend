@@ -13,12 +13,6 @@ interface IPropsType {
   };
 }
 
-interface InitialState {
-  storages: Storage[];
-  storage: Storage;
-  isLoading: boolean;
-}
-
 const initialState: InitialState = {
   storages: [],
   storage: {
@@ -75,7 +69,7 @@ export const fetchStoragesAsync = createAsyncThunk(
       }
     );
 
-    return { storage: response.data.storages };
+    return { storages: response.data.storages };
   }
 );
 
@@ -111,6 +105,31 @@ export const createStorageAsync = createAsyncThunk(
   }
 );
 
+export const fetchStoragePerIdAsync = createAsyncThunk(
+  "storage/fetchUnique",
+  async (storageId: string) => {
+    try {
+      const { token } = await checkIsAuthenticated();
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/storages/${storageId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return { storage: response.data };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
+interface InitialState {
+  storages: Storage[];
+  storage: Storage;
+  isLoading: boolean;
+}
+
 const storageSlice = createSlice({
   name: "storage",
   initialState,
@@ -121,7 +140,7 @@ const storageSlice = createSlice({
     });
     builder.addCase(fetchStoragesAsync.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.storages = action?.payload?.storage || initialState.storages;
+      state.storages = action?.payload?.storages || initialState.storages;
     });
     builder.addCase(fetchStoragesAsync.rejected, (state) => {
       state.isLoading = false;

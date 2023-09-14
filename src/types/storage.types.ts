@@ -33,3 +33,12 @@ export interface ResponseDeleteStorageAsyncReducer {
     deleted: boolean;
   };
 }
+
+export interface ResponseFetchStoragePerIdAsyncReducer {
+  error?: {
+    message: string;
+  };
+  payload?: {
+    storage: Storage;
+  };
+}

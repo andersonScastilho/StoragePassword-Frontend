@@ -17,7 +17,10 @@ import { CardDetailStorageComponent } from "@/components/card-details-storage/ca
 import { HeaderComponent } from "@/components/header/header-component";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useAppSelector } from "@/hooks/redux.hooks";
-import { Storage } from "@/types/storage.types";
+import {
+  ResponseFetchStoragePerIdAsyncReducer,
+  Storage,
+} from "@/types/storage.types";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -25,6 +28,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useDispatch } from "react-redux";
 import { loginRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { ToastAction } from "@/components/ui/toast";
+import { fetchStoragePerIdAsync } from "@/store/toolkit/storage/storage.slice";
 interface DescryptedPasswordResponse {
   data: {
     descryptedPassword: string;
@@ -49,34 +53,27 @@ export default function CardDetailStoragePage({
   const { toast } = useToast();
   const [selectedStorage, setSelectedStorage] = useState<Storage>();
   const { storages } = useAppSelector((state) => state.storageReducer);
-
   useEffect(() => {
     const fetchStorageData = async () => {
-      const { token } = await checkIsAuthenticated();
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/storages/${params.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const responseData: Storage = response.data;
+      const response: ResponseFetchStoragePerIdAsyncReducer = await dispatch(
+        fetchStoragePerIdAsync(params.id) as any
+      );
 
-        setSelectedStorage(responseData);
-      } catch (error) {
-        console.error("Error fetching storage:", error);
+      if (response.error) {
+        return toast({
+          title: "Falha Storage",
+          description: response.error.message,
+        });
       }
+      return setSelectedStorage(response.payload?.storage);
     };
-
-    const [filteredStorage] = storages.filter(
-      (item) => item.props.storageId === params.id
-    );
 
     if (storages.length <= 0) {
       fetchStorageData();
     } else {
+      const [filteredStorage] = storages.filter(
+        (item) => item.props.storageId === params.id
+      );
       setSelectedStorage(filteredStorage);
     }
   }, [params.id]);
