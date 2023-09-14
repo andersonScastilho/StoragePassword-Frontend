@@ -57,17 +57,18 @@ export const validateEmailAsync = createAsyncThunk(
     }
   }
 );
+
 export const forgotPasswordAsync = createAsyncThunk(
   "user/forgotPassword",
   async (email: string) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/forgotPassword`,
+        `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`,
         {
           email: email,
         }
       );
-
+      console.log(response);
       return { sendedEmail: true };
     } catch (error: any) {
       throw Error(error.response.data.error);
