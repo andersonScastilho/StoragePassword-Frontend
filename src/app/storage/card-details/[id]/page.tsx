@@ -131,8 +131,7 @@ export default function CardDetailStoragePage({
 
       return toast({
         title: "Não foi possivel mostrar a senha",
-        description:
-          `${error?.response?.data?.error}` || "Ocorreu um erro inesperado",
+        description: `${error?.response?.data?.error}`,
       });
     }
   };
