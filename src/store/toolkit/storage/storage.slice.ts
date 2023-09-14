@@ -124,6 +124,34 @@ export const fetchStoragePerIdAsync = createAsyncThunk(
     }
   }
 );
+interface ShowEncryptedPasswordProps {
+  storageId: string;
+  password: string;
+}
+export const showEncryptedPasswordAsync = createAsyncThunk(
+  "storage/showEncryptedPassword",
+  async ({ password, storageId }: ShowEncryptedPasswordProps) => {
+    try {
+      const { token } = await checkIsAuthenticated();
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/passwords/storages/${storageId}`,
+        {
+          password: password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return { decryptedPassword: response.data.descryptedPassword };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
 interface InitialState {
   storages: Storage[];
   storage: Storage;

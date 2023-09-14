@@ -42,3 +42,12 @@ export interface ResponseFetchStoragePerIdAsyncReducer {
     storage: Storage;
   };
 }
+
+export interface ResponseShowEncryptedPasswordAsyncReducer {
+  error?: {
+    message: string;
+  };
+  payload?: {
+    decryptedPassword: string;
+  };
+}

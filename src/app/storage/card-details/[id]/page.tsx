@@ -19,6 +19,7 @@ import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import {
   ResponseFetchStoragePerIdAsyncReducer,
+  ResponseShowEncryptedPasswordAsyncReducer,
   Storage,
 } from "@/types/storage.types";
 import { useForm } from "react-hook-form";
@@ -28,12 +29,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { useDispatch } from "react-redux";
 import { loginRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { ToastAction } from "@/components/ui/toast";
-import { fetchStoragePerIdAsync } from "@/store/toolkit/storage/storage.slice";
-interface DescryptedPasswordResponse {
-  data: {
-    descryptedPassword: string;
-  };
-}
+import {
+  fetchStoragePerIdAsync,
+  showEncryptedPasswordAsync,
+} from "@/store/toolkit/storage/storage.slice";
+
 interface ShowPasswordForm {
   password: string;
 }
@@ -92,48 +92,29 @@ export default function CardDetailStoragePage({
   const [password, setPassword] = useState<string>("");
 
   const showPassword = async (data: ShowPasswordForm) => {
-    try {
-      const { token } = await checkIsAuthenticated();
+    const response: ResponseShowEncryptedPasswordAsyncReducer = await dispatch(
+      showEncryptedPasswordAsync({
+        password: data.password,
+        storageId: params.id,
+      }) as any
+    );
 
-      const passwordDescrypted: DescryptedPasswordResponse = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/passwords/storages/${params.id}`,
-        {
-          password: data.password,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setPassword(passwordDescrypted.data.descryptedPassword);
-      return resetField("password");
-    } catch (error: any) {
-      if (error.response.data.error == "Token expired or invalid") {
-        onClose();
-
-        await dispatch(loginRefreshToken() as any);
-
-        toast({
-          title: "Não foi possivel mostrar a senha",
-          description: "Ocorreu um erro inesperado, tente novamente",
-          action: (
-            <ToastAction altText="Entra" onClick={() => onOpen()}>
-              Repetir
-            </ToastAction>
-          ),
-        });
-      }
-
-      onClose();
+    if (response.error || !response.payload?.decryptedPassword) {
       resetField("password");
+      onClose();
 
       return toast({
         title: "Não foi possivel mostrar a senha",
-        description: `${error?.response?.data?.error}`,
+        description: response.error?.message,
+        action: (
+          <ToastAction altText="Entra" onClick={() => onOpen()}>
+            Repetir
+          </ToastAction>
+        ),
       });
     }
+
+    setPassword(response.payload?.decryptedPassword);
   };
 
   useEffect(() => {
