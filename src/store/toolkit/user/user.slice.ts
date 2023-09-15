@@ -96,6 +96,7 @@ export const createUserAsync = createAsyncThunk(
     }
   }
 );
+
 export const verifyEmailUserAsync = createAsyncThunk(
   "user/verifyEmail",
   async (email: string) => {
@@ -187,6 +188,69 @@ const userSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    builder.addCase(createUserAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(createUserAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(createUserAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    //------------------------------------------------------------------------------\\
+
+    builder.addCase(verifyEmailUserAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(verifyEmailUserAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(verifyEmailUserAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    //------------------------------------------------------------------------------\\
+
+    builder.addCase(validateEmailAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(validateEmailAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(validateEmailAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    //------------------------------------------------------------------------------\\
+
+    builder.addCase(forgotPasswordAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(forgotPasswordAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(forgotPasswordAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    //------------------------------------------------------------------------------\\
+
+    builder.addCase(resetPasswordAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(resetPasswordAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(resetPasswordAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+
+    //------------------------------------------------------------------------------\\
+
     builder.addCase(loginUserAsync.pending, (state) => {
       state.isLoading = true;
     });
@@ -195,15 +259,23 @@ const userSlice = createSlice({
       state.isAuthenticated = action.payload.isAuthenticated;
       state.isLoading = false;
     });
-
     builder.addCase(loginUserAsync.rejected, (state) => {
       state.isLoading = false;
       state.isAuthenticated = false;
     });
+
     //---------------------------------------------------------------------------------------------//
+
+    builder.addCase(logoutUserAsync.pending, (state) => {
+      state.isLoading = false;
+    });
 
     builder.addCase(logoutUserAsync.fulfilled, (state) => {
       state.isAuthenticated = false;
+      state.isLoading = false;
+    });
+
+    builder.addCase(logoutUserAsync.rejected, (state) => {
       state.isLoading = false;
     });
 
