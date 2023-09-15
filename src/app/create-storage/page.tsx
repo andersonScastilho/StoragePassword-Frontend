@@ -16,7 +16,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { HiEye } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import {
@@ -25,18 +25,22 @@ import {
 } from "../../store/toolkit/storage/storage.slice";
 import { ResponseCreateStorageAsyncReducer } from "@/types/storage.types";
 import { useAppSelector } from "@/hooks/redux.hooks";
+import { z } from "zod";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
 }
 
-interface CreateStorageProps {
-  usageLocation: string;
-  account: string;
-  password: string;
-  description?: string;
-  link?: string;
-}
+const createStorageSchema = z.object({
+  description: z.string().optional(),
+  account: z.string().min(1, { message: "Username é obrigatório" }),
+  link: z.string().optional(),
+  password: z.string().min(1, { message: "Senha é obrigatória" }),
+  usageLocation: z.string().min(1, { message: "Local de uso é obrigatório" }),
+});
+
+type CreateStorageSchema = z.infer<typeof createStorageSchema>;
+
 export default function CreateStoragePage() {
   const { push } = useRouter();
   const { toast } = useToast();
@@ -48,7 +52,7 @@ export default function CreateStoragePage() {
     handleSubmit,
     resetField,
     formState: { errors },
-  } = useForm<CreateStorageProps>();
+  } = useForm<CreateStorageSchema>();
 
   const [passwordIsHide, setPasswordIsHide] = useState(
     TYPEINPUTPASSWORD.PASSWORD
@@ -68,15 +72,19 @@ export default function CreateStoragePage() {
     }
   };
 
-  const handleSubmitPress = async (data: CreateStorageProps) => {
+  const handleSubmitPress: SubmitHandler<CreateStorageSchema> = async (
+    data
+  ) => {
+    const { account, description, link, password, usageLocation } = data;
+
     const response: ResponseCreateStorageAsyncReducer = await dispatch(
       createStorageAsync({
         props: {
-          description: data.description,
-          account: data.account,
-          link: data.link,
-          password: data.password,
-          usageLocation: data.usageLocation,
+          description: description,
+          account: account,
+          link: link,
+          password: password,
+          usageLocation: usageLocation,
         },
       }) as any
     );

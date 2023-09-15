@@ -12,17 +12,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetPasswordAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseResetPasswordAsync } from "@/types/userType";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
-interface RequestParams {
-  password: string;
-  passwordConfirmation: string;
-}
+import { z } from "zod";
+
+const resetPasswordSchema = z.object({
+  password: z.string().min(1, { message: "Senha é obrigatório" }),
+  passwordConfirmation: z
+    .string()
+    .min(1, { message: "Confirmação de senha é obrigatório" }),
+});
+
+type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
 
 export default function ResetPasswordPage() {
   const {
@@ -31,7 +37,7 @@ export default function ResetPasswordPage() {
     resetField,
     watch,
     formState: { errors },
-  } = useForm<RequestParams>();
+  } = useForm<ResetPasswordSchema>();
   const searchParams = useSearchParams();
   const { push } = useRouter();
   const token = searchParams.get("token");
@@ -39,13 +45,17 @@ export default function ResetPasswordPage() {
   const dispatch = useDispatch();
   const { isLoading } = useAppSelector((state) => state.userReducer);
 
-  const handleSubmitPress = async (data: RequestParams) => {
+  const handleSubmitPress: SubmitHandler<ResetPasswordSchema> = async (
+    data
+  ) => {
+    const { password } = resetPasswordSchema.parse(data);
+
     if (!token) {
       return push("/forgot-password");
     }
 
     const response: ResponseResetPasswordAsync = await dispatch(
-      resetPasswordAsync({ newPassword: data.password, token: token }) as any
+      resetPasswordAsync({ newPassword: password, token: token }) as any
     );
 
     if (response.error) {

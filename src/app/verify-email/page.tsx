@@ -11,16 +11,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { verifyEmailUserAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseVerifyEmailUserAsync } from "@/types/userType";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
-interface RequestParamsForm {
-  email: string;
-}
+import { z } from "zod";
+
+const verifyEmailSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email é obrigatório" })
+    .email({ message: "Insira um email valido" }),
+});
+
+type VerifyEmailSchema = z.infer<typeof verifyEmailSchema>;
 
 export default function VerifyEmailPage() {
   const {
@@ -28,14 +35,16 @@ export default function VerifyEmailPage() {
     register,
     resetField,
     formState: { errors },
-  } = useForm<RequestParamsForm>();
+  } = useForm<VerifyEmailSchema>();
   const { push } = useRouter();
   const dispatch = useDispatch();
   const { isLoading } = useAppSelector((state) => state.userReducer);
 
-  const handleSubmitPress = async (data: RequestParamsForm) => {
+  const handleSubmitPress: SubmitHandler<VerifyEmailSchema> = async (data) => {
+    const { email } = data;
+
     const response: ResponseVerifyEmailUserAsync = await dispatch(
-      verifyEmailUserAsync(data.email) as any
+      verifyEmailUserAsync(email) as any
     );
 
     if (response.error) {
