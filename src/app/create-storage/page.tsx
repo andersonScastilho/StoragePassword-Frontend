@@ -1,5 +1,4 @@
 "use client";
-import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
 import { HeaderComponent } from "@/components/header/header-component";
 import { InputErrorMessage } from "@/components/input-error-message/input-error-message";
 import { Button } from "@/components/ui/button";
@@ -15,8 +14,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
-import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,7 +23,6 @@ import {
   createStorageAsync,
   fetchStoragesAsync,
 } from "../../store/toolkit/storage/storage.slice";
-import LoadingComponent from "@/components/loading/loading-component";
 import { ResponseCreateStorageAsyncReducer } from "@/types/storage.types";
 import { useAppSelector } from "@/hooks/redux.hooks";
 enum TYPEINPUTPASSWORD {

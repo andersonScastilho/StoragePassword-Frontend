@@ -19,6 +19,7 @@ export default function ValidateEmailPage() {
   const { push } = useRouter();
   const token = searchParams.get("token");
   const dispatch = useDispatch();
+
   const handleSubmitPress = async () => {
     if (!token) {
       return push("/verify-email");

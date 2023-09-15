@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Button,
   Modal,
@@ -12,10 +11,8 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
 import { CardDetailStorageComponent } from "@/components/card-details-storage/card-details-storage";
 import { HeaderComponent } from "@/components/header/header-component";
-import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import {
   ResponseFetchStoragePerIdAsyncReducer,
@@ -27,7 +24,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useDispatch } from "react-redux";
-import { loginRefreshToken } from "@/store/toolkit/user/user.slice";
 import { ToastAction } from "@/components/ui/toast";
 import {
   fetchStoragePerIdAsync,

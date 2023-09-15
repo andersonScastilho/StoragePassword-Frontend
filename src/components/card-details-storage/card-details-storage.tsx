@@ -26,8 +26,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -67,7 +65,6 @@ export const CardDetailStorageComponent = ({
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitPress = async (data: PartialStorage) => {
     const valuesToUpdate: PartialStorage = {};
@@ -127,7 +124,6 @@ export const CardDetailStorageComponent = ({
 
   return (
     <Card className="bg-primary-foreground border-none w-96 m-auto">
-      {isLoading && <LoadingComponent />}
       <CardHeader>
         <CardTitle>Storage</CardTitle>
       </CardHeader>
