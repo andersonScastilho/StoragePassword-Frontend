@@ -11,16 +11,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { forgotPasswordAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseForgotPasswordAsync } from "@/types/userType";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
-interface RequestParamsForm {
-  email: string;
-}
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const forgotPasswordSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email é obrigatório" })
+    .email({ message: "Insira um email valido" }),
+});
+
+type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPasswordPage() {
   const {
@@ -28,15 +36,21 @@ export default function ForgotPasswordPage() {
     register,
     resetField,
     formState: { errors },
-  } = useForm<RequestParamsForm>();
+  } = useForm<ForgotPasswordSchema>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
   const { push } = useRouter();
   const dispatch = useDispatch();
 
   const { isLoading } = useAppSelector((state) => state.userReducer);
 
-  const handleSubmitPress = async (data: RequestParamsForm) => {
+  const handleSubmitPress: SubmitHandler<ForgotPasswordSchema> = async (
+    data
+  ) => {
+    const { email } = forgotPasswordSchema.parse(data);
+
     const response: ResponseForgotPasswordAsync = await dispatch(
-      forgotPasswordAsync(data.email) as any
+      forgotPasswordAsync(email) as any
     );
 
     if (response.error) {
@@ -70,10 +84,10 @@ export default function ForgotPasswordPage() {
             <Input
               className="text-[0.85rem]"
               type="email"
-              {...register("email", { required: true })}
+              {...register("email")}
             />
-            {errors.email?.type === "required" && (
-              <InputErrorMessage>Email é obrigatório</InputErrorMessage>
+            {errors.email && (
+              <InputErrorMessage>{`${errors.email?.message}`}</InputErrorMessage>
             )}
           </div>
         </CardContent>
