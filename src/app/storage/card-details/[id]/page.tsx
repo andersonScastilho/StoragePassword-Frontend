@@ -112,7 +112,9 @@ export default function CardDetailStoragePage({
       });
     }
 
-    setPassword(response.payload?.decryptedPassword);
+    resetField("password");
+
+    return setPassword(response.payload?.decryptedPassword);
   };
 
   useEffect(() => {
