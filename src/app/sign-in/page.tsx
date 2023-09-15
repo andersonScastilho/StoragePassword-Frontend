@@ -2,7 +2,7 @@
 import {
   loginUserAsync,
   loginRefreshToken,
-} from "../../store/toolkit/Auth/auth.slice";
+} from "../../store/toolkit/user/user.slice";
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";

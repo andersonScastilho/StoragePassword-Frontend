@@ -6,7 +6,7 @@ import { PiPersonSimpleRunFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { logoutUserAsync } from "@/store/toolkit/Auth/auth.slice";
+import { logoutUserAsync } from "@/store/toolkit/user/user.slice";
 
 export const HeaderComponent = () => {
   const { isAuthenticated } = useAppSelector((state) => state.userReducer);

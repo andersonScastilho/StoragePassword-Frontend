@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import {
   updateIsAuthenticated,
   loginRefreshToken,
-} from "@/store/toolkit/Auth/auth.slice";
+} from "@/store/toolkit/user/user.slice";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
 import LoadingComponent from "@/components/loading/loading-component";
 import { LoginResponseType } from "@/types/auth.types";
