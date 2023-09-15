@@ -54,9 +54,9 @@ export default function ForgotPasswordPage() {
       <Card>
         <CardHeader>
           <CardTitle>Esqueci minha senha</CardTitle>{" "}
-          <p className="text-[0.8rem]">
-            Insira seu email, para que possamos envair o link para redefinir a
-            senha
+          <p className="text-[0.8rem] w-96">
+            Insira seu email ja cadastrado, para que possamos o enviar o email
+            de redefinição de senha
           </p>
         </CardHeader>
         <CardContent>
