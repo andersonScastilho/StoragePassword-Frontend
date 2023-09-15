@@ -25,7 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -46,11 +46,25 @@ import {
 } from "../../store/toolkit/storage/storage.slice";
 import { useState } from "react";
 import LoadingComponent from "../loading/loading-component";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface CardDetailsProps {
   dataStorage: Storage;
   clickFunction?: () => void;
 }
+
+const updateStorageSchema = z.object({
+  password: z.string().optional(),
+  account: z.string().optional(),
+  usageLocation: z.string().optional(),
+  description: z.string().optional(),
+  link: z.string().optional(),
+  userId: z.string().optional(),
+  storageId: z.string().optional(),
+});
+
+type UpdateStorageSchema = z.infer<typeof updateStorageSchema>;
 
 export const CardDetailStorageComponent = ({
   dataStorage,
@@ -61,13 +75,18 @@ export const CardDetailStorageComponent = ({
     resetField,
     register,
     formState: { errors },
-  } = useForm<PartialStorage>();
+  } = useForm<UpdateStorageSchema>({
+    resolver: zodResolver(updateStorageSchema),
+  });
+
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
 
-  const handleSubmitPress = async (data: PartialStorage) => {
-    const valuesToUpdate: PartialStorage = {};
+  const handleSubmitPress: SubmitHandler<UpdateStorageSchema> = async (
+    data
+  ) => {
+    const valuesToUpdate: UpdateStorageSchema = {};
 
     for (const key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
