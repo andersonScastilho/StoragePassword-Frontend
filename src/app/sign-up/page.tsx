@@ -1,8 +1,7 @@
 "use client";
-import axios from "axios";
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/constants/app-routes";
@@ -13,26 +12,35 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import LoadingComponent from "@/components/loading/loading-component";
 import { LoginResponseType } from "@/types/auth.types";
 import { createUserAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseCreateUserAsync } from "@/types/userType";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface CreateAcountForm {
-  fullName: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-}
+const createStorageSchema = z.object({
+  fullName: z.string().min(1, { message: "Nome completo é obrigatório" }),
+  email: z.string().min(1, { message: "Email é obrigatório" }).email({
+    message: "Insira um email valido",
+  }),
+  password: z.string().min(1, { message: "Senha é obrigatória" }),
+  passwordConfirmation: z
+    .string()
+    .min(1, { message: "Confirmação de senha é obrigatório" }),
+});
 
+type CreateStorageSchema = z.infer<typeof createStorageSchema>;
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
-  } = useForm<CreateAcountForm>();
+  } = useForm<CreateStorageSchema>({
+    resolver: zodResolver(createStorageSchema),
+  });
 
   const dispatch = useDispatch();
 
@@ -68,12 +76,16 @@ export default function SignUpPage() {
 
   const watchPassword = watch("password");
 
-  const handleSubmitPressCreateUser = async (data: CreateAcountForm) => {
+  const handleSubmitPressCreateUser: SubmitHandler<
+    CreateStorageSchema
+  > = async (data) => {
+    const { email, fullName, password } = createStorageSchema.parse(data);
+
     const response: ResponseCreateUserAsync = await dispatch(
       createUserAsync({
-        email: data.email,
-        fullName: data.fullName,
-        password: data.password,
+        email: email,
+        fullName: fullName,
+        password: password,
       }) as any
     );
 
@@ -119,10 +131,8 @@ export default function SignUpPage() {
                   placeholder="Your name"
                   {...register("fullName", { required: true })}
                 />
-                {errors.fullName?.type === "required" && (
-                  <InputErrorMessage>
-                    Nome completo é obrigatório
-                  </InputErrorMessage>
+                {errors.email && (
+                  <InputErrorMessage>{`${errors.fullName?.message}`}</InputErrorMessage>
                 )}
               </div>
               <div>
@@ -130,13 +140,12 @@ export default function SignUpPage() {
                   Email
                 </Label>
                 <Input
-                  type="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   {...register("email", { required: true })}
                 />
-                {errors.email?.type === "required" && (
-                  <InputErrorMessage>Email é obrigatório</InputErrorMessage>
+                {errors.email && (
+                  <InputErrorMessage>{`${errors.email?.message}`}</InputErrorMessage>
                 )}
               </div>
               <div>
@@ -148,7 +157,6 @@ export default function SignUpPage() {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   {...register("password", {
-                    required: true,
                     pattern: {
                       value:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
@@ -156,14 +164,8 @@ export default function SignUpPage() {
                     },
                   })}
                 />
-                {errors.password?.type === "required" && (
-                  <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
-                )}
-                {errors.password?.type === "pattern" && (
-                  <InputErrorMessage>
-                    Senha deve conter 8+ caracteres, minúscula, maiúscula e
-                    especial
-                  </InputErrorMessage>
+                {errors.email && (
+                  <InputErrorMessage>{`${errors.password?.message}`}</InputErrorMessage>
                 )}
               </div>
               <div>
@@ -175,21 +177,13 @@ export default function SignUpPage() {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   {...register("passwordConfirmation", {
-                    required: true,
                     validate: (value) => {
                       return value === watchPassword;
                     },
                   })}
                 />
-                {errors.passwordConfirmation?.type === "required" && (
-                  <InputErrorMessage>
-                    A Confirmação de senha é obrigatória
-                  </InputErrorMessage>
-                )}
-                {errors?.passwordConfirmation?.type === "validate" && (
-                  <InputErrorMessage>
-                    As senhas precisam ser iguais
-                  </InputErrorMessage>
+                {errors.email && (
+                  <InputErrorMessage>{`${errors.passwordConfirmation?.message}`}</InputErrorMessage>
                 )}
               </div>
 
