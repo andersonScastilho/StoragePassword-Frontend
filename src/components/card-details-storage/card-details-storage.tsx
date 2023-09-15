@@ -122,7 +122,7 @@ export const CardDetailStorageComponent = ({
       description: "Para não precisar gravar outra senha, salve com a gente!!",
     });
 
-    push("/storages");
+    push("/storage");
   };
 
   return (
