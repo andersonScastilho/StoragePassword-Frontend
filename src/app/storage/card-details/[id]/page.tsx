@@ -31,6 +31,7 @@ import { loginRefreshToken } from "@/store/toolkit/Auth/auth.slice";
 import { ToastAction } from "@/components/ui/toast";
 import {
   fetchStoragePerIdAsync,
+  fetchStoragesAsync,
   showEncryptedPasswordAsync,
 } from "@/store/toolkit/storage/storage.slice";
 
@@ -70,6 +71,7 @@ export default function CardDetailStoragePage({
 
     if (storages.length <= 0) {
       fetchStorageData();
+      dispatch(fetchStoragesAsync() as any);
     } else {
       const [filteredStorage] = storages.filter(
         (item) => item.props.storageId === params.id
