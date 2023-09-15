@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { forgotPasswordAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseForgotPasswordAsync } from "@/types/userType";
+import { useAppSelector } from "@/hooks/redux.hooks";
+import LoadingComponent from "@/components/loading/loading-component";
 interface RequestParamsForm {
   email: string;
 }
@@ -29,6 +31,9 @@ export default function ForgotPasswordPage() {
   } = useForm<RequestParamsForm>();
   const { push } = useRouter();
   const dispatch = useDispatch();
+
+  const { isLoading } = useAppSelector((state) => state.userReducer);
+
   const handleSubmitPress = async (data: RequestParamsForm) => {
     const response: ResponseForgotPasswordAsync = await dispatch(
       forgotPasswordAsync(data.email) as any
@@ -50,6 +55,7 @@ export default function ForgotPasswordPage() {
   };
   return (
     <div className="h-full p-5 min-w-full flex flex-col gap-1 bg-primary justify-center items-center">
+      {isLoading && <LoadingComponent />}
       <Card>
         <CardHeader>
           <CardTitle>Esqueci minha senha</CardTitle>{" "}

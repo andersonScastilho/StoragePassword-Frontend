@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetPasswordAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseResetPasswordAsync } from "@/types/userType";
+import { useAppSelector } from "@/hooks/redux.hooks";
+import LoadingComponent from "@/components/loading/loading-component";
 interface RequestParams {
   password: string;
   passwordConfirmation: string;
@@ -35,6 +37,8 @@ export default function ResetPasswordPage() {
   const token = searchParams.get("token");
   const watchPassword = watch("password");
   const dispatch = useDispatch();
+  const { isLoading } = useAppSelector((state) => state.userReducer);
+
   const handleSubmitPress = async (data: RequestParams) => {
     if (!token) {
       return push("/forgot-password");
@@ -61,6 +65,8 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="h-full min-w-full flex flex-col gap-1 bg-primary justify-center items-center p-5">
+      {isLoading && <LoadingComponent />}
+
       <Card>
         <CardHeader>
           <CardTitle>Redefinir minha senha</CardTitle>

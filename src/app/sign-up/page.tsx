@@ -37,7 +37,9 @@ export default function SignUpPage() {
   const dispatch = useDispatch();
 
   const { push } = useRouter();
-  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
+  const { isAuthenticated, isLoading } = useAppSelector(
+    (state) => state.userReducer
+  );
   const { toast } = useToast();
 
   useEffect(() => {
@@ -92,6 +94,7 @@ export default function SignUpPage() {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 flex bg-primary w-full h-full">
+      {isLoading && <LoadingComponent />}
       <div className="flex flex-col w-full items-center justify-center px-6 py-3 md:h-screen lg:py-0">
         <a
           href="#"

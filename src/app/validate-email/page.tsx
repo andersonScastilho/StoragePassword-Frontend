@@ -1,4 +1,5 @@
 "use client";
+import LoadingComponent from "@/components/loading/loading-component";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/redux.hooks";
 import { validateEmailAsync } from "@/store/toolkit/user/user.slice";
 import { ResponseValidateEmailUserAsync } from "@/types/userType";
 import { useSearchParams } from "next/navigation";
@@ -19,6 +21,7 @@ export default function ValidateEmailPage() {
   const { push } = useRouter();
   const token = searchParams.get("token");
   const dispatch = useDispatch();
+  const { isLoading } = useAppSelector((state) => state.userReducer);
 
   const handleSubmitPress = async () => {
     if (!token) {
@@ -46,6 +49,7 @@ export default function ValidateEmailPage() {
 
   return (
     <div className="h-full min-w-full flex flex-col gap-1 bg-primary justify-center items-center p-5">
+      {isLoading && <LoadingComponent />}
       <Card>
         <CardHeader>
           <CardTitle>Validar email</CardTitle>
