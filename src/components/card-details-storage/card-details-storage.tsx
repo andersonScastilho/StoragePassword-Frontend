@@ -1,5 +1,7 @@
 import {
+  PartialStorage,
   ResponseDeleteStorageAsyncReducer,
+  ResponseUpdateStorageAsyncReducer,
   Storage,
 } from "@/types/storage.types";
 import {
@@ -40,20 +42,16 @@ import {
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { deleteStorageAsync } from "../../store/toolkit/storage/storage.slice";
+import {
+  deleteStorageAsync,
+  updateStorageAsync,
+} from "../../store/toolkit/storage/storage.slice";
 import { useState } from "react";
 import LoadingComponent from "../loading/loading-component";
 
 interface CardDetailsProps {
   dataStorage: Storage;
   clickFunction?: () => void;
-}
-interface UpdateStorageProps {
-  usageLocation?: string;
-  account?: string;
-  password?: string;
-  description?: string;
-  link?: string;
 }
 
 export const CardDetailStorageComponent = ({
@@ -65,56 +63,48 @@ export const CardDetailStorageComponent = ({
     resetField,
     register,
     formState: { errors },
-  } = useForm<UpdateStorageProps>();
+  } = useForm<PartialStorage>();
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmitPress = async (data: UpdateStorageProps) => {
-    try {
-      setIsLoading(true);
+  const handleSubmitPress = async (data: PartialStorage) => {
+    const valuesToUpdate: PartialStorage = {};
 
-      const { token } = await checkIsAuthenticated();
-      const valuesToUpdate: UpdateStorageProps = {};
-
-      for (const key in data) {
-        if (Object.prototype.hasOwnProperty.call(data, key)) {
-          if (data[key as keyof UpdateStorageProps] !== "") {
-            valuesToUpdate[key as keyof UpdateStorageProps] =
-              data[key as keyof UpdateStorageProps];
-          }
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if (data[key as keyof PartialStorage] !== "") {
+          valuesToUpdate[key as keyof PartialStorage] =
+            data[key as keyof PartialStorage];
         }
       }
+    }
 
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/storages/${dataStorage.props.storageId}`,
-        { ...valuesToUpdate },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    const response: ResponseUpdateStorageAsyncReducer = await dispatch(
+      updateStorageAsync({
+        storageId: dataStorage.props.storageId,
+        updateProps: valuesToUpdate,
+      }) as any
+    );
 
-      toast({
-        title: "Storage atualizado com sucesso!",
-        description: "Aqui seus dados estão no protegidos...",
-      });
-
-      for (const key in data) {
-        resetField<any>(key);
-      }
-    } catch (error: any) {
-      setIsLoading(false);
-      toast({
+    if (response.error) {
+      return toast({
         title: "Não foi possivel atualizar este storage",
-        description: `${error.response.data.error}`,
+        description: `${response.error.message}`,
       });
-    } finally {
-      setIsLoading(false);
+    }
+
+    toast({
+      title: "Storage atualizado com sucesso!",
+      description: "Aqui seus dados estão no protegidos...",
+    });
+
+    for (const key in data) {
+      resetField<any>(key);
     }
   };
+
   const handleDeletePress = async () => {
     const response: ResponseDeleteStorageAsyncReducer = await dispatch(
       deleteStorageAsync(dataStorage.props.storageId) as any

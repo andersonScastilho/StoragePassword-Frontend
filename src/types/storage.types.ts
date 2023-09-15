@@ -10,6 +10,9 @@ export interface Storage {
   };
 }
 
+export interface PartialStorage
+  extends Partial<Omit<Storage["props"], "userId" | "storageId">> {}
+
 export interface ResponseFetchStorages {
   data: {
     storages: Storage[];
@@ -49,5 +52,13 @@ export interface ResponseShowEncryptedPasswordAsyncReducer {
   };
   payload?: {
     decryptedPassword: string;
+  };
+}
+export interface ResponseUpdateStorageAsyncReducer {
+  error?: {
+    message: string;
+  };
+  payload?: {
+    updated: boolean;
   };
 }

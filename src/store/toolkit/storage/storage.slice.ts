@@ -1,5 +1,9 @@
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { ResponseFetchStorages, Storage } from "@/types/storage.types";
+import {
+  PartialStorage,
+  ResponseFetchStorages,
+  Storage,
+} from "@/types/storage.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -105,6 +109,34 @@ export const createStorageAsync = createAsyncThunk(
   }
 );
 
+interface UpdateStorageProps {
+  storageId: string;
+  updateProps: PartialStorage;
+}
+
+export const updateStorageAsync = createAsyncThunk(
+  "storage/update",
+  async ({ storageId, updateProps }: UpdateStorageProps) => {
+    try {
+      const { token } = await checkIsAuthenticated();
+
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/storages/${storageId}`,
+        { ...updateProps },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const storage: Storage = response.data.storage;
+      return storage;
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
 export const fetchStoragePerIdAsync = createAsyncThunk(
   "storage/fetchUnique",
   async (storageId: string) => {
@@ -188,15 +220,30 @@ const storageSlice = createSlice({
     builder.addCase(deleteStorageAsync.pending, (state) => {
       state.isLoading = true;
     });
-
     builder.addCase(deleteStorageAsync.fulfilled, (state, action) => {
       state.storages = state.storages.filter(
         (storage) => storage.props.storageId !== action.payload.storageId
       );
       state.isLoading = false;
     });
-
     builder.addCase(deleteStorageAsync.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    builder.addCase(updateStorageAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateStorageAsync.fulfilled, (state, action) => {
+      const teste = state.storages.filter(
+        (storage) => storage.props.storageId !== action.payload.props.storageId
+      );
+
+      teste.push(action.payload);
+
+      state.storages = [...teste];
+      state.isLoading = false;
+    });
+    builder.addCase(updateStorageAsync.rejected, (state) => {
       state.isLoading = false;
     });
   },
