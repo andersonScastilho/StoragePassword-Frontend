@@ -17,17 +17,25 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import LoadingComponent from "@/components/loading/loading-component";
 import { LoginResponseType } from "@/types/auth.types";
-
+import { ZodError, z } from "zod";
 interface LoginForm {
   email: string;
   password: string;
   rememberMe: boolean;
 }
+
+const signParams = z.object({
+  email: z.string().email(),
+  password: z.string(),
+  rememberMe: z.boolean(),
+});
+
 export default function SignInPage() {
   const {
     register,
     handleSubmit,
     resetField,
+    setError,
     formState: { errors },
   } = useForm<LoginForm>();
   const dispatch = useDispatch();
@@ -64,26 +72,38 @@ export default function SignInPage() {
   }, [isAuthenticated, dispatch, push]);
 
   const handleSubmitPress = async (data: LoginForm) => {
-    const response: LoginResponseType = await dispatch(
-      loginUserAsync({
-        email: data.email,
-        password: data.password,
-        rememberMe: data.rememberMe,
-      }) as any
-    );
+    try {
+      const { email, password, rememberMe } = signParams.parse(data);
 
-    if (response.error) {
-      if (response.error.message === "Unverified email") {
-        return push("/verify-email");
+      const response: LoginResponseType = await dispatch(
+        loginUserAsync({
+          email: email,
+          password: password,
+          rememberMe: rememberMe,
+        }) as any
+      );
+
+      if (response.error) {
+        if (response.error.message === "Unverified email") {
+          return push("/verify-email");
+        }
+
+        return toast({
+          title: "Falha no login",
+          description: response.error.message,
+        });
       }
 
-      return toast({
-        title: "Falha no login",
-        description: response.error.message,
-      });
-    }
+      return push("/");
+    } catch (e: any) {
+      if (e instanceof ZodError) {
+        const error = await JSON.parse(JSON.stringify(e));
 
-    return push("/");
+        const inputError = error.issues[0].path[0];
+        const errorMessage = error.issues[0].message;
+        setError(inputError, { type: errorMessage });
+      }
+    }
   };
 
   return (
@@ -115,6 +135,9 @@ export default function SignInPage() {
                 />
                 {errors.email?.type === "required" && (
                   <InputErrorMessage>Email é obrigatório</InputErrorMessage>
+                )}
+                {errors.email?.type === "Invalid email" && (
+                  <InputErrorMessage>Digite um email valido</InputErrorMessage>
                 )}
               </div>
               <div>
