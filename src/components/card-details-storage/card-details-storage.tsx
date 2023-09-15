@@ -121,6 +121,8 @@ export const CardDetailStorageComponent = ({
       title: "Storage deletado com sucesso!",
       description: "Para não precisar gravar outra senha, salve com a gente!!",
     });
+
+    push("/storages");
   };
 
   return (
