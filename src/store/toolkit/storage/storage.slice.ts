@@ -58,22 +58,26 @@ export const deleteStorageAsync = createAsyncThunk(
 export const fetchStoragesAsync = createAsyncThunk(
   "storage/fetch",
   async () => {
-    const { token } = await checkIsAuthenticated();
+    try {
+      const { token } = await checkIsAuthenticated();
 
-    if (!token) {
-      return;
-    }
-
-    const response: ResponseFetchStorages = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/storages`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      if (!token) {
+        return;
       }
-    );
 
-    return { storages: response.data.storages };
+      const response: ResponseFetchStorages = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/storages`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return { storages: response.data.storages };
+    } catch (error: any) {
+      throw Error(error.response.data.error);
+    }
   }
 );
 
