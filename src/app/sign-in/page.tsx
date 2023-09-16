@@ -4,7 +4,7 @@ import {
   loginRefreshToken,
 } from "../../store/toolkit/user/user.slice";
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/redux.hooks";
@@ -17,27 +17,27 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import LoadingComponent from "@/components/loading/loading-component";
 import { LoginResponseType } from "@/types/auth.types";
-import { ZodError, z } from "zod";
-interface LoginForm {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const signParams = z.object({
-  email: z.string().email(),
-  password: z.string(),
+const signInSchema = z.object({
+  email: z.string().min(1, { message: "Email é obrigatório" }).email(),
+  password: z.string().min(1, { message: "Senha é obrigatório" }),
   rememberMe: z.boolean(),
 });
+
+type SignInSchema = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
   const {
     register,
     handleSubmit,
     resetField,
-    setError,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<SignInSchema>({
+    resolver: zodResolver(signInSchema),
+  });
+
   const dispatch = useDispatch();
   const { push } = useRouter();
   const { isAuthenticated, isLoading } = useAppSelector(
@@ -71,39 +71,29 @@ export default function SignInPage() {
     verifyIsAuthenticated();
   }, [isAuthenticated, dispatch, push]);
 
-  const handleSubmitPress = async (data: LoginForm) => {
-    try {
-      const { email, password, rememberMe } = signParams.parse(data);
+  const handleSubmitPress: SubmitHandler<SignInSchema> = async (data) => {
+    const { email, password, rememberMe } = data;
 
-      const response: LoginResponseType = await dispatch(
-        loginUserAsync({
-          email: email,
-          password: password,
-          rememberMe: rememberMe,
-        }) as any
-      );
+    const response: LoginResponseType = await dispatch(
+      loginUserAsync({
+        email: email,
+        password: password,
+        rememberMe: rememberMe,
+      }) as any
+    );
 
-      if (response.error) {
-        if (response.error.message === "Unverified email") {
-          return push("/verify-email");
-        }
-
-        return toast({
-          title: "Falha no login",
-          description: response.error.message,
-        });
+    if (response.error) {
+      if (response.error.message === "Unverified email") {
+        return push("/verify-email");
       }
 
-      return push("/");
-    } catch (e: any) {
-      if (e instanceof ZodError) {
-        const error = await JSON.parse(JSON.stringify(e));
-
-        const inputError = error.issues[0].path[0];
-        const errorMessage = error.issues[0].message;
-        setError(inputError, { type: errorMessage });
-      }
+      return toast({
+        title: "Falha no login",
+        description: response.error.message,
+      });
     }
+
+    return push("/");
   };
 
   return (
@@ -131,13 +121,10 @@ export default function SignInPage() {
                   type="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
-                  {...register("email", { required: true })}
+                  {...register("email")}
                 />
-                {errors.email?.type === "required" && (
-                  <InputErrorMessage>Email é obrigatório</InputErrorMessage>
-                )}
-                {errors.email?.type === "Invalid email" && (
-                  <InputErrorMessage>Digite um email valido</InputErrorMessage>
+                {errors.email && (
+                  <InputErrorMessage>{`${errors.email.message}`}</InputErrorMessage>
                 )}
               </div>
               <div>
@@ -148,10 +135,10 @@ export default function SignInPage() {
                   type="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("password", { required: true })}
+                  {...register("password")}
                 />
-                {errors.password?.type === "required" && (
-                  <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+                {errors.password && (
+                  <InputErrorMessage>{`${errors.password.message}`}</InputErrorMessage>
                 )}
               </div>
               <div className="flex items-center justify-between">

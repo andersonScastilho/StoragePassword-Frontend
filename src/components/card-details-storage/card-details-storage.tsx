@@ -44,8 +44,6 @@ import {
   deleteStorageAsync,
   updateStorageAsync,
 } from "../../store/toolkit/storage/storage.slice";
-import { useState } from "react";
-import LoadingComponent from "../loading/loading-component";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -60,8 +58,6 @@ const updateStorageSchema = z.object({
   usageLocation: z.string().optional(),
   description: z.string().optional(),
   link: z.string().optional(),
-  userId: z.string().optional(),
-  storageId: z.string().optional(),
 });
 
 type UpdateStorageSchema = z.infer<typeof updateStorageSchema>;

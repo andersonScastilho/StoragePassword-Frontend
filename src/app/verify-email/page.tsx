@@ -78,10 +78,11 @@ export default function VerifyEmailPage() {
             <Input
               className="text-[0.85rem]"
               type="email"
-              {...register("email", { required: true })}
+              {...register("email")}
             />
-            {errors.email?.type === "required" && (
-              <InputErrorMessage>Email é obrigatório</InputErrorMessage>
+
+            {errors.email && (
+              <InputErrorMessage>{`${errors.email.message}`}</InputErrorMessage>
             )}
           </div>
         </CardContent>

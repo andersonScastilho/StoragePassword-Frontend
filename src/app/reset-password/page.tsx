@@ -20,6 +20,7 @@ import { ResponseResetPasswordAsync } from "@/types/userType";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const resetPasswordSchema = z.object({
   password: z.string().min(1, { message: "Senha é obrigatório" }),
@@ -37,7 +38,9 @@ export default function ResetPasswordPage() {
     resetField,
     watch,
     formState: { errors },
-  } = useForm<ResetPasswordSchema>();
+  } = useForm<ResetPasswordSchema>({
+    resolver: zodResolver(resetPasswordSchema),
+  });
   const searchParams = useSearchParams();
   const { push } = useRouter();
   const token = searchParams.get("token");
@@ -91,7 +94,6 @@ export default function ResetPasswordPage() {
               type="password"
               className="text-[0.85rem]"
               {...register("password", {
-                required: true,
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
@@ -99,13 +101,8 @@ export default function ResetPasswordPage() {
                 },
               })}
             />
-            {errors.password?.type === "pattern" && (
-              <InputErrorMessage>
-                Senha deve conter 8+ caracteres, minúscula, maiúscula e especial
-              </InputErrorMessage>
-            )}
-            {errors.password?.type === "required" && (
-              <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+            {errors.password && (
+              <InputErrorMessage>{`${errors.password.message}`}</InputErrorMessage>
             )}
           </div>
           <div>
@@ -114,21 +111,14 @@ export default function ResetPasswordPage() {
               type="password"
               className="text-[0.85rem]"
               {...register("passwordConfirmation", {
-                required: true,
                 validate: (value) => {
                   return value === watchPassword;
                 },
               })}
             />
-            {errors?.passwordConfirmation?.type === "validate" && (
-              <InputErrorMessage>
-                As senhas precisam ser iguais
-              </InputErrorMessage>
-            )}
-            {errors.passwordConfirmation?.type === "required" && (
-              <InputErrorMessage>
-                A confirmação da senha é obrigatória
-              </InputErrorMessage>
+
+            {errors.passwordConfirmation && (
+              <InputErrorMessage>{`${errors.passwordConfirmation.message}`}</InputErrorMessage>
             )}
           </div>
         </CardContent>
