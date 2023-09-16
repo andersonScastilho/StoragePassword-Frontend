@@ -10,6 +10,8 @@ export async function saveCookie(key: string, value: unknown, maxAge: number) {
     maxAge: maxAge,
     httpOnly: true,
     path: "/",
+    sameSite: "strict",
+    secure: true,
   });
 }
 
