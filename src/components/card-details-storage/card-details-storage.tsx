@@ -78,8 +78,11 @@ const showEncryptedPasswordSchema = z.object({
 
 type ShowEncryptedPasswordSchema = z.infer<typeof showEncryptedPasswordSchema>;
 
-export const CardDetailStorageComponent = (storage: Storage) => {
-  console.log(storage);
+interface TempStorage {
+  storage: Storage;
+}
+
+export const CardDetailStorageComponent = ({ storage }: TempStorage) => {
   const {
     handleSubmit,
     resetField,
