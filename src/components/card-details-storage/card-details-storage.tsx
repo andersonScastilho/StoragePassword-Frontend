@@ -203,7 +203,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
   };
 
   useEffect(() => {
-    resetField("password");
+    resetFieldShowPassword("password");
     setPassword("********");
   }, [isOpen]);
 
