@@ -78,7 +78,8 @@ const showEncryptedPasswordSchema = z.object({
 
 type ShowEncryptedPasswordSchema = z.infer<typeof showEncryptedPasswordSchema>;
 
-export const CardDetailStorageComponent = (dataStorage: Storage) => {
+export const CardDetailStorageComponent = (storage: Storage) => {
+  console.log(storage);
   const {
     handleSubmit,
     resetField,
@@ -117,11 +118,10 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
   const handleSubmitPressShowUser: SubmitHandler<
     ShowEncryptedPasswordSchema
   > = async (data) => {
-    console.log("data");
     const response: ResponseShowEncryptedPasswordAsyncReducer = await dispatch(
       showEncryptedPasswordAsync({
         password: data.password,
-        storageId: dataStorage.props.storageId,
+        storageId: storage.props.storageId,
       }) as any
     );
 
@@ -161,7 +161,7 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
 
     const response: ResponseUpdateStorageAsyncReducer = await dispatch(
       updateStorageAsync({
-        storageId: dataStorage.props.storageId,
+        storageId: storage.props.storageId,
         updateProps: valuesToUpdate,
       }) as any
     );
@@ -185,7 +185,7 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
 
   const handleDeletePress = async () => {
     const response: ResponseDeleteStorageAsyncReducer = await dispatch(
-      deleteStorageAsync(dataStorage.props.storageId) as any
+      deleteStorageAsync(storage.props.storageId) as any
     );
 
     if (response.error) {
@@ -259,7 +259,7 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
           <Label className="">Local de uso:</Label>
           <Input
             readOnly
-            value={dataStorage.props.usageLocation}
+            value={storage.props?.usageLocation}
             className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
           />
         </div>
@@ -267,7 +267,7 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
           <Label className="">Username:</Label>
           <Input
             readOnly
-            value={dataStorage.props.account}
+            value={storage.props?.account}
             className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
           />
         </div>
@@ -294,7 +294,7 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
           <Label>Link:</Label>
           <Input
             readOnly
-            value={dataStorage.props.link}
+            value={storage.props?.link}
             className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
           />
         </div>
@@ -302,7 +302,7 @@ export const CardDetailStorageComponent = (dataStorage: Storage) => {
           <Label className="">Description:</Label>
           <Textarea
             readOnly
-            value={dataStorage.props.description}
+            value={storage.props?.description}
             className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center max-h-20"
           />
         </div>
