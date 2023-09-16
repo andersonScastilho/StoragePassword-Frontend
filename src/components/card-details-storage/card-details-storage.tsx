@@ -1,6 +1,7 @@
 import {
   PartialStorage,
   ResponseDeleteStorageAsyncReducer,
+  ResponseShowEncryptedPasswordAsyncReducer,
   ResponseUpdateStorageAsyncReducer,
   Storage,
 } from "@/types/storage.types";
@@ -42,15 +43,24 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import {
   deleteStorageAsync,
+  fetchStoragePerIdAsync,
+  showEncryptedPasswordAsync,
   updateStorageAsync,
 } from "../../store/toolkit/storage/storage.slice";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-interface CardDetailsProps {
-  dataStorage: Storage;
-  clickFunction?: () => void;
-}
+import React, { useEffect, useState } from "react";
+import {
+  ModalOverlay,
+  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@chakra-ui/react";
+import { ToastAction } from "../ui/toast";
 
 const updateStorageSchema = z.object({
   password: z.string().optional(),
@@ -62,10 +72,13 @@ const updateStorageSchema = z.object({
 
 type UpdateStorageSchema = z.infer<typeof updateStorageSchema>;
 
-export const CardDetailStorageComponent = ({
-  dataStorage,
-  clickFunction,
-}: CardDetailsProps) => {
+const showEncryptedPasswordSchema = z.object({
+  password: z.string().min(1, { message: "Senha é obrigatório" }),
+});
+
+type ShowEncryptedPasswordSchema = z.infer<typeof showEncryptedPasswordSchema>;
+
+export const CardDetailStorageComponent = (dataStorage: Storage) => {
   const {
     handleSubmit,
     resetField,
@@ -75,9 +88,62 @@ export const CardDetailStorageComponent = ({
     resolver: zodResolver(updateStorageSchema),
   });
 
+  const {
+    handleSubmit: handleSubmitShowPassword,
+    resetField: resetFieldShowPassword,
+    register: registerShowPassword,
+    formState: { errors: errorsShowPassword },
+  } = useForm<ShowEncryptedPasswordSchema>({
+    resolver: zodResolver(showEncryptedPasswordSchema),
+  });
+
   const { push } = useRouter();
   const { toast } = useToast();
   const dispatch = useDispatch();
+
+  const OverlayTwo = () => (
+    <ModalOverlay
+      bg="none"
+      backdropFilter="auto"
+      backdropInvert="80%"
+      backdropBlur="2px"
+    />
+  );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [overlay, setOverlay] = React.useState(<OverlayTwo />);
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmitPressShowUser: SubmitHandler<
+    ShowEncryptedPasswordSchema
+  > = async (data) => {
+    console.log("data");
+    const response: ResponseShowEncryptedPasswordAsyncReducer = await dispatch(
+      showEncryptedPasswordAsync({
+        password: data.password,
+        storageId: dataStorage.props.storageId,
+      }) as any
+    );
+
+    if (response.error || !response.payload?.decryptedPassword) {
+      resetField("password");
+      onClose();
+
+      return toast({
+        title: "Não foi possivel mostrar a senha",
+        description: response.error?.message,
+        action: (
+          <ToastAction altText="Entra" onClick={() => onOpen()}>
+            Repetir
+          </ToastAction>
+        ),
+      });
+    }
+
+    resetField("password");
+
+    return setPassword(response.payload?.decryptedPassword);
+  };
 
   const handleSubmitPress: SubmitHandler<UpdateStorageSchema> = async (
     data
@@ -137,8 +203,54 @@ export const CardDetailStorageComponent = ({
     push("/storage");
   };
 
+  useEffect(() => {
+    resetField("password");
+    setPassword("********");
+  }, [isOpen]);
+
   return (
     <Card className="bg-primary-foreground border-none w-96 m-auto">
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        {overlay}
+        <ModalContent>
+          <ModalHeader className="text-texto-principal text-[1rem]">
+            Autenticação
+          </ModalHeader>
+          <ModalCloseButton className="text-texto-principal" />
+          <ModalBody className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <Label className="text-texto-principal font-semibold text-[0.9rem]">
+                Senha Oculta:
+              </Label>
+              <Input
+                readOnly
+                value={password}
+                className="bg-tertiary text-secondary p-2"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label className="text-texto-principal font-semibold text-[0.9rem]">
+                Senha:
+              </Label>
+              <Input
+                {...registerShowPassword("password", { required: true })}
+                type="password"
+                className="bg-tertiary text-secondary p-2"
+              />
+            </div>
+            <Button
+              onClick={() =>
+                handleSubmitShowPassword(handleSubmitPressShowUser)()
+              }
+            >
+              Autenticar-se
+            </Button>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <CardHeader>
         <CardTitle>Storage</CardTitle>
       </CardHeader>
@@ -168,7 +280,13 @@ export const CardDetailStorageComponent = ({
               className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-none"
             />
             <span className="mr-5">
-              <HiEye cursor={"pointer"} onClick={clickFunction} />
+              <HiEye
+                cursor={"pointer"}
+                onClick={() => {
+                  setOverlay(<OverlayTwo />);
+                  onOpen();
+                }}
+              />
             </span>
           </div>
         </div>
