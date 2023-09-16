@@ -56,7 +56,7 @@ export default function CardDetailStoragePage({
 
       <div className="flex flex-grow gap-10 p-5">
         {selectedStorage && (
-          <CardDetailStorageComponent storage={selectedStorage} />
+          <CardDetailStorageComponent props={selectedStorage.props} />
         )}
       </div>
     </main>
