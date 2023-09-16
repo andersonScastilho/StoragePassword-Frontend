@@ -26,6 +26,7 @@ import {
 import { ResponseCreateStorageAsyncReducer } from "@/types/storage.types";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -52,7 +53,9 @@ export default function CreateStoragePage() {
     handleSubmit,
     resetField,
     formState: { errors },
-  } = useForm<CreateStorageSchema>();
+  } = useForm<CreateStorageSchema>({
+    resolver: zodResolver(createStorageSchema),
+  });
 
   const [passwordIsHide, setPasswordIsHide] = useState(
     TYPEINPUTPASSWORD.PASSWORD
@@ -132,13 +135,11 @@ export default function CreateStoragePage() {
                 <Label className="text-[0.8rem]">Local de uso:</Label>
                 <Input
                   className="outline-none text-[0.8rem] text-red-800 font-semibold"
-                  {...register("usageLocation", { required: true })}
+                  {...register("usageLocation")}
                 />
               </div>
-              {errors?.usageLocation?.type === "required" && (
-                <InputErrorMessage>
-                  Local de uso é obrigatório
-                </InputErrorMessage>
+              {errors.usageLocation && (
+                <InputErrorMessage>{`${errors.usageLocation?.message}`}</InputErrorMessage>
               )}
             </div>
 
@@ -147,11 +148,11 @@ export default function CreateStoragePage() {
                 <Label className="text-[0.8rem]">Username:</Label>
                 <Input
                   className="outline-none text-[0.8rem] text-red-800 font-semibold"
-                  {...register("account", { required: true })}
+                  {...register("account")}
                 />
               </div>
-              {errors?.account?.type === "required" && (
-                <InputErrorMessage>Username é obrigatório</InputErrorMessage>
+              {errors.account && (
+                <InputErrorMessage>{`${errors.account?.message}`}</InputErrorMessage>
               )}
             </div>
 
@@ -162,7 +163,7 @@ export default function CreateStoragePage() {
                   <Input
                     className="outline-none text-[0.8rem] text-red-800 font-semibold border-none"
                     type={passwordIsHide}
-                    {...register("password", { required: true })}
+                    {...register("password")}
                   />
                   <button className="mr-5">
                     <HiEye
@@ -172,8 +173,8 @@ export default function CreateStoragePage() {
                   </button>
                 </div>
               </div>
-              {errors?.password?.type === "required" && (
-                <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+              {errors.password && (
+                <InputErrorMessage>{`${errors.password?.message}`}</InputErrorMessage>
               )}
             </div>
 
