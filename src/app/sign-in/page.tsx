@@ -21,7 +21,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const signInSchema = z.object({
-  email: z.string().min(1, { message: "Email é obrigatório" }).email(),
+  email: z
+    .string()
+    .min(1, { message: "Email é obrigatório" })
+    .email({ message: "Email invalido" }),
   password: z.string().min(1, { message: "Senha é obrigatório" }),
   rememberMe: z.boolean(),
 });
