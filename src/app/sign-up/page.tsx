@@ -91,14 +91,14 @@ export default function SignUpPage() {
 
     if (response.error) {
       return toast({
-        title: "Falha ao criar usuario",
+        title: "Criação de usuario",
         description: response.error.message,
       });
     }
 
     toast({
-      title: "Usuario criado com sucesso",
-      description: "Seja bem vindo",
+      title: "Criação de usuario",
+      description: "Usuario criado com sucesso",
     });
 
     return push("/sign-in");
@@ -195,7 +195,7 @@ export default function SignUpPage() {
                   Criar conta
                 </Button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Já possui uma conta ?{" "}
+                  Já tem uma conta ?{" "}
                   <a
                     href="/sign-in"
                     className="font-medium text-blue-700 hover:underline dark:text-primary-500"

@@ -62,7 +62,7 @@ export default function ForgotPasswordPage() {
 
     toast({
       title: "Esqueci minha senha",
-      description: `Foi enviado um email para redefinção de senha`,
+      description: `Um email foi enviado para permitir a redefinição da sua senha!`,
     });
 
     push("/sign-in");
@@ -74,8 +74,8 @@ export default function ForgotPasswordPage() {
         <CardHeader>
           <CardTitle>Esqueci minha senha</CardTitle>{" "}
           <p className="text-[0.8rem] ">
-            Insira seu email ja cadastrado, para que possamos o enviar o email
-            de redefinição de senha
+            "Por favor, insira o seu endereço de email cadastrado para que
+            possamos enviar o link de redefinição de senha!
           </p>
         </CardHeader>
         <CardContent>

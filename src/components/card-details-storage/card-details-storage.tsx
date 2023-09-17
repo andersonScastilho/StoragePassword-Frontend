@@ -129,7 +129,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
       onClose();
 
       return toast({
-        title: "Não foi possivel mostrar a senha",
+        title: "Exibir senha!",
         description: response.error?.message,
         action: (
           <ToastAction altText="Entra" onClick={() => onOpen()}>
@@ -167,14 +167,14 @@ export const CardDetailStorageComponent = (storage: Storage) => {
 
     if (response.error) {
       return toast({
-        title: "Não foi possivel atualizar este storage",
+        title: "Atualizar storage!",
         description: `${response.error.message}`,
       });
     }
 
     toast({
-      title: "Storage atualizado com sucesso!",
-      description: "Aqui seus dados estão no protegidos...",
+      title: "Atualizar storage!",
+      description: "Aqui suas senhas estão segura!",
     });
 
     for (const key in data) {
@@ -189,14 +189,14 @@ export const CardDetailStorageComponent = (storage: Storage) => {
 
     if (response.error) {
       return toast({
-        title: "Falha ao deletar storage!",
+        title: "Deletar storage!",
         description: response.error.message,
       });
     }
 
     toast({
-      title: "Storage deletado com sucesso!",
-      description: "Para não precisar gravar outra senha, salve com a gente!!",
+      title: "Deletar storage!",
+      description: "Storage deletado com sucesso!",
     });
 
     push("/storage");
@@ -376,7 +376,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
             <AlertDialogHeader>
               <AlertDialogTitle>Você tem certeza disso ?</AlertDialogTitle>
               <AlertDialogDescription>
-                Após a exclusão do storage, não sera possivel recupera-lo !!
+                Após a exclusão do storage, não sera possivel recupera-lo !
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

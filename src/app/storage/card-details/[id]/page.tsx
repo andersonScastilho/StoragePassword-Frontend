@@ -32,7 +32,7 @@ export default function CardDetailStoragePage({
 
       if (response.error) {
         return toast({
-          title: "Falha Storage",
+          title: "Exibição do storage",
           description: response.error.message,
         });
       }

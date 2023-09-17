@@ -91,7 +91,7 @@ export default function SignInPage() {
       }
 
       return toast({
-        title: "Falha no login",
+        title: "Login",
         description: response.error.message,
       });
     }
@@ -173,7 +173,7 @@ export default function SignInPage() {
                 Entrar
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Não possui uma conta ?{" "}
+                Não tem uma conta ?{" "}
                 <a
                   href="/sign-up"
                   className="font-medium text-blue-700 hover:underline dark:text-primary-500"

@@ -34,13 +34,13 @@ export default function ValidateEmailPage() {
 
     if (response.error) {
       return toast({
-        title: "Validar email",
+        title: "Validação de email",
         description: `${response.error.message}`,
       });
     }
 
     toast({
-      title: "Validar email",
+      title: "Validação de email",
       description: `Email validado com sucesso`,
     });
 

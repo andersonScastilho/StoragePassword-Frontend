@@ -94,13 +94,13 @@ export default function CreateStoragePage() {
 
     if (response.error) {
       return toast({
-        title: "Falha ao criar storage",
+        title: "Salvar storage",
         description: response.error.message,
       });
     }
 
     toast({
-      title: "Storage salvo com sucesso",
+      title: "Salvar storage",
       description: "Agora você pode esquecer mais uma senha rsrs",
       action: (
         <ToastAction

@@ -63,7 +63,7 @@ export default function ResetPasswordPage() {
 
     if (response.error) {
       return toast({
-        title: "Validar email",
+        title: "Redefinir senha",
         description: `${response.error.message}`,
       });
     }
@@ -84,7 +84,8 @@ export default function ResetPasswordPage() {
         <CardHeader>
           <CardTitle>Redefinir minha senha</CardTitle>
           <p className="text-[0.8rem]">
-            Insira a nova senha nos campos abaixo para redefini-la
+            Por favor, insira a nova senha nos campos abaixo para realizar a
+            redefinição!
           </p>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">

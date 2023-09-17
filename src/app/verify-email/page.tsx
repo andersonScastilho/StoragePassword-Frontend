@@ -49,14 +49,14 @@ export default function VerifyEmailPage() {
 
     if (response.error) {
       return toast({
-        title: "Verificar email",
+        title: "Verificação de email",
         description: `${response.error.message}`,
       });
     }
 
     toast({
-      title: "Verificar email",
-      description: "Foi enviado um email para validar se é verdadeiro",
+      title: "Verificação de email",
+      description: "Um email foi enviado para verificar a autenticidade!",
     });
 
     push("/sign-in");
@@ -68,8 +68,8 @@ export default function VerifyEmailPage() {
         <CardHeader>
           <CardTitle>Verificar Email</CardTitle>
           <p className="text-[0.8rem]">
-            Insira seu email, para que possamos envair o link para verificar seu
-            email
+            Por favor, insira seu email para que possamos enviar o link de
+            verificação!
           </p>
         </CardHeader>
         <CardContent>
