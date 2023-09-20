@@ -24,7 +24,9 @@ const createStorageSchema = z.object({
   email: z.string().min(1, { message: "Email é obrigatório" }).email({
     message: "Insira um email valido",
   }),
-  password: z.string().min(1, { message: "Senha é obrigatória" }),
+  password: z.string().min(1, {
+    message: "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
+  }),
   passwordConfirmation: z
     .string()
     .min(1, { message: "Confirmação de senha é obrigatório" }),
@@ -160,11 +162,12 @@ export default function SignUpPage() {
                     pattern: {
                       value:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                      message: "Password must be strong",
+                      message:
+                        "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
                     },
                   })}
                 />
-                {errors.email && (
+                {errors.password && (
                   <InputErrorMessage>{`${errors.password?.message}`}</InputErrorMessage>
                 )}
               </div>
@@ -182,8 +185,13 @@ export default function SignUpPage() {
                     },
                   })}
                 />
-                {errors.email && (
+                {errors.passwordConfirmation && (
                   <InputErrorMessage>{`${errors.passwordConfirmation?.message}`}</InputErrorMessage>
+                )}{" "}
+                {errors?.passwordConfirmation?.type === "validate" && (
+                  <InputErrorMessage>
+                    As senhas precisam ser iguais
+                  </InputErrorMessage>
                 )}
               </div>
 
