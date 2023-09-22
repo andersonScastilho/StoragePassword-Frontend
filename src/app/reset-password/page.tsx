@@ -93,7 +93,7 @@ export default function ResetPasswordPage() {
             <Label>Senha:</Label>
             <Input
               type="password"
-              className="text-[0.85rem]"
+              className="text-[0.85rem] touch-none"
               {...register("password", {
                 pattern: {
                   value:
@@ -110,7 +110,7 @@ export default function ResetPasswordPage() {
             <Label>Confirmação da senha:</Label>
             <Input
               type="password"
-              className="text-[0.85rem]"
+              className="text-[0.85rem] touch-none"
               {...register("passwordConfirmation", {
                 validate: (value) => {
                   return value === watchPassword;

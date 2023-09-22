@@ -234,7 +234,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
               <Input
                 {...registerShowPassword("password", { required: true })}
                 type="password"
-                className="bg-tertiary text-secondary p-2"
+                className="bg-tertiary text-secondary p-2 touch-none"
               />
             </div>
             <Button
