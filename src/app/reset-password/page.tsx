@@ -98,15 +98,11 @@ export default function ResetPasswordPage() {
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message: "Password must be strong",
+                  message:
+                    "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
                 },
               })}
             />
-            {errors.password?.type === "pattern" && (
-              <InputErrorMessage>
-                Senha deve conter 8+ caracteres, minúscula, maiúscula e especial
-              </InputErrorMessage>
-            )}
             {errors.password && (
               <InputErrorMessage>{`${errors.password.message}`}</InputErrorMessage>
             )}
@@ -122,9 +118,9 @@ export default function ResetPasswordPage() {
                 },
               })}
             />
-            {errors.passwordConfirmation?.type === "validate" && (
+            {errors?.passwordConfirmation?.type === "validate" && (
               <InputErrorMessage>
-                Senha e confirmação de senha devem ser iguais
+                As senhas precisam ser iguais
               </InputErrorMessage>
             )}
             {errors.passwordConfirmation && (
