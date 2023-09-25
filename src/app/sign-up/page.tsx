@@ -24,9 +24,18 @@ const createStorageSchema = z.object({
   email: z.string().min(1, { message: "Email é obrigatório" }).email({
     message: "Insira um email valido",
   }),
-  password: z.string().min(1, {
-    message: "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
-  }),
+  password: z
+    .string()
+    .min(1, {
+      message: "Senha é obrigatória",
+    })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      {
+        message:
+          "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
+      }
+    ),
   passwordConfirmation: z
     .string()
     .min(1, { message: "Confirmação de senha é obrigatório" }),
@@ -179,11 +188,7 @@ export default function SignUpPage() {
                   type="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border touch-none border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("passwordConfirmation", {
-                    validate: (value) => {
-                      return value === watchPassword;
-                    },
-                  })}
+                  {...register("passwordConfirmation")}
                 />
                 {errors.passwordConfirmation && (
                   <InputErrorMessage>{`${errors.passwordConfirmation?.message}`}</InputErrorMessage>

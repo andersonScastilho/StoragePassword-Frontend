@@ -23,7 +23,16 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const resetPasswordSchema = z.object({
-  password: z.string().min(1, { message: "Senha é obrigatório" }),
+  password: z
+    .string()
+    .min(1, { message: "Senha é obrigatório" })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      {
+        message:
+          "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
+      }
+    ),
   passwordConfirmation: z
     .string()
     .min(1, { message: "Confirmação de senha é obrigatório" }),
@@ -35,8 +44,6 @@ export default function ResetPasswordPage() {
   const {
     register,
     handleSubmit,
-    resetField,
-    watch,
     formState: { errors },
   } = useForm<ResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),
@@ -44,36 +51,39 @@ export default function ResetPasswordPage() {
   const searchParams = useSearchParams();
   const { push } = useRouter();
   const token = searchParams.get("token");
-  const watchPassword = watch("password");
   const dispatch = useDispatch();
   const { isLoading } = useAppSelector((state) => state.userReducer);
 
   const handleSubmitPress: SubmitHandler<ResetPasswordSchema> = async (
     data
   ) => {
-    const { password } = resetPasswordSchema.parse(data);
+    try {
+      const { password } = resetPasswordSchema.parse(data);
 
-    if (!token) {
-      return push("/forgot-password");
-    }
+      if (!token) {
+        return push("/forgot-password");
+      }
 
-    const response: ResponseResetPasswordAsync = await dispatch(
-      resetPasswordAsync({ newPassword: password, token: token }) as any
-    );
+      const response: ResponseResetPasswordAsync = await dispatch(
+        resetPasswordAsync({ newPassword: password, token: token }) as any
+      );
 
-    if (response.error) {
-      return toast({
+      if (response.error) {
+        return toast({
+          title: "Redefinir senha",
+          description: `${response.error.message}`,
+        });
+      }
+
+      toast({
         title: "Redefinir senha",
-        description: `${response.error.message}`,
+        description: `Senha redefinida com sucesso`,
       });
+
+      push("/sign-in");
+    } catch (error) {
+      console.log(error);
     }
-
-    toast({
-      title: "Redefinir senha",
-      description: `Senha redefinida com sucesso`,
-    });
-
-    push("/sign-in");
   };
 
   return (
@@ -94,15 +104,8 @@ export default function ResetPasswordPage() {
             <Input
               type="password"
               className="text-[0.85rem] touch-none"
-              {...register("password", {
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
-                },
-              })}
-            />
+              {...register("password")}
+            />{" "}
             {errors.password && (
               <InputErrorMessage>{`${errors.password.message}`}</InputErrorMessage>
             )}
@@ -112,17 +115,8 @@ export default function ResetPasswordPage() {
             <Input
               type="password"
               className="text-[0.85rem] touch-none"
-              {...register("passwordConfirmation", {
-                validate: (value) => {
-                  return value === watchPassword;
-                },
-              })}
+              {...register("passwordConfirmation", { required: true })}
             />
-            {errors?.passwordConfirmation?.type === "validate" && (
-              <InputErrorMessage>
-                As senhas precisam ser iguais
-              </InputErrorMessage>
-            )}
             {errors.passwordConfirmation && (
               <InputErrorMessage>{`${errors.passwordConfirmation.message}`}</InputErrorMessage>
             )}
