@@ -102,6 +102,11 @@ export default function ResetPasswordPage() {
                 },
               })}
             />
+            {errors.password?.type === "pattern" && (
+              <InputErrorMessage>
+                Senha deve conter 8+ caracteres, minúscula, maiúscula e especial
+              </InputErrorMessage>
+            )}
             {errors.password && (
               <InputErrorMessage>{`${errors.password.message}`}</InputErrorMessage>
             )}
@@ -117,7 +122,11 @@ export default function ResetPasswordPage() {
                 },
               })}
             />
-
+            {errors.passwordConfirmation?.type === "validate" && (
+              <InputErrorMessage>
+                Senha e confirmação de senha devem ser iguais
+              </InputErrorMessage>
+            )}
             {errors.passwordConfirmation && (
               <InputErrorMessage>{`${errors.passwordConfirmation.message}`}</InputErrorMessage>
             )}
