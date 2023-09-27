@@ -74,7 +74,7 @@ export default function ForgotPasswordPage() {
         <CardHeader>
           <CardTitle>Esqueci minha senha</CardTitle>{" "}
           <p className="text-[0.8rem] ">
-            "Por favor, insira o seu endereço de email cadastrado para que
+            Por favor, insira o seu endereço de email cadastrado para que
             possamos enviar o link de redefinição de senha!
           </p>
         </CardHeader>
