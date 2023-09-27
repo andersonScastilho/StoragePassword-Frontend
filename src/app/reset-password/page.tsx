@@ -22,21 +22,29 @@ import LoadingComponent from "@/components/loading/loading-component";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const resetPasswordSchema = z.object({
-  password: z
-    .string()
-    .min(1, { message: "Senha é obrigatório" })
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      {
-        message:
-          "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
-      }
-    ),
-  passwordConfirmation: z
-    .string()
-    .min(1, { message: "Confirmação de senha é obrigatório" }),
-});
+const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(1, { message: "Senha é obrigatório" })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        {
+          message:
+            "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
+        }
+      ),
+    passwordConfirmation: z
+      .string()
+      .min(1, { message: "Confirmação de senha é obrigatório" }),
+  })
+  .refine(
+    ({ password, passwordConfirmation }) => password === passwordConfirmation,
+    {
+      message: "Senha e confirmação de senha devem ser iguais",
+      path: ["passwordConfirmation"],
+    }
+  );
 
 type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
 
