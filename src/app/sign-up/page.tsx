@@ -19,35 +19,41 @@ import { ResponseCreateUserAsync } from "@/types/userType";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const createStorageSchema = z.object({
-  fullName: z.string().min(1, { message: "Nome completo é obrigatório" }),
-  email: z.string().min(1, { message: "Email é obrigatório" }).email({
-    message: "Insira um email valido",
-  }),
-  password: z
-    .string()
-    .min(1, {
-      message: "Senha é obrigatória",
-    })
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      {
-        message:
-          "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
-      }
-    ),
-  passwordConfirmation: z
-    .string()
-    .min(1, { message: "Confirmação de senha é obrigatório" }),
-});
+const createStorageSchema = z
+  .object({
+    fullName: z.string().min(1, { message: "Nome completo é obrigatório" }),
+    email: z.string().min(1, { message: "Email é obrigatório" }).email({
+      message: "Insira um email valido",
+    }),
+    password: z
+      .string()
+      .min(1, {
+        message: "Senha é obrigatória",
+      })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        {
+          message:
+            "Senha deve conter 8+ caracteres, minúscula, maiúscula e especial",
+        }
+      ),
+    passwordConfirmation: z
+      .string()
+      .min(1, { message: "Confirmação de senha é obrigatório" }),
+  })
+  .refine(
+    ({ password, passwordConfirmation }) => password === passwordConfirmation,
+    {
+      message: "Senha e confirmação de senha devem ser iguais",
+      path: ["passwordConfirmation"],
+    }
+  );
 
 type CreateStorageSchema = z.infer<typeof createStorageSchema>;
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
-    watch,
-    setError,
     formState: { errors },
   } = useForm<CreateStorageSchema>({
     resolver: zodResolver(createStorageSchema),
@@ -84,8 +90,6 @@ export default function SignUpPage() {
 
     verifyIsAuthenticated();
   }, [isAuthenticated, dispatch, push]);
-
-  const watchPassword = watch("password");
 
   const handleSubmitPressCreateUser: SubmitHandler<
     CreateStorageSchema
