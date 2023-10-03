@@ -123,12 +123,58 @@ export const CardDetailStorageComponent = (storage: Storage) => {
   const handleSubmitPressShowUser: SubmitHandler<
     ShowEncryptedPasswordSchema
   > = async (data) => {
+    const { refreshToken } = await checkIsAuthenticated();
     const response: ResponseShowEncryptedPasswordAsyncReducer = await dispatch(
       showEncryptedPasswordAsync({
         password: data.password,
         storageId: storage.props.storageId,
       }) as any
     );
+    if (
+      response.error?.message === "Token expired or invalid" &&
+      refreshToken
+    ) {
+      const responseLoginRefreshToken: LoginResponseType = await dispatch(
+        loginRefreshToken() as any
+      );
+      if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+        return push("/sign-in");
+      }
+
+      const response: ResponseShowEncryptedPasswordAsyncReducer =
+        await dispatch(
+          showEncryptedPasswordAsync({
+            password: data.password,
+            storageId: storage.props.storageId,
+          }) as any
+        );
+      if (response.error || !response.payload?.decryptedPassword) {
+        resetField("password");
+        onClose();
+
+        return toast({
+          title: "Exibir senha!",
+          description: response.error?.message,
+          action: (
+            <ToastAction altText="Entra" onClick={() => onOpen()}>
+              Repetir
+            </ToastAction>
+          ),
+        });
+      }
+
+      resetField("password");
+
+      return setPassword(response.payload?.decryptedPassword);
+    }
+
+    if (
+      response.error?.message === "Token expired or invalid" &&
+      !refreshToken
+    ) {
+      await dispatch(logoutUserAsync() as any);
+      return push("/sign-in");
+    }
 
     if (response.error || !response.payload?.decryptedPassword) {
       resetField("password");
@@ -153,6 +199,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
   const handleSubmitPress: SubmitHandler<UpdateStorageSchema> = async (
     data
   ) => {
+    const { refreshToken } = await checkIsAuthenticated();
     const valuesToUpdate: UpdateStorageSchema = {};
 
     for (const key in data) {
@@ -172,6 +219,49 @@ export const CardDetailStorageComponent = (storage: Storage) => {
     );
 
     if (response.error) {
+      if (
+        response.error.message === "Token expired or invalid" &&
+        refreshToken
+      ) {
+        const responseLoginRefreshToken: LoginResponseType = await dispatch(
+          loginRefreshToken() as any
+        );
+        if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+          return push("/sign-in");
+        }
+
+        const response: ResponseUpdateStorageAsyncReducer = await dispatch(
+          updateStorageAsync({
+            storageId: storage.props.storageId,
+            updateProps: valuesToUpdate,
+          }) as any
+        );
+
+        if (response.error) {
+          return toast({
+            title: "Atualizar storage!",
+            description: `${response.error.message}`,
+          });
+        }
+
+        for (const key in data) {
+          resetField<any>(key);
+        }
+
+        return toast({
+          title: "Atualizar storage!",
+          description: "Aqui suas senhas estão segura!",
+        });
+      }
+
+      if (
+        response.error.message === "Token expired or invalid" &&
+        !refreshToken
+      ) {
+        await dispatch(logoutUserAsync() as any);
+        return push("/sign-in");
+      }
+
       return toast({
         title: "Atualizar storage!",
         description: `${response.error.message}`,
@@ -209,6 +299,13 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           deleteStorageAsync(storage.props.storageId) as any
         );
 
+        if (response.error) {
+          return toast({
+            title: "Deletar storage!",
+            description: response.error.message,
+          });
+        }
+
         toast({
           title: "Deletar storage!",
           description: "Storage deletado com sucesso!",
@@ -216,15 +313,15 @@ export const CardDetailStorageComponent = (storage: Storage) => {
 
         return push("/storage");
       }
-      if (response.error) {
-        if (
-          response.error.message === "Token expired or invalid" &&
-          !refreshToken
-        ) {
-          await dispatch(logoutUserAsync() as any);
-          return push("/sign-in");
-        }
+
+      if (
+        response.error.message === "Token expired or invalid" &&
+        !refreshToken
+      ) {
+        await dispatch(logoutUserAsync() as any);
+        return push("/sign-in");
       }
+
       return toast({
         title: "Deletar storage!",
         description: response.error.message,

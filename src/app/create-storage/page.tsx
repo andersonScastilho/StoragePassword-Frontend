@@ -28,7 +28,10 @@ import { useAppSelector } from "@/hooks/redux.hooks";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
-import { loginRefreshToken } from "@/store/toolkit/user/user.slice";
+import {
+  loginRefreshToken,
+  logoutUserAsync,
+} from "@/store/toolkit/user/user.slice";
 import { LoginResponseType } from "@/types/auth.types";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
@@ -138,6 +141,14 @@ export default function CreateStoragePage() {
             </ToastAction>
           ),
         });
+      }
+
+      if (
+        response.error.message === "Token expired or invalid" &&
+        !refreshToken
+      ) {
+        await dispatch(logoutUserAsync() as any);
+        return push("/sign-in");
       }
 
       return toast({

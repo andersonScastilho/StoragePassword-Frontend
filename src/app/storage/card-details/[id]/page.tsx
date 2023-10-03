@@ -13,6 +13,13 @@ import {
   fetchStoragePerIdAsync,
   fetchStoragesAsync,
 } from "@/store/toolkit/storage/storage.slice";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import {
+  loginRefreshToken,
+  logoutUserAsync,
+} from "@/store/toolkit/user/user.slice";
+import { LoginResponseType } from "@/types/auth.types";
+import { useRouter } from "next/navigation";
 
 export default function CardDetailStoragePage({
   params,
@@ -23,14 +30,37 @@ export default function CardDetailStoragePage({
   const { toast } = useToast();
   const [selectedStorage, setSelectedStorage] = useState<Storage>();
   const { storages } = useAppSelector((state) => state.storageReducer);
+  const { push } = useRouter();
 
   useEffect(() => {
     const fetchStorageData = async () => {
+      const { refreshToken } = await checkIsAuthenticated();
       const response: ResponseFetchStoragePerIdAsyncReducer = await dispatch(
         fetchStoragePerIdAsync(params.id) as any
       );
 
       if (response.error) {
+        if (
+          response.error.message === "Token expired or invalid" &&
+          refreshToken
+        ) {
+          const responseLoginRefreshToken: LoginResponseType = await dispatch(
+            loginRefreshToken() as any
+          );
+          if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+            return push("/sign-in");
+          }
+
+          return setSelectedStorage(response.payload?.storage);
+        }
+        if (
+          response.error.message === "Token expired or invalid" &&
+          !refreshToken
+        ) {
+          await dispatch(logoutUserAsync() as any);
+          return push("/sign-in");
+        }
+
         return toast({
           title: "Exibição do storage",
           description: response.error.message,
