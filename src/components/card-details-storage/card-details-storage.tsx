@@ -61,6 +61,12 @@ import {
   ModalHeader,
 } from "@chakra-ui/react";
 import { ToastAction } from "../ui/toast";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import { LoginResponseType } from "@/types/auth.types";
+import {
+  loginRefreshToken,
+  logoutUserAsync,
+} from "@/store/toolkit/user/user.slice";
 
 const updateStorageSchema = z.object({
   password: z.string().optional(),
@@ -183,11 +189,42 @@ export const CardDetailStorageComponent = (storage: Storage) => {
   };
 
   const handleDeletePress = async () => {
+    const { refreshToken } = await checkIsAuthenticated();
     const response: ResponseDeleteStorageAsyncReducer = await dispatch(
       deleteStorageAsync(storage.props.storageId) as any
     );
 
     if (response.error) {
+      if (
+        response.error.message === "Token expired or invalid" &&
+        refreshToken
+      ) {
+        const responseLoginRefreshToken: LoginResponseType = await dispatch(
+          loginRefreshToken() as any
+        );
+        if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+          return push("/sign-in");
+        }
+        const response: ResponseDeleteStorageAsyncReducer = await dispatch(
+          deleteStorageAsync(storage.props.storageId) as any
+        );
+
+        toast({
+          title: "Deletar storage!",
+          description: "Storage deletado com sucesso!",
+        });
+
+        return push("/storage");
+      }
+      if (response.error) {
+        if (
+          response.error.message === "Token expired or invalid" &&
+          !refreshToken
+        ) {
+          await dispatch(logoutUserAsync() as any);
+          return push("/sign-in");
+        }
+      }
       return toast({
         title: "Deletar storage!",
         description: response.error.message,

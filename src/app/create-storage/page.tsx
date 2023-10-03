@@ -27,6 +27,9 @@ import { ResponseCreateStorageAsyncReducer } from "@/types/storage.types";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { checkIsAuthenticated } from "@/functions/check-is-authenticated";
+import { loginRefreshToken } from "@/store/toolkit/user/user.slice";
+import { LoginResponseType } from "@/types/auth.types";
 enum TYPEINPUTPASSWORD {
   "TEXT" = "text",
   "PASSWORD" = "password",
@@ -79,7 +82,7 @@ export default function CreateStoragePage() {
     data
   ) => {
     const { account, description, link, password, usageLocation } = data;
-
+    const { refreshToken } = await checkIsAuthenticated();
     const response: ResponseCreateStorageAsyncReducer = await dispatch(
       createStorageAsync({
         props: {
@@ -93,6 +96,50 @@ export default function CreateStoragePage() {
     );
 
     if (response.error) {
+      if (
+        response.error.message === "Token expired or invalid" &&
+        refreshToken
+      ) {
+        const responseLoginRefreshToken: LoginResponseType = await dispatch(
+          loginRefreshToken() as any
+        );
+        if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+          return push("/sign-in");
+        }
+        const response: ResponseCreateStorageAsyncReducer = await dispatch(
+          createStorageAsync({
+            props: {
+              description: description,
+              account: account,
+              link: link,
+              password: password,
+              usageLocation: usageLocation,
+            },
+          }) as any
+        );
+
+        for (const key in data) {
+          resetField<any>(key);
+        }
+
+        return toast({
+          title: "Salvar storage",
+          description: "Agora você pode esquecer mais uma senha rsrs",
+          action: (
+            <ToastAction
+              altText="Visualizar"
+              onClick={() =>
+                push(
+                  `/storage/card-details/${response?.payload?.storage.props.storageId}`
+                )
+              }
+            >
+              Visualizar
+            </ToastAction>
+          ),
+        });
+      }
+
       return toast({
         title: "Salvar storage",
         description: response.error.message,
