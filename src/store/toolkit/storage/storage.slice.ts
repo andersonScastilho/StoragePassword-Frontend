@@ -154,7 +154,7 @@ export const fetchStoragePerIdAsync = createAsyncThunk(
           },
         }
       );
-      return { storage: response.data };
+      return { ...response.data };
     } catch (error: any) {
       throw Error(error.response.data.error);
     }
