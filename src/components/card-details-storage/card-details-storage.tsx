@@ -389,11 +389,11 @@ export const CardDetailStorageComponent = (storage: Storage) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
         <div className="flex gap-3 items-center">
-          <Label className="">Local de uso:</Label>
+          <Label className="">Titulo:</Label>
           <Input
             readOnly
             value={storage.props?.usageLocation}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
+            className="outline-none text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1"
           />
         </div>
         <div className="flex gap-3 items-center">
@@ -401,7 +401,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           <Input
             readOnly
             value={storage.props?.account}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1"
           />
         </div>
         <div className="flex gap-3 items-center">
@@ -410,7 +410,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
             <Input
               readOnly
               value={"******"}
-              className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-none"
+              className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1 border-none"
             />
             <span className="mr-5">
               <HiEye
@@ -428,7 +428,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           <Input
             readOnly
             value={storage.props?.link}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1"
           />
         </div>
         <div className="flex gap-3 items-center">
@@ -436,7 +436,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           <Textarea
             readOnly
             value={storage.props?.description}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center max-h-20"
+            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1 max-h-20"
           />
         </div>
       </CardContent>

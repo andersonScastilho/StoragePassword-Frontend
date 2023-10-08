@@ -43,7 +43,7 @@ const createStorageSchema = z.object({
   account: z.string().min(1, { message: "Username é obrigatório" }),
   link: z.string().optional(),
   password: z.string().min(1, { message: "Senha é obrigatória" }),
-  usageLocation: z.string().min(1, { message: "Local de uso é obrigatório" }),
+  usageLocation: z.string().min(1, { message: "Titulo é obrigatório" }),
 });
 
 type CreateStorageSchema = z.infer<typeof createStorageSchema>;
@@ -190,9 +190,9 @@ export default function CreateStoragePage() {
           <CardContent className="flex flex-col gap-5">
             <div>
               <div className="flex gap-3 items-center w-full ">
-                <Label className="text-[0.8rem]">Local de uso:</Label>
+                <Label className="text-[0.8rem]">Titulo:</Label>
                 <Input
-                  className="outline-none text-[0.8rem] text-red-800 font-semibold"
+                  className="outline-none text-[0.8rem] text-red-500 bg-primary border-none"
                   {...register("usageLocation")}
                 />
               </div>
@@ -205,7 +205,7 @@ export default function CreateStoragePage() {
               <div className="flex gap-3 items-center w-full">
                 <Label className="text-[0.8rem]">Username:</Label>
                 <Input
-                  className="outline-none text-[0.8rem] text-red-800 font-semibold"
+                  className="outline-none text-[0.8rem] text-red-500 bg-primary border-none"
                   {...register("account")}
                 />
               </div>
@@ -217,13 +217,13 @@ export default function CreateStoragePage() {
             <div>
               <div className="flex gap-3 items-center w-full">
                 <Label className="text-[0.8rem]">Senha:</Label>
-                <div className="flex items-center gap-2 border rounded-md w-full">
+                <div className="flex items-center gap-2 border rounded-md w-full  bg-primary">
                   <Input
-                    className="outline-none text-[0.8rem] text-red-800 font-semibold border-none"
+                    className=" text-[0.8rem] text-red-500 outline-none border-none"
                     type={passwordIsHide}
                     {...register("password")}
                   />
-                  <button className="mr-5">
+                  <button className="mr-5 ">
                     <HiEye
                       cursor={"pointer"}
                       onClick={() => handleChangePasswordIsHide()}
@@ -239,14 +239,14 @@ export default function CreateStoragePage() {
             <div className="flex gap-3 items-center w-full">
               <Label>Link:</Label>
               <Input
-                className="outline-none text-[0.8rem] text-red-800 font-semibold"
+                className="outline-none text-[0.8rem] text-red-500 bg-primary border-none"
                 {...register("link")}
               />
             </div>
             <div className="flex gap-3 items-center w-full">
               <Label className="text-[0.8rem]">Descrição:</Label>
               <Textarea
-                className="outline-none text-red-800 font-semibold max-h-16 text-[0.8rem]"
+                className="outline-none text-red-500 bg-primary border-none max-h-16 text-[0.7rem]"
                 spellCheck={false}
                 {...register("description")}
               />
