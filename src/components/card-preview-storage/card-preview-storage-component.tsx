@@ -4,6 +4,7 @@ import { BsDatabaseLock } from "react-icons/bs";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -11,43 +12,70 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { useToast } from "../ui/use-toast";
 
 export const CardStorageComponent = ({ props }: Storage) => {
   const { push } = useRouter();
+  const { toast } = useToast();
+  const copyToClipboard = async () => {
+    try {
+      if (props.link) {
+        await navigator.clipboard.writeText(props.link);
+
+        toast({
+          title: "Texto copiado com sucesso",
+          description: `Texto na area de transferencia: ${props.link} `,
+        });
+      } else {
+        toast({
+          title: "Falhou ao copiar texto",
+          description: "Certifique-se que o campo não esta vazio",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Falhou ao tentar copiar o texto",
+      });
+    }
+  };
 
   return (
-    <Card className="w-72 max-h-80 p-3 border gap-3 justify-between rounded-md flex flex-col hover:scale-105 ">
-      <CardHeader className="p-1 items-center">
-        <CardTitle>
-          <BsDatabaseLock size={35} />
-        </CardTitle>
+    <Card className="max-h-72">
+      <CardHeader>
+        <CardTitle>{props.usageLocation}</CardTitle>
+        <CardDescription>
+          Minha conta do(a) {props.usageLocation}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="flex gap-3 flex-col p-1">
-        <div className="">
-          <Label>Local de uso:</Label>
-          <Input
-            className="outline-none text-red-500 bg-primary"
-            value={`${props.usageLocation}`}
-            readOnly
-          />
+      <CardContent className="flex flex-col gap-3">
+        <div className="flex space-x-2">
+          <Input value={props.link} readOnly />
+          <Button
+            variant="secondary"
+            className="shrink-0"
+            onClick={copyToClipboard}
+          >
+            Copy Link
+          </Button>
         </div>
-        <div>
-          <Label>Username:</Label>
-          <Input
-            className="outline-none text-red-500 bg-primary "
-            value={`${props.account}`}
-            readOnly
-          />
+        <Separator className="mt-1" />
+        <div className="space-y-4">
+          <h4 className="text-sm font-medium">Preview</h4>
+          <div>
+            <p className="text-sm font-medium leading-none">Username/email:</p>
+            <p className="text-sm text-muted-foreground">{props.account}</p>
+          </div>
         </div>
+        <CardFooter>
+          <Button
+            className="w-full hover:border"
+            onClick={() => push(`/storage/card-details/${props.storageId}`)}
+          >
+            Abrir
+          </Button>
+        </CardFooter>
       </CardContent>
-      <CardFooter>
-        <Button
-          className="w-full hover:border"
-          onClick={() => push(`/storage/card-details/${props.storageId}`)}
-        >
-          Abrir
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
