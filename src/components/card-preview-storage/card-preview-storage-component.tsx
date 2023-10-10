@@ -51,8 +51,11 @@ export const CardStorageComponent = ({ props }: Storage) => {
       <CardContent className="flex flex-col gap-3">
         <div className="flex space-x-2">
           <Input
-            className="text-[0.7rem] p-2 outline-none focus-visible:outline-none focus-visible:ring-transparent"
+            className="text-[0.7rem] p-2 outline-none focus-visible:outline-none focus-visible:ring-transparent hover:cursor-pointer"
             value={props.link}
+            onClick={() => {
+              window.open(props.link);
+            }}
             readOnly
           />
           <Button
