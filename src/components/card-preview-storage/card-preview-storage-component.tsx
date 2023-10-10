@@ -50,7 +50,11 @@ export const CardStorageComponent = ({ props }: Storage) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="flex space-x-2">
-          <Input value={props.link} readOnly />
+          <Input
+            className="text-[0.7rem] p-2 outline-none focus-visible:outline-none focus-visible:ring-transparent"
+            value={props.link}
+            readOnly
+          />
           <Button
             variant="secondary"
             className="shrink-0"
