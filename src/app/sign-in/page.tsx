@@ -84,14 +84,13 @@ export default function SignInPage() {
         rememberMe: rememberMe,
       }) as any
     );
-
     if (response.error) {
       if (response.error.message === "Unverified email") {
         return push("/verify-email");
       }
 
       return toast({
-        title: "Login",
+        title: "Login Falhou",
         description: response.error.message,
       });
     }
