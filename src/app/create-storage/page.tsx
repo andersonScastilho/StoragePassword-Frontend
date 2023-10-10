@@ -182,86 +182,86 @@ export default function CreateStoragePage() {
   return (
     <main className="h-full min-w-full flex flex-col gap-1 bg-primary ">
       <HeaderComponent />
-      <div className="flex gap-10 p-5 ">
-        <Card className="bg-primary-foreground border-none w-96 m-auto">
-          <CardHeader>
-            <CardTitle>Criar storage</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-5">
-            <div>
-              <div className="flex gap-3 items-center w-full ">
-                <Label className="text-[0.8rem]">Titulo:</Label>
-                <Input
-                  className="outline-none text-[0.8rem] text-red-500 bg-primary border-none"
-                  {...register("usageLocation")}
-                />
-              </div>
-              {errors.usageLocation && (
-                <InputErrorMessage>{`${errors.usageLocation?.message}`}</InputErrorMessage>
-              )}
-            </div>
-
-            <div>
-              <div className="flex gap-3 items-center w-full">
-                <Label className="text-[0.8rem]">Username:</Label>
-                <Input
-                  className="outline-none text-[0.8rem] text-red-500 bg-primary border-none"
-                  {...register("account")}
-                />
-              </div>
-              {errors.account && (
-                <InputErrorMessage>{`${errors.account?.message}`}</InputErrorMessage>
-              )}
-            </div>
-
-            <div>
-              <div className="flex gap-3 items-center w-full">
-                <Label className="text-[0.8rem]">Senha:</Label>
-                <div className="flex items-center gap-2 border rounded-md w-full  bg-primary">
-                  <Input
-                    className=" text-[0.8rem] text-red-500 outline-none border-none"
-                    type={passwordIsHide}
-                    {...register("password")}
-                  />
-                  <button className="mr-5 ">
-                    <HiEye
-                      cursor={"pointer"}
-                      onClick={() => handleChangePasswordIsHide()}
-                    />
-                  </button>
-                </div>
-              </div>
-              {errors.password && (
-                <InputErrorMessage>{`${errors.password?.message}`}</InputErrorMessage>
-              )}
-            </div>
-
-            <div className="flex gap-3 items-center w-full">
-              <Label>Link:</Label>
+      <Card className="bg-primary-foreground  w-11/12 m-auto lg:w-96 ">
+        <CardHeader>
+          <CardTitle>Criar storage</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2 ">
+          <div>
+            <div className="flex flex-col w-full ">
+              <Label className="text-[0.8rem]">Titulo:</Label>
               <Input
-                className="outline-none text-[0.8rem] text-red-500 bg-primary border-none"
-                {...register("link")}
+                placeholder="Passtorage"
+                className="outline-none text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent"
+                {...register("usageLocation")}
               />
             </div>
-            <div className="flex gap-3 items-center w-full">
-              <Label className="text-[0.8rem]">Descrição:</Label>
-              <Textarea
-                className="outline-none text-red-500 bg-primary border-none max-h-16 text-[0.7rem]"
-                spellCheck={false}
-                {...register("description")}
+            {errors.usageLocation && (
+              <InputErrorMessage>{`${errors.usageLocation?.message}`}</InputErrorMessage>
+            )}
+          </div>
+          <div>
+            <div className="flex flex-col w-full">
+              <Label className="text-[0.8rem]">Username/Email:</Label>
+              <Input
+                placeholder="passtorageAdmin"
+                className="outline-none text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent "
+                {...register("account")}
               />
             </div>
-          </CardContent>
-          <CardFooter>
-            <Button
-              className="w-full"
-              onClick={() => handleSubmit(handleSubmitPress)()}
-            >
-              Salvar
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
+            {errors.account && (
+              <InputErrorMessage>{`${errors.account?.message}`}</InputErrorMessage>
+            )}
+          </div>
+          <div>
+            <div className="flex flex-col w-full">
+              <Label className="text-[0.8rem]">Senha:</Label>
+              <div className="flex items-center gap-2 border rounded-md w-full ">
+                <Input
+                  placeholder="123@mudar"
+                  className="text-[0.8rem] text-red-500  focus-visible:outline-none focus-visible:ring-transparent border-none"
+                  type={passwordIsHide}
+                  {...register("password")}
+                />
+                <button className="mr-5 ">
+                  <HiEye
+                    cursor={"pointer"}
+                    onClick={() => handleChangePasswordIsHide()}
+                  />
+                </button>
+              </div>
+            </div>
+            {errors.password && (
+              <InputErrorMessage>{`${errors.password?.message}`}</InputErrorMessage>
+            )}
+          </div>
+          <div className="flex flex-col w-full">
+            <Label className="text-[0.8rem]">Link:</Label>
+            <Input
+              placeholder="https://passtorage.vercel.app/"
+              className="outline-none text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent"
+              {...register("link")}
+            />
+          </div>
+          <div className="flex flex-col w-full">
+            <Label className="text-[0.8rem]">Descrição:</Label>
+            <Textarea
+              placeholder="Conta criada em 05/10/2023 - email de recuperação leosilva@gmail.com"
+              className="outline-none text-red-500 max-h-20 text-[0.7rem]"
+              spellCheck={false}
+              {...register("description")}
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button
+            className="w-full"
+            onClick={() => handleSubmit(handleSubmitPress)()}
+          >
+            Salvar
+          </Button>
+        </CardFooter>
+      </Card>
     </main>
   );
 }

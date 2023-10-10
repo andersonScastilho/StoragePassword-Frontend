@@ -137,7 +137,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
       const responseLoginRefreshToken: LoginResponseType = await dispatch(
         loginRefreshToken() as any
       );
-      if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+      if (!responseLoginRefreshToken.payload.isAuthenticated) {
         return push("/sign-in");
       }
 
@@ -352,7 +352,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           <ModalCloseButton className="text-texto-principal" />
           <ModalBody className="flex flex-col gap-5">
             <div className="flex flex-col gap-2">
-              <Label className="text-texto-principal font-semibold text-[0.9rem]">
+              <Label className="text-texto-principal  text-[0.9rem]">
                 Senha Oculta:
               </Label>
               <Input
@@ -362,7 +362,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label className="text-texto-principal font-semibold text-[0.9rem]">
+              <Label className="text-texto-principal  text-[0.9rem]">
                 Senha:
               </Label>
               <Input
@@ -387,30 +387,30 @@ export const CardDetailStorageComponent = (storage: Storage) => {
       <CardHeader>
         <CardTitle>Storage</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-5">
-        <div className="flex gap-3 items-center">
-          <Label className="">Titulo:</Label>
+      <CardContent className="flex flex-col gap-2">
+        <div className="flex flex-col">
+          <Label className="text-[0.8rem]">Titulo:</Label>
           <Input
             readOnly
             value={storage.props?.usageLocation}
-            className="outline-none text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1"
+            className="outline-none text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1"
           />
         </div>
-        <div className="flex gap-3 items-center">
-          <Label className="">Username:</Label>
+        <div className="flex flex-col">
+          <Label className="text-[0.8rem]">Username:</Label>
           <Input
             readOnly
             value={storage.props?.account}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1"
+            className="outline-none  text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1"
           />
         </div>
-        <div className="flex gap-3 items-center">
-          <Label className="">Senha:</Label>
+        <div className="flex flex-col">
+          <Label className="text-[0.8rem]">Senha:</Label>
           <div className="flex items-center gap-2 border rounded-md">
             <Input
               readOnly
               value={"******"}
-              className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1 border-none"
+              className="outline-none  text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1 border-none"
             />
             <span className="mr-5">
               <HiEye
@@ -423,20 +423,20 @@ export const CardDetailStorageComponent = (storage: Storage) => {
             </span>
           </div>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex flex-col">
           <Label>Link:</Label>
           <Input
             readOnly
             value={storage.props?.link}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1"
+            className="outline-none  text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1"
           />
         </div>
-        <div className="flex gap-3 items-center">
-          <Label className="">Description:</Label>
+        <div className="flex flex-col">
+          <Label className="text-[0.8rem]">Description:</Label>
           <Textarea
             readOnly
             value={storage.props?.description}
-            className="outline-none  text-[0.8rem] text-red-800 font-semibold items-center border-spacing-1 max-h-20"
+            className="outline-none  text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1 max-h-20"
           />
         </div>
       </CardContent>
