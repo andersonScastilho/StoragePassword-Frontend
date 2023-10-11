@@ -1,13 +1,10 @@
-import { SideBarComponent } from "@/components/barra-lateral/barra-lateral-component";
 import { HeaderComponent } from "@/components/header/header-component";
 
 export default function Home() {
   return (
-    <main className="h-full min-w-full flex flex-col gap-1 bg-primary">
+    <main className="h-full min-w-full flex flex-col bg-primary">
       <HeaderComponent />
-      <div className="flex-grow flex gap-10 ">
-        <SideBarComponent />
-      </div>
+      <section className="h-full w-full flex flex-col bg-primary"></section>
     </main>
   );
 }
