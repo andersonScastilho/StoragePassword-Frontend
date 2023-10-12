@@ -3,7 +3,6 @@ export const APP_ROUTES = {
     storage: "/storage",
     createStorage: "/create-storage",
     storageDetails: "/storage/card-details",
-    home: "/",
   },
   public: {
     signIn: "/sign-in",
@@ -12,5 +11,6 @@ export const APP_ROUTES = {
     resetPassword: "/reset-password",
     forgotPassword: "/forgot-password",
     verifyEmail: "/verify-email",
+    home: "/",
   },
 };

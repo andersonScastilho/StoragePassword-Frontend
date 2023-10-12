@@ -4,9 +4,10 @@ import { HiHome } from "react-icons/hi";
 import { SlLogin } from "react-icons/sl";
 import { PiPersonSimpleRunFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
-import { AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineUserAdd } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { logoutUserAsync } from "@/store/toolkit/user/user.slice";
+import { MdOutlineStorage } from "react-icons/md";
 
 export const HeaderComponent = () => {
   const { isAuthenticated } = useAppSelector((state) => state.userReducer);
@@ -41,6 +42,29 @@ export const HeaderComponent = () => {
         {isAuthenticated && (
           <p>
             {
+              <MdOutlineStorage
+                onClick={() => push("/storage")}
+                size={30}
+                cursor="pointer"
+              />
+            }
+          </p>
+        )}
+        {isAuthenticated && (
+          <p>
+            {
+              <AiOutlinePlus
+                onClick={() => push("/create-storage")}
+                size={30}
+                cursor="pointer"
+              />
+            }
+          </p>
+        )}
+
+        {isAuthenticated && (
+          <p>
+            {
               <PiPersonSimpleRunFill
                 onClick={() => handleLogoutClick()}
                 cursor={"pointer"}
@@ -49,7 +73,6 @@ export const HeaderComponent = () => {
             }
           </p>
         )}
-
         {!isAuthenticated && (
           <p>
             {
@@ -61,7 +84,6 @@ export const HeaderComponent = () => {
             }
           </p>
         )}
-
         {!isAuthenticated && (
           <p>
             {

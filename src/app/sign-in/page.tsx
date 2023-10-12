@@ -50,14 +50,14 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      push(APP_ROUTES.private.home);
+      push(APP_ROUTES.private.storage);
     }
 
     async function verifyIsAuthenticated() {
       const { token, refreshToken } = await checkIsAuthenticated();
 
       if (token) {
-        push(APP_ROUTES.private.home);
+        push(APP_ROUTES.private.storage);
       }
 
       if (!token && refreshToken) {

@@ -1,3 +1,5 @@
+const { url } = require('inspector');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -75,6 +77,13 @@ module.exports = {
       },
       screens: {
         "cel": "416px"
+      },
+      backgroundSize: {
+        '100': '100% 100%'
+      },
+      backgroundImage: {
+        'homepage': "url('https://images7.alphacoders.com/131/1319607.jpeg')",
+        'homepage-list': "url('https://images4.alphacoders.com/132/1326073.jpeg')",
       }
     },
   },
