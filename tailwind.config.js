@@ -81,6 +81,17 @@ module.exports = {
       backgroundSize: {
         '100': '100% 100%'
       },
+      margin: {
+        '60rem': '60rem'
+      },
+      width: {
+        '30rem': '30rem'
+        , '35rem': '35rem'
+      },
+      height: {
+        '30rem': '30rem',
+        '35rem': ' 35rem'
+      },
       backgroundImage: {
         'homepage': "url('https://images7.alphacoders.com/131/1319607.jpeg')",
         'homepage-list': "url('https://images4.alphacoders.com/132/1326073.jpeg')",
