@@ -76,17 +76,21 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       screens: {
-        "cel": "416px"
+        "cel": "416px",
+        'screen900px': '900px'
       },
       backgroundSize: {
         '100': '100% 100%'
       },
       margin: {
-        '60rem': '60rem'
+        '25rem': '35rem',
+        '55rem': '55rem'
       },
       width: {
-        '30rem': '30rem'
-        , '35rem': '35rem'
+        '30rem': '30rem',
+        '20rem': '20rem',
+        '23rem': '23rem',
+        '26rem': '26rem'
       },
       height: {
         '30rem': '30rem',

@@ -24,14 +24,13 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="w-full h-screen flex bg-homepage-list bg-100 bg-no-repeat justify-center items-center p-5 s">
-        <div className="bg-slate-300 bg-opacity-50 w-full relative flex flex-col rounded-md border border-transparent h-full">
-          <h1 className="mt-20 text-primary-foreground text-[2rem] font-semibold text-center">
+      <section className="w-full min-h-screen flex bg-homepage-list bg-100 bg-no-repeat justify-center items-center p-2   ">
+        <div className="p-2 bg-slate-300 bg-opacity-50 w-full flex flex-col rounded-md border border-transparent  min-h-screen xl:h-screen">
+          <h1 className="text-primary-foreground text-[2rem] font-semibold text-center">
             Vantagens de usar o P@SSTORAGE
           </h1>
-
-          <div className="w-full flex p-1 justify-center items-center h-full">
-            <Card className="w-30rem mr-60rem h-30rem  absolute text-primary text-center font-semibold text-[1.5rem] p-1">
+          <div className="w-full flex p-3 justify-center items-center h-full gap-2 flex-wrap xl:gap-0 ">
+            <Card className="w-80 h-30rem text-primary text-center text-[1.5rem] p-1 xl:absolute xl:mr-55rem xl:w-26rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
@@ -42,18 +41,18 @@ export default function Home() {
                 />
                 <CardDescription>Tela para atualizar storage</CardDescription>
               </CardContent>
-              <CardFooter className="flex flex-col w-96 gap-8">
+              <CardFooter className="flex flex-col ">
                 <p className="text-[1.0rem] text-start">
                   Você consegue atualizar seus storages de maneira facil e
                   rapida
                 </p>
                 <p className="text-[0.9rem] text-start">
-                  Dica: sempre que atualizar sua senha, lembre-se de atualizar
-                  seu storage
+                  <span className="font-semibold"> Dica:</span> sempre que
+                  atualizar sua senha, lembre-se de atualizar seu storage
                 </p>
               </CardFooter>
             </Card>
-            <Card className="z-20 h-35rem w-35rem text-primary text-center font-semibold text-[1.5rem]  p-1">
+            <Card className="w-80 h-30rem z-10 text-primary text-center text-[1.5rem] p-1 xl:h-35rem xl:w-30rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
@@ -62,34 +61,29 @@ export default function Home() {
                   className="h-52 rounded-sm"
                   src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
                 />
+                <CardDescription>Tela para atualizar storage</CardDescription>
               </CardContent>
-              <CardFooter className="flex w-full justify-center">
-                <CardDescription>
-                  Mantenha todas as suas senhas em um só lugar.
-                </CardDescription>
-              </CardFooter>
+              <CardFooter className="flex w-full justify-center"></CardFooter>
             </Card>
-            <Card className="w-30rem ml-60rem h-30rem  absolute text-primary  flex flex-col font-semibold text-[1.5rem] p-1">
+            <Card className="w-80 h-30rem text-primary flex flex-col text-center text-[1.5rem] p-1 xl:absolute xl:ml-55rem xl:w-26rem">
               <CardHeader>
-                <CardTitle className="text-center">P@SSTORAGE</CardTitle>
+                <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
-
-              <CardContent className="flex flex-col ">
+              <CardContent className="flex flex-col">
                 <img
                   className="h-52 rounded-sm w-96"
                   src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
                 />
-                <CardDescription>Tela viualisar os seus dados</CardDescription>
+                <CardDescription>Tela para atualizar storage</CardDescription>
               </CardContent>
-
-              <CardFooter className="flex flex-col items-end justify-end">
-                <p className="text-[1.0rem]">
+              <CardFooter className="flex flex-col gap-2">
+                <p className="text-[1.0rem] text-start">
                   Você consegue atualizar seus storages de maneira facil e
                   rapida
                 </p>
-                <p className="text-[0.9rem]">
-                  Dica: sempre que atualizar sua senha, lembre-se de atualizar
-                  seu storage
+                <p className="text-[0.9rem] text-start">
+                  <span className="font-semibold"> Dica:</span> sempre que
+                  atualizar sua senha, lembre-se de atualizar seu storage
                 </p>
               </CardFooter>
             </Card>
