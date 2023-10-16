@@ -29,7 +29,7 @@ export const HeaderComponent = () => {
       <h1 className="text-texto-principal font-semibold text-[1.2rem]">
         P@SSTORAGE
       </h1>
-      <div className="flex gap-8">
+      <div className="flex gap-5">
         <p>
           {
             <HiHome

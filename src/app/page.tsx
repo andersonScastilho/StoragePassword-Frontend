@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
-    <main className="h-full min-w-full flex flex-col ">
+    <main className="min-h-full min-w-full flex flex-col ">
       <HeaderComponent />
       <section className="flex-grow min-h-screen w-full flex flex-col bg-homepage bg-100 bg-no-repeat justify-center items-center p-5">
         <div className="p-1 flex bg-gray-950 bg-opacity-40 flex-col text-center justify-center gap-5 border rounded-sm border-transparent md:w-2/4 md:h-60">
