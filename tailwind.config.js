@@ -83,13 +83,14 @@ module.exports = {
         '100': '100% 100%'
       },
       margin: {
-        '25rem': '35rem',
-        '55rem': '55rem'
+        '40rem': '40rem',
+        '53rem': '53rem'
       },
       width: {
-        '30rem': '30rem',
+        '28rem': '28rem',
+        '23rem': "23rem",
+        '25rem': '25rem',
         '20rem': '20rem',
-        '23rem': '23rem',
         '26rem': '26rem'
       },
       height: {

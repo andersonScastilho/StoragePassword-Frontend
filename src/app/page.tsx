@@ -25,23 +25,25 @@ export default function Home() {
         </div>
       </section>
       <section className="w-full min-h-screen flex bg-homepage-list bg-100 bg-no-repeat justify-center items-center p-2   ">
-        <div className="p-2 bg-slate-300 bg-opacity-50 w-full flex flex-col rounded-md border border-transparent  min-h-screen xl:h-screen">
+        <div className="p-2 bg-slate-300 bg-opacity-50 w-full flex flex-col rounded-md border border-transparent ">
           <h1 className="text-primary-foreground text-[2rem] font-semibold text-center">
             Vantagens de usar o P@SSTORAGE
           </h1>
           <div className="w-full flex p-3 justify-center items-center h-full gap-2 flex-wrap xl:gap-0 ">
-            <Card className="w-80 h-30rem text-primary text-center text-[1.5rem] p-1 xl:absolute xl:mr-55rem xl:w-26rem">
+            <Card className="w-80 h-30rem text-primary text-center text-[1.5rem] p-1 lg:absolute lg:mr-40rem lg:w-23rem xl:absolute xl:mr-53rem xl:w-26rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col">
                 <img
-                  className="h-52 rounded-sm w-96"
+                  className="h-52 rounded-sm w-96 lg:w-64 xl:w-96"
                   src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
                 />
-                <CardDescription>Tela para atualizar storage</CardDescription>
+                <CardDescription className="lg:mr-12 xl:mr-0">
+                  Tela para atualizar storage
+                </CardDescription>
               </CardContent>
-              <CardFooter className="flex flex-col ">
+              <CardFooter className="flex flex-col gap-2 lg:w-80 xl:w-96">
                 <p className="text-[1.0rem] text-start">
                   Você consegue atualizar seus storages de maneira facil e
                   rapida
@@ -52,7 +54,7 @@ export default function Home() {
                 </p>
               </CardFooter>
             </Card>
-            <Card className="w-80 h-30rem z-10 text-primary text-center text-[1.5rem] p-1 xl:h-35rem xl:w-30rem">
+            <Card className="w-80 h-30rem z-10 text-primary text-center text-[1.5rem] p-1 lg:h-35rem lg:w-25rem xl:h-35rem xl:w-28rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
@@ -65,19 +67,21 @@ export default function Home() {
               </CardContent>
               <CardFooter className="flex w-full justify-center"></CardFooter>
             </Card>
-            <Card className="w-80 h-30rem text-primary flex flex-col text-center text-[1.5rem] p-1 xl:absolute xl:ml-55rem xl:w-26rem">
+            <Card className="w-80 h-30rem text-primary flex flex-col text-center text-[1.5rem] p-1 lg:absolute lg:ml-40rem lg:w-23rem xl:absolute xl:ml-53rem xl:w-26rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col">
                 <img
-                  className="h-52 rounded-sm w-96"
+                  className="h-52 rounded-sm w-96 lg:w-64 ml-12 xl:w-96 xl:ml-0"
                   src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
                 />
-                <CardDescription>Tela para atualizar storage</CardDescription>
+                <CardDescription className="lg:ml-12 xl:ml-0">
+                  Tela para atualizar storage
+                </CardDescription>
               </CardContent>
-              <CardFooter className="flex flex-col gap-2">
-                <p className="text-[1.0rem] text-start">
+              <CardFooter className="flex flex-col gap-2 lg:w-80 lg:ml-12 xl:w-96 xl:ml-0">
+                <p className="text-[1.0rem] text-start ">
                   Você consegue atualizar seus storages de maneira facil e
                   rapida
                 </p>
