@@ -120,7 +120,7 @@ export default function Home() {
             <h1 className="md:text-[1.4rem]  text-primary-foreground font-bold ">
               Por que Criamos Nosso Próprio Gerenciador de Senhas?
             </h1>
-            <div className="flex flex-col gap-2 text-start justify-center items-center text-[1.0rem] text-primary-foreground font-semibold">
+            <div className="flex flex-col gap-2 text-start justify-center items-center text-[0.8rem] text-primary-foreground font-semibold">
               <p>
                 Em um mundo cada vez mais digital, onde nossas vidas estão
                 entrelaçadas com inúmeras contas online, a segurança e a
