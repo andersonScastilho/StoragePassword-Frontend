@@ -30,7 +30,7 @@ export default function Home() {
             Vantagens de usar o P@SSTORAGE
           </h1>
           <div className="w-full flex p-3 justify-center items-center h-full gap-2 flex-wrap xl:gap-0 ">
-            <Card className="w-80 h-30rem text-primary text-center text-[1.5rem] p-1 lg:absolute lg:mr-40rem lg:w-23rem xl:absolute xl:mr-53rem xl:w-26rem">
+            <Card className="w-80 h-30rem text-primary border-transparent  text-center text-[1.5rem] p-1 lg:absolute lg:mr-40rem lg:w-23rem xl:absolute xl:mr-53rem xl:w-26rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
@@ -54,7 +54,7 @@ export default function Home() {
                 </p>
               </CardFooter>
             </Card>
-            <Card className="w-80 h-30rem z-10 text-primary text-center text-[1.5rem] p-1 lg:h-35rem lg:w-25rem xl:h-35rem xl:w-28rem">
+            <Card className="w-80 h-30rem z-10 border-transparent  text-primary text-center text-[1.5rem] p-1 lg:h-35rem lg:w-25rem xl:h-35rem xl:w-28rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
@@ -86,7 +86,7 @@ export default function Home() {
                 </p>
               </CardFooter>
             </Card>
-            <Card className="w-80 h-30rem text-primary flex flex-col text-center text-[1.5rem] p-1 lg:absolute lg:ml-40rem lg:w-23rem xl:absolute xl:ml-53rem xl:w-26rem">
+            <Card className="w-80 h-30rem text-primary border-transparent flex flex-col text-center text-[1.5rem] p-1 lg:absolute lg:ml-40rem lg:w-23rem xl:absolute xl:ml-53rem xl:w-26rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
@@ -120,7 +120,7 @@ export default function Home() {
             <h1 className="md:text-[1.4rem]  text-primary-foreground font-bold ">
               Por que Criamos Nosso Próprio Gerenciador de Senhas?
             </h1>
-            <div className="flex flex-col gap-2 text-start justify-center items-center text-[0.7rem] text-primary-foreground font-semibold">
+            <div className="flex flex-col gap-2 text-start justify-center items-center text-[1.0rem] text-primary-foreground font-semibold">
               <p>
                 Em um mundo cada vez mais digital, onde nossas vidas estão
                 entrelaçadas com inúmeras contas online, a segurança e a
