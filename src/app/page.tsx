@@ -73,7 +73,7 @@ export default function Home() {
               </CardHeader>
               <CardContent className="flex flex-col">
                 <img
-                  className="h-52 rounded-sm w-96 lg:w-64 ml-12 xl:w-96 xl:ml-0"
+                  className="h-52 rounded-sm w-96 lg:w-64 lg:ml-12 xl:w-96 xl:ml-0"
                   src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
                 />
                 <CardDescription className="lg:ml-12 xl:ml-0">
