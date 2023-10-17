@@ -54,7 +54,7 @@ export default function Home() {
                 </p>
               </CardFooter>
             </Card>
-            <Card className="w-80 h-30rem z-10 border-transparent  text-primary text-center text-[1.5rem] p-1 lg:h-35rem lg:w-25rem xl:h-35rem xl:w-28rem">
+            <Card className="w-80  z-10 border-transparent  text-primary text-center text-[1.5rem] p-1 lg:h-35rem lg:w-25rem xl:h-35rem xl:w-28rem">
               <CardHeader>
                 <CardTitle>P@SSTORAGE</CardTitle>
               </CardHeader>
