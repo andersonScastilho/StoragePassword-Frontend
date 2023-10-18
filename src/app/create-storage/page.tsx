@@ -186,7 +186,7 @@ export default function CreateStoragePage() {
         <CardHeader>
           <CardTitle>Criar storage</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-2 ">
+        <CardContent className="flex flex-col gap-3">
           <div>
             <div className="flex flex-col w-full ">
               <Label className="text-[0.8rem]">Titulo:</Label>
