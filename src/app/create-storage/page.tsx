@@ -53,7 +53,7 @@ export default function CreateStoragePage() {
   const { toast } = useToast();
   const dispatch = useDispatch();
   const { storages } = useAppSelector((state) => state.storageReducer);
-
+  const [isClickEnabled, setIsClickEnabled] = useState(true);
   const {
     register,
     handleSubmit,
@@ -84,6 +84,12 @@ export default function CreateStoragePage() {
   const handleSubmitPress: SubmitHandler<CreateStorageSchema> = async (
     data
   ) => {
+    if (!isClickEnabled) {
+      return;
+    }
+
+    setIsClickEnabled(false);
+
     const { account, description, link, password, usageLocation } = data;
     const { refreshToken } = await checkIsAuthenticated();
     const response: ResponseCreateStorageAsyncReducer = await dispatch(
@@ -106,9 +112,10 @@ export default function CreateStoragePage() {
         const responseLoginRefreshToken: LoginResponseType = await dispatch(
           loginRefreshToken() as any
         );
-        if (responseLoginRefreshToken.payload.isAuthenticated !== true) {
+        if (responseLoginRefreshToken.payload?.isAuthenticated !== true) {
           return push("/sign-in");
         }
+
         const response: ResponseCreateStorageAsyncReducer = await dispatch(
           createStorageAsync({
             props: {
@@ -177,6 +184,10 @@ export default function CreateStoragePage() {
     for (const key in data) {
       resetField<any>(key);
     }
+
+    setTimeout(() => {
+      setIsClickEnabled(true);
+    }, 2000);
   };
 
   return (
