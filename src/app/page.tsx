@@ -37,7 +37,7 @@ export default function Home() {
               <CardContent className="flex flex-col">
                 <img
                   className="h-52 rounded-sm w-96 lg:w-64 xl:w-96"
-                  src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
+                  src="https://i.postimg.cc/zBqysjsS/updatestorage.png"
                 />
                 <CardDescription className="lg:mr-12 xl:mr-0">
                   Tela para atualizar storage
@@ -61,7 +61,7 @@ export default function Home() {
               <CardContent className="flex flex-col">
                 <img
                   className="h-52 rounded-sm"
-                  src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
+                  src="https://i.postimg.cc/fRxTMdjH/storagescompleto.png"
                 />
                 <CardDescription>Tela preview de storages</CardDescription>
               </CardContent>
@@ -75,9 +75,9 @@ export default function Home() {
                   cadastrado no storage com apenas um click
                 </p>
                 <p className="text-[1.0rem] text-start ">
-                  <span className="font-semibold">3°</span> E visualizar o
-                  email/username de cada storage registrado para não ficar
-                  perdido
+                  <span className="font-semibold">3°</span> Consegue visualizar
+                  o email/username de cada storage registrado, para identificar
+                  a conta
                 </p>
                 <p className="text-[0.9rem] text-start">
                   <span className="font-semibold"> Dica:</span> Comece utilizar
@@ -93,7 +93,7 @@ export default function Home() {
               <CardContent className="flex flex-col">
                 <img
                   className="h-52 rounded-sm w-96 lg:w-64 lg:ml-12 xl:w-96 xl:ml-0"
-                  src="https://img.freepik.com/fotos-gratis/pessoa-trabalhando-html-no-computador_23-2150038860.jpg?w=1060&t=st=1697254045~exp=1697254645~hmac=25206bf7e05593eca49dac036fa210d5bc0b8ca8ed99cd3aafe65d557e911c01"
+                  src="https://i.postimg.cc/wB8yVHFr/passw-ord.png"
                 />
                 <CardDescription className="lg:ml-12 xl:ml-0">
                   Tela para visualizar senha salva
