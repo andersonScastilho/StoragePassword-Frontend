@@ -98,8 +98,9 @@ module.exports = {
         '35rem': ' 35rem'
       },
       backgroundImage: {
-        'homepage': "url('https://images7.alphacoders.com/131/1319607.jpeg')",
-        'homepage-list': "url('https://images4.alphacoders.com/132/1326073.jpeg')",
+        'homepage': "url('https://i.postimg.cc/G2vnVKYR/computer-2565478-1280.jpg')",
+        'homepage-cards': "url('https://i.postimg.cc/XqXcXH8S/home-office-1867761-1280.jpg')",
+        'homepage-list': "url('https://i.postimg.cc/4x37G7Bq/student-849826-1280.jpg')"
       }
     },
   },

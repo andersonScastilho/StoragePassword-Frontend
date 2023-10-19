@@ -24,7 +24,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="w-full min-h-screen flex bg-homepage-list bg-100 bg-no-repeat justify-center items-center p-2   ">
+      <section className="w-full min-h-screen flex bg-homepage-cards bg-100 bg-no-repeat justify-center items-center p-2   ">
         <div className="p-2 bg-slate-300 bg-opacity-50 w-full flex flex-col rounded-md border border-transparent ">
           <h1 className="text-primary-foreground text-[2rem] font-semibold text-center">
             Vantagens de usar o P@SSTORAGE
