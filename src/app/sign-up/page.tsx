@@ -1,7 +1,7 @@
 "use client";
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/constants/app-routes";
@@ -62,6 +62,8 @@ export default function SignUpPage() {
   const dispatch = useDispatch();
 
   const { push } = useRouter();
+  const [isClickEnabled, setIsClickEnabled] = useState(true);
+
   const { isAuthenticated, isLoading } = useAppSelector(
     (state) => state.userReducer
   );
@@ -94,6 +96,11 @@ export default function SignUpPage() {
   const handleSubmitPressCreateUser: SubmitHandler<
     CreateStorageSchema
   > = async (data) => {
+    if (!isClickEnabled) {
+      return;
+    }
+
+    setIsClickEnabled(false);
     const { email, fullName, password } = createStorageSchema.parse(data);
 
     const response: ResponseCreateUserAsync = await dispatch(
@@ -115,7 +122,9 @@ export default function SignUpPage() {
       title: "Criação de usuario",
       description: "Usuario criado com sucesso",
     });
-
+    setTimeout(() => {
+      setIsClickEnabled(true);
+    }, 2000);
     return push("/sign-in");
   };
 

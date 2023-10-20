@@ -6,7 +6,7 @@ import {
 import { InputErrorMessage } from "../../components/input-error-message/input-error-message";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/constants/app-routes";
@@ -43,6 +43,8 @@ export default function SignInPage() {
 
   const dispatch = useDispatch();
   const { push } = useRouter();
+  const [isClickEnabled, setIsClickEnabled] = useState(true);
+
   const { isAuthenticated, isLoading } = useAppSelector(
     (state) => state.userReducer
   );
@@ -75,6 +77,12 @@ export default function SignInPage() {
   }, [isAuthenticated, dispatch, push]);
 
   const handleSubmitPress: SubmitHandler<SignInSchema> = async (data) => {
+    if (!isClickEnabled) {
+      return;
+    }
+
+    setIsClickEnabled(false);
+
     const { email, password, rememberMe } = data;
 
     const response: LoginResponseType = await dispatch(
@@ -94,7 +102,9 @@ export default function SignInPage() {
         description: response.error.message,
       });
     }
-
+    setTimeout(() => {
+      setIsClickEnabled(true);
+    }, 2000);
     return push("/");
   };
 

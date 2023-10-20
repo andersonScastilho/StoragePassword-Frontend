@@ -21,6 +21,7 @@ import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const resetPasswordSchema = z
   .object({
@@ -61,11 +62,18 @@ export default function ResetPasswordPage() {
   const token = searchParams.get("token");
   const dispatch = useDispatch();
   const { isLoading } = useAppSelector((state) => state.userReducer);
+  const [isClickEnabled, setIsClickEnabled] = useState(true);
 
   const handleSubmitPress: SubmitHandler<ResetPasswordSchema> = async (
     data
   ) => {
     try {
+      if (!isClickEnabled) {
+        return;
+      }
+
+      setIsClickEnabled(false);
+
       const { password } = resetPasswordSchema.parse(data);
 
       if (!token) {
@@ -88,7 +96,11 @@ export default function ResetPasswordPage() {
         description: `Senha redefinida com sucesso`,
       });
 
-      push("/sign-in");
+      setTimeout(() => {
+        setIsClickEnabled(true);
+      }, 2000);
+
+      return push("/sign-in");
     } catch (error) {
       console.log(error);
     }

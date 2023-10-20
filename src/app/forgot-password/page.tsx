@@ -20,6 +20,7 @@ import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const forgotPasswordSchema = z.object({
   email: z
@@ -43,10 +44,17 @@ export default function ForgotPasswordPage() {
   const dispatch = useDispatch();
 
   const { isLoading } = useAppSelector((state) => state.userReducer);
+  const [isClickEnabled, setIsClickEnabled] = useState(true);
 
   const handleSubmitPress: SubmitHandler<ForgotPasswordSchema> = async (
     data
   ) => {
+    if (!isClickEnabled) {
+      return;
+    }
+
+    setIsClickEnabled(false);
+
     const { email } = forgotPasswordSchema.parse(data);
 
     const response: ResponseForgotPasswordAsync = await dispatch(
@@ -64,8 +72,11 @@ export default function ForgotPasswordPage() {
       title: "Esqueci minha senha",
       description: `Um email foi enviado para permitir a redefinição da sua senha!`,
     });
+    setTimeout(() => {
+      setIsClickEnabled(true);
+    }, 2000);
 
-    push("/sign-in");
+    return push("/sign-in");
   };
   return (
     <div className="h-full p-5 min-w-full flex flex-col gap-1 bg-primary justify-center items-center">

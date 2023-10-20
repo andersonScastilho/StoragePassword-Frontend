@@ -19,6 +19,7 @@ import { ResponseVerifyEmailUserAsync } from "@/types/userType";
 import { useAppSelector } from "@/hooks/redux.hooks";
 import LoadingComponent from "@/components/loading/loading-component";
 import { z } from "zod";
+import { useState } from "react";
 
 const verifyEmailSchema = z.object({
   email: z
@@ -39,8 +40,15 @@ export default function VerifyEmailPage() {
   const { push } = useRouter();
   const dispatch = useDispatch();
   const { isLoading } = useAppSelector((state) => state.userReducer);
+  const [isClickEnabled, setIsClickEnabled] = useState(true);
 
   const handleSubmitPress: SubmitHandler<VerifyEmailSchema> = async (data) => {
+    if (!isClickEnabled) {
+      return;
+    }
+
+    setIsClickEnabled(false);
+
     const { email } = data;
 
     const response: ResponseVerifyEmailUserAsync = await dispatch(
@@ -58,8 +66,11 @@ export default function VerifyEmailPage() {
       title: "Verificação de email",
       description: "Um email foi enviado para verificar a autenticidade!",
     });
+    setTimeout(() => {
+      setIsClickEnabled(true);
+    }, 2000);
 
-    push("/sign-in");
+    return push("/sign-in");
   };
   return (
     <div className="h-full p-5 min-w-full flex flex-col gap-1 bg-primary justify-center items-center">
