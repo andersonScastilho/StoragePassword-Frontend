@@ -54,7 +54,7 @@ export const CardStorageComponent = ({ props }: Storage) => {
             className="text-[0.7rem] p-2 outline-none focus-visible:outline-none focus-visible:ring-transparent hover:cursor-pointer"
             value={props.link}
             onClick={() => {
-              window.open(props.link);
+              props.link !== null ? window.open(props.link) : null;
             }}
             readOnly
           />
@@ -63,7 +63,7 @@ export const CardStorageComponent = ({ props }: Storage) => {
             className="shrink-0"
             onClick={copyToClipboard}
           >
-            Copy Link
+            Copiar Link
           </Button>
         </div>
         <Separator className="mt-1" />
