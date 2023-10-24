@@ -39,11 +39,11 @@ enum TYPEINPUTPASSWORD {
 }
 
 const createStorageSchema = z.object({
-  description: z.string().optional(),
-  account: z.string().min(1, { message: "Username é obrigatório" }),
-  link: z.string().optional(),
-  password: z.string().min(1, { message: "Senha é obrigatória" }),
-  usageLocation: z.string().min(1, { message: "Titulo é obrigatório" }),
+  description: z.string().trim().optional(),
+  account: z.string().min(1, { message: "Username é obrigatório" }).trim(),
+  link: z.string().trim().optional(),
+  password: z.string().min(1, { message: "Senha é obrigatória" }).trim(),
+  usageLocation: z.string().min(1, { message: "Titulo é obrigatório" }).trim(),
 });
 
 type CreateStorageSchema = z.infer<typeof createStorageSchema>;

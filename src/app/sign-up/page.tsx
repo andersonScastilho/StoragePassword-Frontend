@@ -21,10 +21,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const createStorageSchema = z
   .object({
-    fullName: z.string().min(1, { message: "Nome completo é obrigatório" }),
-    email: z.string().min(1, { message: "Email é obrigatório" }).email({
-      message: "Insira um email valido",
-    }),
+    fullName: z
+      .string()
+      .min(1, { message: "Nome completo é obrigatório" })
+      .trim(),
+    email: z
+      .string()
+      .min(1, { message: "Email é obrigatório" })
+      .email({
+        message: "Insira um email valido",
+      })
+      .trim(),
     password: z
       .string()
       .min(1, {
