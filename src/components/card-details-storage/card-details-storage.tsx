@@ -427,7 +427,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           <Label>Link:</Label>
           <Input
             readOnly
-            value={storage.props?.link}
+            value={storage.props.link ?? ''}
             className="outline-none  text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1"
           />
         </div>
@@ -435,7 +435,7 @@ export const CardDetailStorageComponent = (storage: Storage) => {
           <Label className="text-[0.8rem]">Description:</Label>
           <Textarea
             readOnly
-            value={storage.props?.description}
+            value={storage.props.description ?? ''}
             className="outline-none  text-[0.8rem] text-red-500 focus-visible:outline-none focus-visible:ring-transparent  items-center border-spacing-1 max-h-20"
           />
         </div>
@@ -525,3 +525,5 @@ export const CardDetailStorageComponent = (storage: Storage) => {
     </Card>
   );
 };
+
+

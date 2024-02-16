@@ -39,7 +39,7 @@ export default function VerifyEmailPage() {
   } = useForm<VerifyEmailSchema>();
   const { push } = useRouter();
   const dispatch = useDispatch();
-  const { isLoading } = useAppSelector((state) => state.userReducer);
+  const { isLoading , error} = useAppSelector((state) => state.userReducer);
   const [isClickEnabled, setIsClickEnabled] = useState(true);
 
   const handleSubmitPress: SubmitHandler<VerifyEmailSchema> = async (data) => {
@@ -87,6 +87,7 @@ export default function VerifyEmailPage() {
           <div>
             <Label>Email:</Label>
             <Input
+            value={error?.email ?? ''}
               className="text-[0.85rem]"
               type="email"
               {...register("email")}

@@ -17,7 +17,7 @@ export const StorageCardsComponent = () => {
 
   return (
     <div className="flex p-1 flex-wrap gap-5">
-      {storages.map((storage) => (
+       {storages && storages.length > 0 && storages.map((storage) => (
         <CardStorageComponent
           props={storage.props}
           key={storage.props.storageId}

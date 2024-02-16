@@ -81,8 +81,6 @@ export default function SignInPage() {
       return;
     }
 
-    setIsClickEnabled(false);
-
     const { email, password, rememberMe } = data;
 
     const response: LoginResponseType = await dispatch(
@@ -92,19 +90,27 @@ export default function SignInPage() {
         rememberMe: rememberMe,
       }) as any
     );
+
     if (response.error) {
-      if (response.error.message === "Unverified email") {
+      return toast({
+        title: "Login Falhou",
+        description: 'Ocorreu um erro, tente novamente mais tarde',
+      });
+    }
+
+    if (response.payload.error) {
+      if (response.payload.error.message === "Unverified email") {
         return push("/verify-email");
       }
 
+      setIsClickEnabled(true);
+
       return toast({
         title: "Login Falhou",
-        description: response.error.message,
+        description: response.payload.error.message,
       });
     }
-    setTimeout(() => {
-      setIsClickEnabled(true);
-    }, 2000);
+   
     return push("/");
   };
 

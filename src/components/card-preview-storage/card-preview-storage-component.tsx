@@ -49,10 +49,10 @@ export const CardStorageComponent = ({ props }: Storage) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <div className="flex space-x-2">
+      <div className="flex space-x-2">
           <Input
             className="text-[0.7rem] p-2 outline-none focus-visible:outline-none focus-visible:ring-transparent hover:cursor-pointer"
-            value={props.link}
+            value={props.link ?? ''}
             onClick={() => {
               props.link !== null ? window.open(props.link) : null;
             }}

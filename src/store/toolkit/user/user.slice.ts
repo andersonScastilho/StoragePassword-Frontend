@@ -33,9 +33,17 @@ export const loginUserAsync = createAsyncThunk(
           maxAgeInSeconds7dias
         );
       }
+
       return { isAuthenticated: true };
     } catch (error: any) {
-      throw Error(error.response.data.error);
+      return {
+        isAuthenticated: false,
+        error: {
+          message: error.response.data.error,
+          email:
+            error.response.data.error === "Unverified email" ? email : null,
+        },
+      };
     }
   }
 );
@@ -169,14 +177,25 @@ export const resetPasswordAsync = createAsyncThunk(
     }
   }
 );
+
+export type LoginError = {
+  message: string;
+  email: string | null;
+};
+
 interface InitialState {
   isAuthenticated: boolean;
   isLoading: boolean;
+  error?: LoginError;
 }
 
 const initialState: InitialState = {
   isLoading: false,
   isAuthenticated: false,
+  error: {
+    message: "",
+    email: null,
+  },
 };
 
 const userSlice = createSlice({
@@ -258,10 +277,13 @@ const userSlice = createSlice({
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated;
       state.isLoading = false;
+      state.error = action.payload.error;
     });
-    builder.addCase(loginUserAsync.rejected, (state) => {
+
+    builder.addCase(loginUserAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isAuthenticated = false;
+      state.error = action as any;
     });
 
     //---------------------------------------------------------------------------------------------//
